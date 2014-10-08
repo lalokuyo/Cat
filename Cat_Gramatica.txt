@@ -1,0 +1,130 @@
+Gramática Proyecto: CAT
+COMPILADORES 2014
+
+
+<FUNC> → func id t_LPAR <FUNCX> t_RPAR <BLOCK>
+	<FUNCX> → <VARS>
+			| empty
+
+<BLOCK> → t_LBracket <BLOCKX> t_RBracket
+	<BLOCKX> →  <STATEMENT>
+			 |  <STATEMENT> <BLOCKX>
+			 | 	empty
+
+
+<VARS> →  <TYPE> id
+
+<TYPE> →  T_integer 
+		| T_float
+
+<STATEMENT> → <ASIGN>
+			| <CONDITION>
+			| <CYCLE>
+			| <PRINT>
+			| <LIST>
+			| <CALL>
+			| <MOVE>
+			| <EAT>
+			| <CLEAN>
+			| <PLAY>
+			| <ADD>
+			| <TURNLEFT>
+			| <TURNRIGHT>
+
+//ASIGNAR VARIABLE
+<ASIGN> → id t_Equal <EXPRESSION>
+
+<EXPRESION> → <EXP> 
+			| t_Comparison <EXP>
+
+<EXP> → <TERMINO>
+		| <TERMINO> t_Plus	<TERMINO>
+		| <TERMINO> t_Minus	<TERMINO>
+
+<TERMINO> → <FACTOR>
+		| <FACTOR>	t_Multiply	<FACTOR>
+		| <FACTOR> 	t_Divide	<FACTOR>
+
+
+<FACTOR> → LeftPar <EXPRESION> RightPar
+		| t_Plus  <VARCTE>
+		| t_Minus <VARCTE>
+		| <VARCTE>
+
+<VARCTE> → id
+		| T_integer 
+		| T_float
+
+//ACABA ASIGNACION
+
+<CONDITION> → if LeftPar <EXPRESION> RightPar <BLOCK>
+			| if LeftPar <EXPRESION> RightPar <BLOCK> else <BLOCK>
+
+<CYCLE> → while LeftPar <EXPRESION> RightPar BLOCK
+
+<PRINT> → print LeftPar <PRINTX> RightPar
+
+	<PRINTX> → <EXPRESION>
+			| t_String 
+			|  <EXPRESION> t_coma <PRINTX> 
+			| t_String t_coma <PRINTX> 
+
+
+<LIST> → id t_Equal t_LBracket <LISTX> t_RBracket
+	<LISTX> → id
+			| id t_coma <LISTX>
+			| T_integer
+			| T_integer t_coma <LISTX>
+
+
+<CALL> →  id T_LeftPar T_RightPar
+	    |  id T_LedtPar id T_RightPar
+
+<MOVE> → move T_LeftPar id T_RigthPar
+
+<EAT> → eat T_LeftPar T_RightPar
+
+<CLEAN>→ clean T_LeftPar T_RigthPar
+
+<PLAY>→ play T_leftPar T_RigthPar
+
+<ADD>→ id T_point add T_LeftPar candy T_RigthPar
+		| id T_point add T_LeftPar poop T_RigthPar
+		| id T_point add T_LeftPar ball T_RigthPar
+
+<TURNLEFT>→turnleft T_LeftPar T_RigthPar 
+
+<TURNRIGHT>→turnright T_LeftPar  T_RigthPar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
