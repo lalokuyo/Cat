@@ -1,0 +1,194 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    FUNC
+    SEMICOLON
+    COLON
+
+Grammar
+
+Rule 0     S' -> func
+Rule 1     func -> varcte
+Rule 2     funcx -> vars
+Rule 3     funcx -> empty
+Rule 4     block -> LBRACKET blockx RBRACKET
+Rule 5     blockx -> statement blockx
+Rule 6     blockx -> empty
+Rule 7     vars -> type ID
+Rule 8     type -> INT
+Rule 9     type -> FLOAT
+Rule 10    statement -> asign
+Rule 11    statement -> condition
+Rule 12    statement -> cycle
+Rule 13    statement -> print
+Rule 14    statement -> list
+Rule 15    statement -> call
+Rule 16    statement -> move
+Rule 17    statement -> eat
+Rule 18    statement -> clean
+Rule 19    statement -> play
+Rule 20    statement -> add
+Rule 21    statement -> turnleft
+Rule 22    statement -> turnright
+Rule 23    asign -> ID EQUAL expression
+Rule 24    expression -> exp
+Rule 25    expression -> COMPARISON exp
+Rule 26    exp -> termino
+Rule 27    exp -> termino PLUS termino
+Rule 28    exp -> termino MINUS termino
+Rule 29    termino -> factor
+Rule 30    termino -> factor MULTIPLY factor
+Rule 31    termino -> factor DIVIDE factor
+Rule 32    factor -> LPAR expression RPAR
+Rule 33    factor -> PLUS varcte
+Rule 34    factor -> MINUS varcte
+Rule 35    factor -> varcte
+Rule 36    varcte -> ID
+Rule 37    varcte -> INT
+Rule 38    varcte -> FLOAT
+Rule 39    print -> PRINT LPAR printx RPAR
+Rule 40    printx -> expression
+Rule 41    printx -> STRING
+Rule 42    printx -> expression COMA printx
+Rule 43    printx -> STRING COMA printx
+Rule 44    cycle -> WHILE LPAR expression RPAR block
+Rule 45    condition -> IF LPAR expression RPAR block
+Rule 46    condition -> IF LPAR expression RPAR block ELSE block
+Rule 47    list -> LIST ID EQUAL LBRACKET listx RBRACKET
+Rule 48    listx -> ID
+Rule 49    listx -> ID COMA listx
+Rule 50    listx -> INT
+Rule 51    listx -> INT COMA listx
+Rule 52    call -> ID LPAR RPAR
+Rule 53    call -> ID LPAR ID RPAR
+Rule 54    move -> MOVE LPAR ID RPAR
+Rule 55    eat -> EAT LPAR ID RPAR
+Rule 56    clean -> CLEAN LPAR ID RPAR
+Rule 57    play -> PLAY LPAR ID RPAR
+Rule 58    add -> ID POINT ADD LPAR CANDY RPAR
+Rule 59    add -> ID POINT ADD LPAR POOP RPAR
+Rule 60    add -> ID POINT ADD LPAR BALL RPAR
+Rule 61    turnleft -> TURNLEFT LPAR RPAR
+Rule 62    turnright -> TURNRIGHT LPAR RPAR
+Rule 63    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ADD                  : 58 59 60
+BALL                 : 60
+CANDY                : 58
+CLEAN                : 56
+COLON                : 
+COMA                 : 42 43 49 51
+COMPARISON           : 25
+DIVIDE               : 31
+EAT                  : 55
+ELSE                 : 46
+EQUAL                : 23 47
+FLOAT                : 9 38
+FUNC                 : 
+ID                   : 7 23 36 47 48 49 52 53 53 54 55 56 57 58 59 60
+IF                   : 45 46
+INT                  : 8 37 50 51
+LBRACKET             : 4 47
+LIST                 : 47
+LPAR                 : 32 39 44 45 46 52 53 54 55 56 57 58 59 60 61 62
+MINUS                : 28 34
+MOVE                 : 54
+MULTIPLY             : 30
+PLAY                 : 57
+PLUS                 : 27 33
+POINT                : 58 59 60
+POOP                 : 59
+PRINT                : 39
+RBRACKET             : 4 47
+RPAR                 : 32 39 44 45 46 52 53 54 55 56 57 58 59 60 61 62
+SEMICOLON            : 
+STRING               : 41 43
+TURNLEFT             : 61
+TURNRIGHT            : 62
+WHILE                : 44
+error                : 
+
+Nonterminals, with rules where they appear
+
+add                  : 20
+asign                : 10
+block                : 44 45 46 46
+blockx               : 4 5
+call                 : 15
+clean                : 18
+condition            : 11
+cycle                : 12
+eat                  : 17
+empty                : 3 6
+exp                  : 24 25
+expression           : 23 32 40 42 44 45 46
+factor               : 29 30 30 31 31
+func                 : 0
+funcx                : 
+list                 : 14
+listx                : 47 49 51
+move                 : 16
+play                 : 19
+print                : 13
+printx               : 39 42 43
+statement            : 5
+termino              : 26 27 27 28 28
+turnleft             : 21
+turnright            : 22
+type                 : 7
+varcte               : 1 33 34 35
+vars                 : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . func
+    (1) func -> . varcte
+    (36) varcte -> . ID
+    (37) varcte -> . INT
+    (38) varcte -> . FLOAT
+
+    ID              shift and go to state 5
+    INT             shift and go to state 1
+    FLOAT           shift and go to state 2
+
+    varcte                         shift and go to state 3
+    func                           shift and go to state 4
+
+state 1
+
+    (37) varcte -> INT .
+
+    $end            reduce using rule 37 (varcte -> INT .)
+
+
+state 2
+
+    (38) varcte -> FLOAT .
+
+    $end            reduce using rule 38 (varcte -> FLOAT .)
+
+
+state 3
+
+    (1) func -> varcte .
+
+    $end            reduce using rule 1 (func -> varcte .)
+
+
+state 4
+
+    (0) S' -> func .
+
+
+
+state 5
+
+    (36) varcte -> ID .
+
+    $end            reduce using rule 36 (varcte -> ID .)
+
