@@ -1,5 +1,14 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl}
-{\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-}
+Para ejecutar el programa de python, ubicarse en la carpeta y luego:
+python cat.py
+
+En “input >” dar cualquiera de las siguientes entradas.
+
+Entrada correcta:
+func program (int carro){}
+func program (int perro){}
+func program (int counter){}
+func program (int carro){}
+
+
+Entrada incorrecta: 
+func program (int cat){}

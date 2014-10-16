@@ -15,13 +15,15 @@ if sys.version_info[0] >= 3:
 
 
 #Lista de tokens posibles
-tokens = ['ID', 'FLOAT', 'INT', 'COLON', 'POINT', 'EQUAL', 
+tokens = ['ID', 'COLON', 'POINT', 'EQUAL', 
 			'SEMICOLON', 'COMA', 'LPAR', 'RPAR', 'LBRACKET',
 			'RBRACKET', 'COMPARISON', 'MULTIPLY', 'DIVIDE',
-			'PLUS', 'MINUS', 'STRING'] 
+			'PLUS', 'MINUS', 'STRING', 'NUMINT', 'NUMFLOAT'] 
 
 #Palabras Reservadas - NO TERMINALES
 reserved = {
+   'int'    : 'INT',
+   'float'  : 'FLOAT',
    'func'   : 'FUNC',
    'if'     : 'IF',
    'else'   : 'ELSE',
@@ -40,6 +42,9 @@ reserved = {
    'turnright'  : 'TURNRIGHT',
    }
 
+
+
+#
 tokens += reserved.values()
 
 #Matching Declaration t_TOKNAME   - TERMINALES
@@ -52,7 +57,7 @@ t_LPAR      = r'\('
 t_RPAR      = r'\)'
 t_LBRACKET  = r'\{'
 t_RBRACKET  = r'\}'
-t_COMPARISON    = r'<|>|<=|>=|==|=!'
+t_COMPARISON    = r'<=|>=|<|>|==|!='
 
 t_MULTIPLY  = r'\*'
 t_DIVIDE    = r'/'
@@ -66,13 +71,13 @@ t_ignore 	= " \t"
 #Funciones a ejecutar en caso de encontrar token
 
 # This rule must be done before the int rule.
-def t_FLOAT(t):
+def t_NUMFLOAT(t):
     r'-?\d+\.\d*(e-?\d+)?'
     t.value = float(t.value)
     return t
 
-def t_INT(t):
-    r'-?\d+'
+def t_NUMINT(t):
+    r'\d+'
     t.value = int(t.value)
     return t
 
@@ -96,10 +101,18 @@ import ply.lex as lex
 lex.lex()
 
 
-#GRAMATICA
+# ***************** GRAMATICA ************************
+
+#Tabla de variables
+variables = {'cat' : 'CAT',
+            'count' : 'COUNT'}
+variables.update(reserved)
+
+
 def p_func(p):
   #'func : FUNC ID LPAR funcx RPAR block'
-  'func : varcte'
+  'func : asign'
+  #print p[2]
   #print p[1]
 
 
@@ -112,13 +125,23 @@ def p_block(p):
 
 def p_blockx(p):
   '''blockx : statement blockx
-            | empty'''
+            | empty
+            '''
+
 def p_vars(p):
   '''vars : type ID'''
+  print p[1], p[2]
+  if p[2] in variables:
+    print "Variable existente"
+  else:
+    variables[p[1]] = p[2]
+    print variables
 
 def p_type(p):
   '''type : INT
-          | FLOAT'''
+          | FLOAT
+          '''
+  p[0] = p[1]
 
 def p_statement(p):
   '''statement : asign
@@ -141,45 +164,69 @@ def p_asign(p):
             '''
 
 def p_expression(p):
-  '''expression : exp
-                | COMPARISON exp
-                '''
+  '''expression : exp'''
 
 def p_exp(p):
-  '''exp : termino
-          | termino PLUS termino
+  '''exp : termino PLUS termino
           | termino MINUS termino
+          | termino MULTIPLY termino
+          | termino DIVIDE termino
+          | termino COMPARISON termino
           '''
-  for x in p: 
-    print x,
-  print p[0], p[1], p[2]
-  '''if p[2] == '+':
+  if p[2] == '+':
     p[0] = p[1] + p[3]
-    print 'plus'
-  elif p[2] == '-': p[0] = p[1] - p[3]'''
+    print p[0]
+  elif p[2] == '-':
+    p[0] = p[1] - p[3]
+    print p[0]
+  elif p[2] == '*':
+    p[0] = p[1] * p[3]
+    print p[0]
+  elif p[2] == '/':
+    p[0] = p[1] / p[3]
+    print p[0]
+  #Comparisons
+  elif p[2] == '<':
+    p[0] = True if p[1] < p[3] else False
+    print p[0]
+  elif p[2] == '>':
+    p[0] = True if p[1] > p[3] else False
+    print p[0]
+  elif p[2] == '<=':
+    p[0] = True if p[1] <= p[3] else False
+    print p[0]
+  elif p[2] == '>=':
+    p[0] = True if p[1] >= p[3] else False
+    print p[0]
+  elif p[2] == '==':
+    p[0] = True if p[1] == p[3] else False
+    print p[0]
+  elif p[2] == '!=':
+    p[0] = True if p[1] != p[3] else False
+    print p[0]
+  else:
+    p[0] = p[1]
 
+def p_exp_num(p):
+  '''exp : termino'''
+  p[0] = p[1]
 
 def p_termino(p):
-  '''termino : factor
-              | factor MULTIPLY factor
-              | factor DIVIDE factor
-              '''
-
-def p_factor(p):
-  '''factor : LPAR expression RPAR
+  '''termino : LPAR expression RPAR
             | PLUS varcte
             | MINUS varcte
             | varcte
             '''
+  p[0] = p[1]
 
 def p_varcte(p):
   '''varcte : ID
-            | INT
-            | FLOAT'''
+            | NUMINT
+            | NUMFLOAT
+            '''
   print p[1]
+  p[0] = p[1]
   return p
-
-###CHECK
 
 def p_print(p):
     ''' print : PRINT LPAR printx RPAR'''
@@ -190,7 +237,6 @@ def p_printx(p):
                 | expression COMA printx
                 | STRING COMA printx 
                 '''
-
 
 def p_cycle(p):
     '''cycle : WHILE LPAR expression RPAR block'''
@@ -204,9 +250,10 @@ def p_list(p):
 
 def p_listx(p):
     '''listx : ID 
+              | NUMINT
               | ID COMA listx
-              | INT
-              | INT COMA listx'''
+              | NUMINT COMA listx
+              '''
 
 
 def p_call(p):
@@ -229,7 +276,8 @@ def p_play(p):
 def p_add(p):
     '''add : ID POINT ADD LPAR CANDY RPAR
             | ID POINT ADD LPAR POOP RPAR
-            | ID POINT ADD LPAR BALL RPAR'''
+            | ID POINT ADD LPAR BALL RPAR
+            '''
 
 def p_turnleft(p):
     '''turnleft : TURNLEFT LPAR RPAR'''
