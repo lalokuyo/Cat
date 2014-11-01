@@ -1,0 +1,14 @@
+vars            | listo   #TENER VARIABLES LOCALES por FUNC
+asign           | listo
+condition 
+cycle
+print
+list
+call
+move
+eat
+clean
+play
+add
+turnleft
+turnright

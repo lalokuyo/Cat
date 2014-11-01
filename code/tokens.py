@@ -9,7 +9,6 @@
 
 #Lista de tokens posibles
 tokens = [
-          
           #Assignment
           'ID', 
           'COLON', 
@@ -31,7 +30,7 @@ tokens = [
           'PLUS', 
           'MINUS',
 
-          # 
+          #Constant
           'STRING', 
           'NUMINT', 
           'NUMFLOAT'
@@ -39,7 +38,9 @@ tokens = [
 
 #Palabras Reservadas - NO TERMINALES
 reserved = {
-   #'boolean': 'BOOL',  #Falta ver si es necesario
+   'boolean': 'BOOLEAN',
+   'true'   : 'TRUE',
+   'false'  : 'FALSE',  
    'int'    : 'INT',
    'float'  : 'FLOAT',
    'func'   : 'FUNC',
@@ -61,11 +62,10 @@ reserved = {
    }
 
 
-
-#
 tokens += reserved.values()
 
 #Matching Declaration t_TOKNAME   - TERMINALES
+
 t_COLON     = r':'
 t_POINT     = r'\.'
 t_EQUAL     = r'='
@@ -75,7 +75,7 @@ t_LPAR      = r'\('
 t_RPAR      = r'\)'
 t_LBRACKET  = r'\{'
 t_RBRACKET  = r'\}'
-t_COMPARISON    = r'<=|>=|<|>|==|!=|&&|\|\|'
+t_COMPARISON  = r'<=|>=|<|>|==|!=|&&|\|\|'
 
 t_MULTIPLY  = r'\*'
 t_DIVIDE    = r'/'

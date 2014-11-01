@@ -28,6 +28,7 @@ from rules import *
 import ply.yacc as yacc
 yacc.yacc()
 
+
 while 1:
     try:
         s = raw_input('input > ')
@@ -35,5 +36,6 @@ while 1:
         break
     if not s: continue
     yacc.parse(s)
+
 
 
