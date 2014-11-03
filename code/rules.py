@@ -15,14 +15,17 @@ import ast
 
 
 # GLOBAL VARIABLES
+op_stack    = []
+jump_stack  = []
+cont        = 0
 
+
+#Functions table
+funcName = ""
 functions_table = {}
 
 #Variables table
-variables = {}
-variables_value = {}
-
-temp_dict = {}
+vartemp_list = []
 
 # ///////////////////////// GRAMATICA /////////////////////////////////
 def p_class(p):
@@ -30,7 +33,6 @@ def p_class(p):
             | func
             '''
   print "Tabla func", functions_table
-  print "tabla vars", variables
 
 def p_func(p):
   'func : FUNC idCheck LPAR funcx RPAR block'
@@ -38,17 +40,24 @@ def p_func(p):
   #'func : exp '
  
   #Verify name of functions
-  functions_table[p[2]] = p[6]  #Se asigna varTable a func
+  global funcName
+  #print funcName
+  global vartemp_list
+  functions_table[p[2]] = vartemp_list  #Se asigna varTable a func
 
-  #Empty temp_dict   
-  global temp_dict
-  temp_dict = {}
+  #Empty temp variables  
+  vartemp_list = []
+  funcName = ""
 
 def p_idCheck(p):  #Checks function id
   'idCheck : ID'
+
+  global funcName
+
   if p[1] in functions_table:
     print "Existing variable"
   else:
+    funcName = p[1]
     p[0] = p[1]
 
 
@@ -69,21 +78,12 @@ def p_blockx(p):
             | statement
             | statement blockx
             '''
-  #print "hola"
-  #print "entra blockX"
-  #print isinstance(p[1], dict)
-  if (isinstance(p[1], dict)):
-    #print "p[1]", p[1]
-    temp_dict.update(p[1])
-    #print "Temp",temp_dict
-  p[0] = temp_dict
+  p[0] = p[1]
 
-def p_varsCycle(p):
-  '''varsCycle : '''
 
 def p_statement(p):
   '''statement :  asign
-                | condition 
+                | condition
                 | cycle
                 | print
                 | list
@@ -95,24 +95,22 @@ def p_statement(p):
                 | add
                 | turnleft
                 | turnright
-                '''
-  #if p[1] == 'vars':      
+                '''    
   p[0] = p[1]
 
 def p_vars(p):
   '''vars : type ID'''
-
-  print "Var declarada"
-  if p[2] not in variables:
-    variables[p[2]] = p[1] 
-    vari = {p[2]: p[1]} #for variables table
-    #print "vari", vari
-    p[0] = vari
-  else:
+  global vartemp_list
+  if any(x.name == p[2] for x in vartemp_list):
     p[0] = {}
     print "Variable existente"
+  else:
+    #print "Var declarada"
+    var = Node(p[2], p[1], None)
+    vartemp_list.append(var)
+    p[0] = var
   
-    #Aqui se crea el nodo de cada variables con sus respectivas dirs
+
 
 def p_type(p):
   '''type : INT
@@ -125,24 +123,21 @@ def p_type(p):
 
 def p_asign(p): 
   '''asign : ID EQUAL expression'''
+  
+  global vartemp_list
+  for x in vartemp_list:
+    if p[1] in x.name:
+      if x.type == 'int' and isinstance(p[3], int):
+        x.value = p[3]
+      elif x.type == 'float' and isinstance(p[3], float):
+        x.value = p[3]
+      elif x.type == 'boolean' and p[3] == "False" or p[3] == "True":
+        x.value = p[3]
+      else: print "Semantic error: incompatible types", p[1], p[3]
+    else: 
+      print "Undeclared variable:", p[1]
 
-  if p[1] in variables:
-    '''variables_value = variables
-    print "variables", variables_value
-    print "p[3]", p[3] 
-    * Esto es por si quiero la lista entera de vars'''
-
-    if variables[p[1]] == 'int' and isinstance(p[3], int):
-      variables_value[p[1]] = p[3]
-    elif variables[p[1]] == 'float' and isinstance(p[3], float):
-      variables_value[p[1]] = p[3]
-    elif variables[p[1]] == 'boolean' and isinstance(p[3], bool):
-      variables_value[p[1]] = p[3]
-    else: print "Semantic error: incompatible types", p[1]
-  else: 
-    print "Undeclared variable:", p[1]
-
-  print "valores",variables_value
+  #print "valores",variables_value
 
 #********* MATH OPERATIONS **************
 
@@ -172,7 +167,6 @@ def p_expression(p):
       print p[0]
   else:
       p[0] = p[1]
-
 
 def p_exp(p):
   '''exp : termino 
@@ -210,13 +204,14 @@ def p_termino(p):
             | MINUS varcte
             | varcte
             '''
-  #print p[1]         
   p[0] = p[1]
 
 def p_varcte(p):
   '''varcte : ID
             | NUMINT
             | NUMFLOAT
+            | TRUE
+            | FALSE
             '''
   #print p[1]
   p[0] = p[1]
@@ -236,9 +231,24 @@ def p_printx(p):
 def p_cycle(p):
     '''cycle : WHILE LPAR expression RPAR block'''
 
+
 def p_condition(p):
-    '''condition : IF LPAR expression RPAR block
-                  | IF LPAR expression RPAR block ELSE block'''
+    '''condition : IF LPAR expression cond_1 RPAR block cond_2
+                  | IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2'''
+ 
+
+def p_cond_1(p):
+  if not isinstance(p[3], bool):
+      print "Semantic error at:", p[3]
+    else:
+      result = op_stack.pop()
+      # cuadruplo_temporal.set_operador("GotoF")
+      # cont += 1
+      # pila_saltos.append(cont-1)
+
+def p_cond_2(p):
+  a = 2
+
 
 def p_list(p):
     '''list : LIST ID EQUAL LBRACKET listx RBRACKET'''
