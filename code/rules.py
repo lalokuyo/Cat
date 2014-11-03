@@ -10,14 +10,17 @@
 from tokens import reserved
 from node import Node
 from semantic_cube import *
+from cuadruplo import *
 
 import ast
 
 
 # GLOBAL VARIABLES
-op_stack    = []
-jump_stack  = []
-cont        = 0
+pila_op       = []
+pila_tipo     = []
+pila_saltos   = []
+cont          = 0
+cuadruplos_list = []
 
 
 #Functions table
@@ -25,17 +28,28 @@ funcName = ""
 functions_table = {}
 
 #Variables table
-vartemp_list = []
+vartemp_list = [] #Locales a funcion
+var_list = [] #Lista de variables globales y locales
+variables_globales = []
 
 # ///////////////////////// GRAMATICA /////////////////////////////////
 def p_class(p):
-  '''class : func class
-            | func
+  #''' class : vars_global vars_1 func EXECUTE exec_2 block block_3
+  '''class : vars_global func 
+            | func class
             '''
   print "Tabla func", functions_table
 
+def p_vars_global(p):
+  '''vars_global : vars vars_global
+                 | empty
+                 '''
+  variables_globales.append(p[1])
+
+
 def p_func(p):
-  'func : FUNC idCheck LPAR funcx RPAR block'
+  #'func : vars_global'
+  'func :  FUNC idCheck LPAR funcx RPAR block'
   #'func : FUNC idCheck LPAR funcx RPAR block '
   #'func : exp '
  
@@ -98,9 +112,12 @@ def p_statement(p):
                 '''    
   p[0] = p[1]
 
+
+
 def p_vars(p):
   '''vars : type ID'''
   global vartemp_list
+
   if any(x.name == p[2] for x in vartemp_list):
     p[0] = {}
     print "Variable existente"
@@ -126,7 +143,7 @@ def p_asign(p):
   
   global vartemp_list
   for x in vartemp_list:
-    if p[1] in x.name:
+    if p[1] in x.name:  #If the variable exists
       if x.type == 'int' and isinstance(p[3], int):
         x.value = p[3]
       elif x.type == 'float' and isinstance(p[3], float):
@@ -228,26 +245,108 @@ def p_printx(p):
                 | STRING COMA printx 
                 '''
 
+# ************ WHILE ***************
 def p_cycle(p):
-    '''cycle : WHILE LPAR expression RPAR block'''
+  '''cycle : WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3'''
+  
+  global pila_tipo
 
+  pila_tipo.append(p[4])
 
+def p_cycle_1(p):
+  'cycle_1 : '
+
+  global pila_saltos
+  global cont
+  pila_saltos.append(cont)
+
+def p_cycle_2(p):
+  'cycle_2 : '
+
+  global pila_op  
+  global cuadruplos_list
+  global pila_saltos
+  global cont
+
+  aux = pila_tipo.pop()
+  if not isinstance(aux, bool):
+    print "Semantic error at:"
+  else:
+    cuadruplo_temp = Cuadruplo()
+    result = pila_op.pop()
+    cuadruplo_temp.set_operator("gotoF")
+    cuadruplo_temp.set_operand1(result)
+    cuadruplos_list.append(cuadruplo_temp)
+    cont += 1
+    pila_saltos.append(cont-1)
+
+def p_cycle_3(p):
+  'cycle_3 : '
+  global cont
+  global pila_saltos
+  global pila_op
+
+  cuadruplo_temp = Cuadruplo()
+  falso = pila_saltos.pop()
+  retorno = pila_saltos.pop()
+  cuadruplo_temp.set_operador("goto")
+  cuadruplo_temp.set_resultado(retorno)
+  cuadruplos.append(cuadruplo_temp)
+  cont += 1
+  cuadruplos[falso].set_resultado(cont)
+
+# ************ IF ***************
 def p_condition(p):
-    '''condition : IF LPAR expression cond_1 RPAR block cond_2
-                  | IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2'''
- 
+  '''condition : IF LPAR expression cond_1 RPAR block cond_2
+                  | IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
+                  '''
+  global pila_tipo
+  pila_tipo.append(p[4])
 
 def p_cond_1(p):
-  if not isinstance(p[3], bool):
-      print "Semantic error at:", p[3]
-    else:
-      result = op_stack.pop()
-      # cuadruplo_temporal.set_operador("GotoF")
-      # cont += 1
-      # pila_saltos.append(cont-1)
+  'cond_1 : '
+
+  global pila_op  
+  global cuadruplos_list
+  global pila_saltos
+  global cont
+
+  aux = pila_tipo.pop()
+  if not isinstance(aux, bool):
+    print "Semantic error at:"
+  else:
+      cuadruplo_temp = Cuadruplo()
+      result = pila_op.pop()
+      cuadruplo_temp.set_operator("gotoF")
+      cuadruplo_temp.set_operand1(result)
+      cuadruplos_list.append(cuadruplo_temp)
+      cont += 1
+      pila_saltos.append(cont-1)
 
 def p_cond_2(p):
-  a = 2
+  'cond_2 : '
+
+  global pila_saltos
+  global cuadruplos_list
+  global cont
+
+  fin = pila_saltos.pop()
+  cuadruplos_list[fin].set_operator(cont)
+
+def p_cond_else(p):
+  'cond_else : '
+
+  global cont
+  global pila_saltos
+  global cuadruplos_list
+  
+  cuadruplo_temp = Cuadruplo()
+  cuadruplo_temp.set_operador("goto")
+  cuadruplos_list.append(cuadruplo_temp)
+  cont += 1
+  falso = pila_saltos.pop()
+  cuadruplos_list[falso].set_resultado(cont)
+  pila_saltos.append(cont-1)   
 
 
 def p_list(p):
