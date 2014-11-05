@@ -1,0 +1,15 @@
+int gatoGlobal
+
+gatoGlobal = 3
+
+func camion (){
+	int perro
+	int gato
+	float pelota
+	boolean hambre
+	perro = 3
+}
+
+func cuello (){
+	int carrito
+}

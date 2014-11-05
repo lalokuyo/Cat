@@ -9,13 +9,16 @@
 
 class Node(object):
 	
-	def __init__(self, name, types, value,):
-		self.name = name
-		self.type = types
-		self.value = value
+	def __init__(self,):
+		self.name = ""
+		self.type = ""
+		self.value = ''
 		self.scope = ""
 		
 	def __str__(self):
 		s = "{name:" + str(self.name) + " type:" + str(self.type) + " value:" + str(self.value) + "}"
 		#s += "".join( ["i: " + str(i) + "\n" for i in self.args])
 		return s
+
+	def print_var(self):
+		print (self.name, self.type, self.value, self.scope)

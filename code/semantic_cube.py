@@ -7,6 +7,8 @@ def verify(x):
         return 'float'
     if isinstance(x, basestring):
         return 'string'
+    if isinstance(x, bool):
+        return 'bool'
 
 
 semantic_cube = { 

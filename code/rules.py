@@ -16,12 +16,12 @@ import ast
 
 
 # GLOBAL VARIABLES
-pila_op       = []
-pila_tipo     = []
-pila_saltos   = []
-cont          = 0
+pila_op         = []
+pila_tipo       = []
+pila_saltos     = []
+cont            = 0
 cuadruplos_list = []
-
+temporal        = 0
 
 #Functions table
 funcName = ""
@@ -29,29 +29,38 @@ functions_table = {}
 
 #Variables table
 vartemp_list = [] #Locales a funcion
-var_list = [] #Lista de variables globales y locales
+#var_list = [] #Lista de variables globales y locales
 variables_globales = []
+
 
 # ///////////////////////// GRAMATICA /////////////////////////////////
 def p_class(p):
-  #''' class : vars_global vars_1 func EXECUTE exec_2 block block_3
-  '''class : vars_global func 
+  #''' class : vars_global init_vars_1 func EXECUTE exec_2 block block_3
+  '''class : vars_global init_vars func_list
             | func class
             '''
-  print "Tabla func", functions_table
+  #print "Tabla func", functions_table
 
 def p_vars_global(p):
-  '''vars_global : vars vars_global
+  '''vars_global : varsGlobal vars_global
                  | empty
                  '''
-  variables_globales.append(p[1])
 
+def p_init_vars_1(p):
+  '''init_vars : asign init_vars
+                 | empty
+                 '''
+  #variables_globales.append(p[1])
+
+def p_func_list(p):
+  '''func_list : func func_list
+                 | empty
+                 '''
 
 def p_func(p):
   #'func : vars_global'
   'func :  FUNC idCheck LPAR funcx RPAR block'
   #'func : FUNC idCheck LPAR funcx RPAR block '
-  #'func : exp '
  
   #Verify name of functions
   global funcName
@@ -112,45 +121,90 @@ def p_statement(p):
                 '''    
   p[0] = p[1]
 
+def p_varsGlobal(p):
+  '''varsGlobal : type ID'''
+  global variables_globales
+  global var_list
 
+  if any(x.name == p[2] for x in variables_globales):
+    p[0] = {}
+    print "Existing variable"
+  else:
+    #print "Var declarada"
+    var = Node()
+    var.name = p[2]
+    var.type = p[1]
+    var.scope = "global"
+    variables_globales.append(var)
+    #var_list.append(var)
+    p[0] = var
 
 def p_vars(p):
   '''vars : type ID'''
   global vartemp_list
+  global variables_globales
+  global funcName
 
-  if any(x.name == p[2] for x in vartemp_list):
+  if any(x.name == p[2] for x in vartemp_list) or any(x.name == p[2] for x in variables_globales):
     p[0] = {}
-    print "Variable existente"
+    print "Existing variable"
   else:
     #print "Var declarada"
-    var = Node(p[2], p[1], None)
+    var = Node()
+    var.name = p[2]
+    var.type = p[1]
+    var.scope = funcName
     vartemp_list.append(var)
     p[0] = var
   
-
-
 def p_type(p):
   '''type : INT
           | FLOAT
           | BOOLEAN
           '''
   p[0] = p[1]
-  p = p[1]
-
 
 def p_asign(p): 
   '''asign : ID EQUAL expression'''
   
   global vartemp_list
-  for x in vartemp_list:
-    if p[1] in x.name:  #If the variable exists
+  global variables_globales
+  global cuadruplos_list
+  global cont
+
+  allvars = vartemp_list + variables_globales
+
+  for x in allvars:
+    if p[1] == x.name:  #If the variable exists
+      print p[1], p[3]
+      cuadruplo_temp = Cuadruplo()
+      cuadruplo_temp.set_operator("=")
+
+      #Verifies if the assignation is possible.
       if x.type == 'int' and isinstance(p[3], int):
         x.value = p[3]
+        cuadruplo_temp.set_operand1(p[3])
+        cuadruplo_temp.set_result(x.name)
+        cuadruplos_list.append(cuadruplo_temp)
+        cont += 1
+
       elif x.type == 'float' and isinstance(p[3], float):
         x.value = p[3]
+        cuadruplo_temp.set_operand1(p[3])
+        cuadruplo_temp.set_result(x.name)
+        cuadruplos_list.append(cuadruplo_temp)
+        cont += 1
+
       elif x.type == 'boolean' and p[3] == "False" or p[3] == "True":
         x.value = p[3]
+        cuadruplo_temp.set_operand1(p[3])
+        cuadruplo_temp.set_result(x.name)
+        cuadruplos_list.append(cuadruplo_temp)
+        cont += 1
+
       else: print "Semantic error: incompatible types", p[1], p[3]
+      break
+
     else: 
       print "Undeclared variable:", p[1]
 
@@ -192,15 +246,29 @@ def p_exp(p):
           | termino MULTIPLY exp
           | termino DIVIDE exp
           '''
+  #AQUI VAS!
+  global cont
+  global pila_op
+  global pila_tipo
+  global temporal
 
   if len(p) > 2:
     term1 = verify(p[1])
     term2 = verify(p[3])
-    #print term1, term2
 
-    #print 'cube says', semantic_cube[term1][term2][p[2]]
+
     if semantic_cube[term1][term2][p[2]] != 'error':
+
+      cuadruplo_temp = Cuadruplo()
+      temp = "t" + str(temporal)
+      temporal += 1
+
       if p[2] == '+':
+        cuadruplo_temp.set_operator("+")
+        cuadruplo_temp.set_operand1(p[1])
+        cuadruplo_temp.set_operand2(p[3])
+        cuadruplo_temp.set_result()
+
         p[0] = p[1] + p[3]
         print p[0]
       elif p[2] == '-':
@@ -248,9 +316,8 @@ def p_printx(p):
 # ************ WHILE ***************
 def p_cycle(p):
   '''cycle : WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3'''
-  
-  global pila_tipo
 
+  global pila_tipo
   pila_tipo.append(p[4])
 
 def p_cycle_1(p):
@@ -263,7 +330,7 @@ def p_cycle_1(p):
 def p_cycle_2(p):
   'cycle_2 : '
 
-  global pila_op  
+  global pila_op
   global cuadruplos_list
   global pila_saltos
   global cont

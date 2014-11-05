@@ -1,11 +1,13 @@
 from node import Node
 from cuadruplo import *
 
-carro = Node('1',"int", None)
-carro1 = Node('2',"int", None)
-carro2 = Node('3',"int", None)
 
 cuadruplo_temp = Cuadruplo()
+cuadruplo_temp2 = Cuadruplo()
+
 cuadruplo_temp.print_cuadruplo()
 
-print carro
+cuadruplo_temp2.operator = '+'
+cuadruplo_temp2
+cuadruplo_temp2.print_cuadruplo()
+print cuadruplo_temp2.operator
