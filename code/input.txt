@@ -1,15 +1,18 @@
 int gatoGlobal
 
 gatoGlobal = 3
+gatoGlobal = 4
 
-func camion (){
+func boy (){
 	int perro
-	int gato
 	float pelota
 	boolean hambre
-	perro = 3
+	perro = 3+4
 }
 
-func cuello (){
-	int carrito
+func girl (){
+	int mochila
+	boolean bolsa
 }
+
+

@@ -12,25 +12,47 @@ from node import Node
 from semantic_cube import *
 from cuadruplo import *
 
-import ast
 
 
 # GLOBAL VARIABLES
-pila_op         = []
-pila_tipo       = []
+
+# ********* PILAS ********
+pila_Operador   = []     # + - / * 
+pila_Oz         = []  # 0-9 operandos
+pila_tipo       = []   #verificacion semantica
 pila_saltos     = []
+
 cont            = 0
 cuadruplos_list = []
 temporal        = 0
 
-#Functions table
-funcName = ""
-functions_table = {}
+# ****** DATA TYPES ******
+
+
+type_int           = "e5"
+type_float         = "e6"
+type_boolean       = "e7"
+
+# ****** TABLES **********
+funcName            = ""
+functions_table     = {}
 
 #Variables table
-vartemp_list = [] #Locales a funcion
-#var_list = [] #Lista de variables globales y locales
-variables_globales = []
+vartemp_list        = []       #Locales a funcion
+variables_globales  = []
+
+cte_list            = {}
+
+# *** MEMORY ALLOCATIONS ***
+#types
+mem_global  = 1000
+mem_int     = 5000
+mem_float   = 6000
+mem_boolean = 7000
+mem_cte     = 8000
+mem_temp    = 9000
+
+# ***** TEMP VARS ***
 
 
 # ///////////////////////// GRAMATICA /////////////////////////////////
@@ -125,6 +147,12 @@ def p_varsGlobal(p):
   '''varsGlobal : type ID'''
   global variables_globales
   global var_list
+  #global pila_Oz
+
+  global mem_int
+  global mem_float
+  global mem_boolean
+  global mem_global
 
   if any(x.name == p[2] for x in variables_globales):
     p[0] = {}
@@ -135,6 +163,23 @@ def p_varsGlobal(p):
     var.name = p[2]
     var.type = p[1]
     var.scope = "global"
+
+    if p[1] == "int":
+      var.mem = mem_int
+      #pila_Oz = mem_int
+      mem_int += 1
+
+    if p[1] == "float":
+      var.mem = mem_float
+      #pila_Oz = mem_float
+      mem_float += 1
+
+    if p[1] == "boolean":
+      var.mem = mem_boolean
+      #pila_Oz = mem_boolean
+      mem_boolean += 1
+
+
     variables_globales.append(var)
     #var_list.append(var)
     p[0] = var
@@ -144,6 +189,12 @@ def p_vars(p):
   global vartemp_list
   global variables_globales
   global funcName
+  #global pila_Oz
+
+  global mem_int
+  global mem_float
+  global mem_boolean
+  global mem_global
 
   if any(x.name == p[2] for x in vartemp_list) or any(x.name == p[2] for x in variables_globales):
     p[0] = {}
@@ -154,6 +205,19 @@ def p_vars(p):
     var.name = p[2]
     var.type = p[1]
     var.scope = funcName
+    if p[1] == "int":
+      var.mem = mem_int
+      #pila_Oz = mem_int
+      mem_int += 1
+    if p[1] == "float":
+      var.mem = mem_float
+      #pila_Oz = mem_float
+      mem_float += 1
+    if p[1] == "boolean":
+      var.mem = mem_boolean
+      #pila_Oz = mem_boolean
+      mem_boolean += 1
+
     vartemp_list.append(var)
     p[0] = var
   
@@ -164,41 +228,88 @@ def p_type(p):
           '''
   p[0] = p[1]
 
+def variableExist(allvars, key):
+  for var in allvars:
+    if key == var.name:
+      return True
+
+def variableFetch(allvars, key):
+  for var in allvars:
+    if key == var.name:
+      return var
+
 def p_asign(p): 
-  '''asign : ID EQUAL expression'''
-  
+  '''asign : ID id_val EQUAL equal_val expression expression_val'''
+
   global vartemp_list
   global variables_globales
   global cuadruplos_list
   global cont
+  global mem_cte
 
+  global pila_Oz
+  global pila_Operador
+
+  if pila_Operador:
+    cuadruplo_temp = Cuadruplo()
+    cuadruplo_temp.set_operator(pila_Operador.pop())
+
+    operand1 = pila_Oz.pop()  #3
+    result   = pila_Oz.pop()  #A
+
+    allvars = vartemp_list + variables_globales
+    if variableExist(allvars, result):            #IF variable exists
+      result = variableFetch(allvars, result)
+      operand1_type = verify(operand1)          #int
+
+      if semantic_cube[operand1_type][result.type]['='] != 'error':
+        cteMemory = cte_list[operand1]   #Forming cuadruple
+        result.value = operand1 
+        cuadruplo_temp.set_operand1(cteMemory)
+        cuadruplo_temp.set_result(result.mem)
+        cuadruplo_temp.set_cont(cont)
+        cuadruplos_list.append(cuadruplo_temp)
+        cont += 1
+        #cuadruplo_temp.print_cuadruplo()
+    else:
+      print "Undeclared variable:", p[1]
+  #print cte_list, "LISTA"
+
+'''
+  temp_var = p[1]
   allvars = vartemp_list + variables_globales
-
+  print p[1]
   for x in allvars:
     if p[1] == x.name:  #If the variable exists
       print p[1], p[3]
+
       cuadruplo_temp = Cuadruplo()
       cuadruplo_temp.set_operator("=")
+      operand1  = p[3]
+      result    = p[1]
 
       #Verifies if the assignation is possible.
-      if x.type == 'int' and isinstance(p[3], int):
-        x.value = p[3]
-        cuadruplo_temp.set_operand1(p[3])
-        cuadruplo_temp.set_result(x.name)
+      if x.type == 'int' and isinstance(operand1, int):
+        x.value = operand1  #Cuadruplo anterior tmp
+        cuadruplo_temp.set_operand1(operand1)
+        cuadruplo_temp.set_result(x.mem)
+        cuadruplo_temp.set_cont(cont)
+        cuadruplos_list.append(cuadruplo_temp)
+        cont += 1
+        
+      elif x.type == 'float' and isinstance(p[4], float):
+        x.value = operand1  
+        cuadruplo_temp.set_operand1(operand1)
+        cuadruplo_temp.set_result(x.mem)
+        cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         cont += 1
 
-      elif x.type == 'float' and isinstance(p[3], float):
-        x.value = p[3]
-        cuadruplo_temp.set_operand1(p[3])
-        cuadruplo_temp.set_result(x.name)
-        cuadruplos_list.append(cuadruplo_temp)
-        cont += 1
-
-      elif x.type == 'boolean' and p[3] == "False" or p[3] == "True":
-        x.value = p[3]
-        cuadruplo_temp.set_operand1(p[3])
-        cuadruplo_temp.set_result(x.name)
+      elif x.type == 'boolean' and p[4] == "False" or p[4] == "True":
+        x.value = operand1  
+        cuadruplo_temp.set_operand1(operand1)
+        cuadruplo_temp.set_result(x.mem)
+        cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         cont += 1
 
@@ -208,7 +319,23 @@ def p_asign(p):
     else: 
       print "Undeclared variable:", p[1]
 
-  #print "valores",variables_value
+  #print "valores",variables_value '''
+
+def p_id_val(p): 
+  '''id_val : '''
+  global pila_Oz
+  pila_Oz.append(p[-1])
+
+def p_equal_val(p): 
+  '''equal_val : '''
+  global pila_Operador
+  pila_Operador.append(p[-1])
+
+def p_expression_val(p): 
+  '''expression_val : '''
+  global pila_Oz
+  pila_Oz.append(p[-1])
+
 
 #********* MATH OPERATIONS **************
 
@@ -264,13 +391,17 @@ def p_exp(p):
       temporal += 1
 
       if p[2] == '+':
+        p[0] = p[1] + p[3]
+        print p[0]
+
+        cuadruplo_temp.set_cont(cont)
         cuadruplo_temp.set_operator("+")
         cuadruplo_temp.set_operand1(p[1])
         cuadruplo_temp.set_operand2(p[3])
-        cuadruplo_temp.set_result()
+        cuadruplo_temp.set_result(temp)
+        cuadruplos_list.append(cuadruplo_temp)
+        cont += 1
 
-        p[0] = p[1] + p[3]
-        print p[0]
       elif p[2] == '-':
         p[0] = p[1] - p[3]
         print p[0]
@@ -298,7 +429,15 @@ def p_varcte(p):
             | TRUE
             | FALSE
             '''
-  #print p[1]
+  global mem_cte
+
+  #Constant memory assign
+  typeX = verify(p[1])
+  if typeX == "int" or typeX == "float":
+    if p[1] not in cte_list:
+      cte_list[p[1]] = mem_cte
+      mem_cte += 1
+  
   p[0] = p[1]
   return p
 

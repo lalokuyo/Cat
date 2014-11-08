@@ -45,6 +45,11 @@ for x in functions_table:
 	for y in var_list:
 		y.print_var()
 
+print "CUADRUPLOS"
+for x in cuadruplos_list:
+    x.print_cuadruplo()
+
+
 '''while 1:
     try:
         s = raw_input('input > ')

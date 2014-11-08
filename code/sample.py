@@ -2,12 +2,7 @@ from node import Node
 from cuadruplo import *
 
 
-cuadruplo_temp = Cuadruplo()
-cuadruplo_temp2 = Cuadruplo()
+cte = {2: 4098, 3: 4139}
 
-cuadruplo_temp.print_cuadruplo()
-
-cuadruplo_temp2.operator = '+'
-cuadruplo_temp2
-cuadruplo_temp2.print_cuadruplo()
-print cuadruplo_temp2.operator
+cte[2] = 3
+print cte

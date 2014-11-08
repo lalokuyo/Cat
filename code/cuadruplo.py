@@ -12,12 +12,16 @@ class Cuadruplo:
     
     #Constructor
     def __init__(self):
+        self.cont     = 0
         self.operator = ''
-        self.operand1 = 0
-        self.operand2 = 0
-        self.result = ""
+        self.operand1 = ''
+        self.operand2 = ''
+        self.result   = ""
 
     #SETS & GETS
+    def set_cont(self, cont): 
+        self.cont = cont
+
     def set_operator(self, operator): 
         self.operator = operator
 
@@ -29,6 +33,9 @@ class Cuadruplo:
 
     def set_result(self, result):
         self.result = result
+
+    def get_cont(self): 
+        return self.cont
 
     def get_operator(self): 
         return self.operator
@@ -43,7 +50,7 @@ class Cuadruplo:
         return self.result
 
     def print_cuadruplo(self):
-        print(self.operator, self.operand1, self.operand2, self.result)
+        print(self.cont, self.operator, self.operand1, self.operand2, self.result)
 
 
 
