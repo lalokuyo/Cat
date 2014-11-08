@@ -275,52 +275,6 @@ def p_asign(p):
       print "Undeclared variable:", p[1]
   #print cte_list, "LISTA"
 
-'''
-  temp_var = p[1]
-  allvars = vartemp_list + variables_globales
-  print p[1]
-  for x in allvars:
-    if p[1] == x.name:  #If the variable exists
-      print p[1], p[3]
-
-      cuadruplo_temp = Cuadruplo()
-      cuadruplo_temp.set_operator("=")
-      operand1  = p[3]
-      result    = p[1]
-
-      #Verifies if the assignation is possible.
-      if x.type == 'int' and isinstance(operand1, int):
-        x.value = operand1  #Cuadruplo anterior tmp
-        cuadruplo_temp.set_operand1(operand1)
-        cuadruplo_temp.set_result(x.mem)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        cont += 1
-        
-      elif x.type == 'float' and isinstance(p[4], float):
-        x.value = operand1  
-        cuadruplo_temp.set_operand1(operand1)
-        cuadruplo_temp.set_result(x.mem)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        cont += 1
-
-      elif x.type == 'boolean' and p[4] == "False" or p[4] == "True":
-        x.value = operand1  
-        cuadruplo_temp.set_operand1(operand1)
-        cuadruplo_temp.set_result(x.mem)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        cont += 1
-
-      else: print "Semantic error: incompatible types", p[1], p[3]
-      break
-
-    else: 
-      print "Undeclared variable:", p[1]
-
-  #print "valores",variables_value '''
-
 def p_id_val(p): 
   '''id_val : '''
   global pila_Oz
@@ -378,6 +332,7 @@ def p_exp(p):
   global pila_op
   global pila_tipo
   global temporal
+  global mem_cte
 
   if len(p) > 2:
     term1 = verify(p[1])
@@ -391,16 +346,22 @@ def p_exp(p):
       temporal += 1
 
       if p[2] == '+':
-        p[0] = p[1] + p[3]
-        print p[0]
+        total = p[1] + p[3]
+        
+        #Constant memory assign
+        if total not in cte_list:
+            cte_list[total] = mem_cte
+            mem_cte += 1
+        p[0] = total
+        print cte_list
 
-        cuadruplo_temp.set_cont(cont)
+        ''' cuadruplo_temp.set_cont(cont)
         cuadruplo_temp.set_operator("+")
         cuadruplo_temp.set_operand1(p[1])
         cuadruplo_temp.set_operand2(p[3])
         cuadruplo_temp.set_result(temp)
         cuadruplos_list.append(cuadruplo_temp)
-        cont += 1
+        cont += 1'''
 
       elif p[2] == '-':
         p[0] = p[1] - p[3]
@@ -416,7 +377,6 @@ def p_exp(p):
 
 def p_termino(p):
   '''termino : LPAR expression RPAR
-            | PLUS varcte
             | MINUS varcte
             | varcte
             '''

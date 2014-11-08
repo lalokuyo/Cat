@@ -7,7 +7,7 @@ func boy (){
 	int perro
 	float pelota
 	boolean hambre
-	perro = 3+4
+	perro = 7+9
 }
 
 func girl (){
