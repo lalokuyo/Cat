@@ -12,8 +12,6 @@ from node import Node
 from semantic_cube import *
 from cuadruplo import *
 
-
-
 # GLOBAL VARIABLES
 
 # ********* PILAS ********
@@ -24,14 +22,9 @@ pila_saltos     = []
 
 cont            = 0
 cuadruplos_list = []
-temporal        = 0
-
-# ****** DATA TYPES ******
-
-
-type_int           = "e5"
-type_float         = "e6"
-type_boolean       = "e7"
+temporal_list   = []
+temp_cont       = 0
+  
 
 # ****** TABLES **********
 funcName            = ""
@@ -239,7 +232,7 @@ def variableFetch(allvars, key):
       return var
 
 def p_asign(p): 
-  '''asign : ID id_val EQUAL equal_val expression expression_val'''
+  '''asign : ID id_val EQUAL equal_val expression'''
 
   global vartemp_list
   global variables_globales
@@ -253,16 +246,20 @@ def p_asign(p):
   if pila_Operador:
     cuadruplo_temp = Cuadruplo()
     cuadruplo_temp.set_operator(pila_Operador.pop())
-
+    #print pila_Oz
     operand1 = pila_Oz.pop()  #3
     result   = pila_Oz.pop()  #A
-
+    #print "asign",pila_Oz
+    #print operand1, "OP1"
+    #print result, "result"
     allvars = vartemp_list + variables_globales
     if variableExist(allvars, result):            #IF variable exists
       result = variableFetch(allvars, result)
       operand1_type = verify(operand1)          #int
 
       if semantic_cube[operand1_type][result.type]['='] != 'error':
+        #print cte_list
+        #print cte_list[operand1]
         cteMemory = cte_list[operand1]   #Forming cuadruple
         result.value = operand1 
         cuadruplo_temp.set_operand1(cteMemory)
@@ -321,59 +318,87 @@ def p_expression(p):
       p[0] = p[1]
 
 def p_exp(p):
-  '''exp : termino 
-          | termino PLUS exp 
-          | termino MINUS exp
-          | termino MULTIPLY exp
-          | termino DIVIDE exp
+  '''exp : termino termino_val
+          | termino termino_val PLUS op_val exp 
+          | termino termino_val MINUS op_val exp 
+          | termino termino_val MULTIPLY op_val exp 
+          | termino termino_val DIVIDE op_val exp 
           '''
-  #AQUI VAS!
   global cont
   global pila_op
   global pila_tipo
-  global temporal
+  global temp_cont
+  global temporal_list
   global mem_cte
+  global mem_temp
+  global cte_list
 
-  if len(p) > 2:
-    term1 = verify(p[1])
-    term2 = verify(p[3])
+  #print "exp", pila_Oz
 
+  if pila_Operador and len(pila_Oz) >= 3:
+    #print pila_Oz
+    operator = pila_Operador.pop()
+    operand2 = pila_Oz.pop() #4
+    #print "oz", operand2
+    operand1 = pila_Oz.pop() #3
 
-    if semantic_cube[term1][term2][p[2]] != 'error':
+    cuadruplo_temp = Cuadruplo()
+    cuadruplo_temp.set_operator(operator)
+    
+    #print cte_list
+    op2_mem = cte_list[operand2]  #80808
+    op1_mem = cte_list[operand1]
 
-      cuadruplo_temp = Cuadruplo()
-      temp = "t" + str(temporal)
-      temporal += 1
+    term2 = verify(operand2) #int, float, str, bool
+    term1 = verify(operand1) 
 
-      if p[2] == '+':
-        total = p[1] + p[3]
-        
-        #Constant memory assign
-        if total not in cte_list:
-            cte_list[total] = mem_cte
-            mem_cte += 1
-        p[0] = total
-        print cte_list
+    if semantic_cube[term1][term2][operator] != 'error':
+      temp      = Node()
+      tname     = "t" + str(temp_cont)
+      temp.name = tname
+      temp.mem  = mem_temp
 
-        ''' cuadruplo_temp.set_cont(cont)
-        cuadruplo_temp.set_operator("+")
-        cuadruplo_temp.set_operand1(p[1])
-        cuadruplo_temp.set_operand2(p[3])
-        cuadruplo_temp.set_result(temp)
+      if operator == "+":
+        #print "SUMA"
+        total = operand1 + operand2
+        cte_memoryAssign(total)
+
+        temp.value = total
+        cuadruplo_temp.set_operand1(op1_mem)
+        cuadruplo_temp.set_operand2(op2_mem)
+        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_cont(cont)
+        #cuadruplo_temp.print_cuadruplo()
         cuadruplos_list.append(cuadruplo_temp)
-        cont += 1'''
+        pila_Oz.append(total)
 
-      elif p[2] == '-':
-        p[0] = p[1] - p[3]
-        print p[0]
-      elif p[2] == '*':
-        p[0] = p[1] * p[3]
-        print p[0]
-      elif p[2] == '/':
-        p[0] = p[1] / p[3]
-        print p[0]
-  else:
-    p[0] = p[1]
+        temp_cont += 1
+        mem_temp  += 1
+        cont      += 1
+        p[0] = p[1]
+
+      if operator == "-":
+        total = operand1 - operand2
+    else:
+      print "Semantic Error"
+  p[0] = p[1]
+
+def p_termino_val(p):
+  '''termino_val : '''
+  global pila_Oz
+  #print "TERMINO_VAL", p[-1]
+  pila_Oz.append(p[-1])
+
+def p_op_val(p):
+  '''op_val : '''
+  global pila_Operador
+  pila_Operador.append(p[-1])
+
+def p_exp_val(p):
+  '''exp_val : '''
+  global pila_Oz
+  pila_Oz.append(p[-1])
+
 
 def p_termino(p):
   '''termino : LPAR expression RPAR
@@ -389,17 +414,20 @@ def p_varcte(p):
             | TRUE
             | FALSE
             '''
-  global mem_cte
+  cte_memoryAssign(p[1])
 
-  #Constant memory assign
-  typeX = verify(p[1])
-  if typeX == "int" or typeX == "float":
-    if p[1] not in cte_list:
-      cte_list[p[1]] = mem_cte
-      mem_cte += 1
-  
   p[0] = p[1]
   return p
+
+def cte_memoryAssign(x):
+  global cte_list
+  global mem_cte
+  #Constant memory assign
+  typeX = verify(x)
+  if typeX == "int" or typeX == "float":
+    if x not in cte_list:
+      cte_list[x] = mem_cte
+      mem_cte += 1
 
 #*****
 def p_print(p):

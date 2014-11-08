@@ -43,123 +43,127 @@ Rule 32    vars -> type ID
 Rule 33    type -> INT
 Rule 34    type -> FLOAT
 Rule 35    type -> BOOLEAN
-Rule 36    asign -> ID id_val EQUAL equal_val expression expression_val
+Rule 36    asign -> ID id_val EQUAL equal_val expression
 Rule 37    id_val -> <empty>
 Rule 38    equal_val -> <empty>
 Rule 39    expression_val -> <empty>
 Rule 40    expression -> exp
 Rule 41    expression -> exp COMPARISON exp
-Rule 42    exp -> termino
-Rule 43    exp -> termino PLUS exp
-Rule 44    exp -> termino MINUS exp
-Rule 45    exp -> termino MULTIPLY exp
-Rule 46    exp -> termino DIVIDE exp
-Rule 47    termino -> LPAR expression RPAR
-Rule 48    termino -> MINUS varcte
-Rule 49    termino -> varcte
-Rule 50    varcte -> ID
-Rule 51    varcte -> NUMINT
-Rule 52    varcte -> NUMFLOAT
-Rule 53    varcte -> TRUE
-Rule 54    varcte -> FALSE
-Rule 55    print -> PRINT LPAR printx RPAR
-Rule 56    printx -> expression
-Rule 57    printx -> STRING
-Rule 58    printx -> expression COMA printx
-Rule 59    printx -> STRING COMA printx
-Rule 60    cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
-Rule 61    cycle_1 -> <empty>
-Rule 62    cycle_2 -> <empty>
-Rule 63    cycle_3 -> <empty>
-Rule 64    condition -> IF LPAR expression cond_1 RPAR block cond_2
-Rule 65    condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
-Rule 66    cond_1 -> <empty>
-Rule 67    cond_2 -> <empty>
-Rule 68    cond_else -> <empty>
-Rule 69    list -> LIST ID EQUAL LBRACKET listx RBRACKET
-Rule 70    listx -> ID
-Rule 71    listx -> NUMINT
-Rule 72    listx -> ID COMA listx
-Rule 73    listx -> NUMINT COMA listx
-Rule 74    call -> ID LPAR RPAR
-Rule 75    call -> ID LPAR ID RPAR
-Rule 76    move -> MOVE LPAR ID RPAR
-Rule 77    eat -> EAT LPAR ID RPAR
-Rule 78    clean -> CLEAN LPAR ID RPAR
-Rule 79    play -> PLAY LPAR ID RPAR
-Rule 80    add -> ID POINT ADD LPAR CANDY RPAR
-Rule 81    add -> ID POINT ADD LPAR POOP RPAR
-Rule 82    add -> ID POINT ADD LPAR BALL RPAR
-Rule 83    turnleft -> TURNLEFT LPAR RPAR
-Rule 84    turnright -> TURNRIGHT LPAR RPAR
-Rule 85    empty -> <empty>
+Rule 42    exp -> termino termino_val
+Rule 43    exp -> termino termino_val PLUS op_val exp
+Rule 44    exp -> termino termino_val MINUS op_val exp
+Rule 45    exp -> termino termino_val MULTIPLY op_val exp
+Rule 46    exp -> termino termino_val DIVIDE op_val exp
+Rule 47    termino_val -> <empty>
+Rule 48    op_val -> <empty>
+Rule 49    exp_val -> <empty>
+Rule 50    termino -> LPAR expression RPAR
+Rule 51    termino -> MINUS varcte
+Rule 52    termino -> varcte
+Rule 53    varcte -> ID
+Rule 54    varcte -> NUMINT
+Rule 55    varcte -> NUMFLOAT
+Rule 56    varcte -> TRUE
+Rule 57    varcte -> FALSE
+Rule 58    print -> PRINT LPAR printx RPAR
+Rule 59    printx -> expression
+Rule 60    printx -> STRING
+Rule 61    printx -> expression COMA printx
+Rule 62    printx -> STRING COMA printx
+Rule 63    cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+Rule 64    cycle_1 -> <empty>
+Rule 65    cycle_2 -> <empty>
+Rule 66    cycle_3 -> <empty>
+Rule 67    condition -> IF LPAR expression cond_1 RPAR block cond_2
+Rule 68    condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
+Rule 69    cond_1 -> <empty>
+Rule 70    cond_2 -> <empty>
+Rule 71    cond_else -> <empty>
+Rule 72    list -> LIST ID EQUAL LBRACKET listx RBRACKET
+Rule 73    listx -> ID
+Rule 74    listx -> NUMINT
+Rule 75    listx -> ID COMA listx
+Rule 76    listx -> NUMINT COMA listx
+Rule 77    call -> ID LPAR RPAR
+Rule 78    call -> ID LPAR ID RPAR
+Rule 79    move -> MOVE LPAR ID RPAR
+Rule 80    eat -> EAT LPAR ID RPAR
+Rule 81    clean -> CLEAN LPAR ID RPAR
+Rule 82    play -> PLAY LPAR ID RPAR
+Rule 83    add -> ID POINT ADD LPAR CANDY RPAR
+Rule 84    add -> ID POINT ADD LPAR POOP RPAR
+Rule 85    add -> ID POINT ADD LPAR BALL RPAR
+Rule 86    turnleft -> TURNLEFT LPAR RPAR
+Rule 87    turnright -> TURNRIGHT LPAR RPAR
+Rule 88    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ADD                  : 80 81 82
-BALL                 : 82
+ADD                  : 83 84 85
+BALL                 : 85
 BOOLEAN              : 35
-CANDY                : 80
-CLEAN                : 78
+CANDY                : 83
+CLEAN                : 81
 COLON                : 
-COMA                 : 58 59 72 73
+COMA                 : 61 62 75 76
 COMPARISON           : 41
 DIVIDE               : 46
-EAT                  : 77
-ELSE                 : 65
-EQUAL                : 36 69
-FALSE                : 54
+EAT                  : 80
+ELSE                 : 68
+EQUAL                : 36 72
+FALSE                : 57
 FLOAT                : 34
 FUNC                 : 9
-ID                   : 10 31 32 36 50 69 70 72 74 75 75 76 77 78 79 80 81 82
-IF                   : 64 65
+ID                   : 10 31 32 36 53 72 73 75 77 78 78 79 80 81 82 83 84 85
+IF                   : 67 68
 INT                  : 33
-LBRACKET             : 13 69
-LIST                 : 69
-LPAR                 : 9 47 55 60 64 65 74 75 76 77 78 79 80 81 82 83 84
-MINUS                : 44 48
-MOVE                 : 76
+LBRACKET             : 13 72
+LIST                 : 72
+LPAR                 : 9 50 58 63 67 68 77 78 79 80 81 82 83 84 85 86 87
+MINUS                : 44 51
+MOVE                 : 79
 MULTIPLY             : 45
-NUMFLOAT             : 52
-NUMINT               : 51 71 73
-PLAY                 : 79
+NUMFLOAT             : 55
+NUMINT               : 54 74 76
+PLAY                 : 82
 PLUS                 : 43
-POINT                : 80 81 82
-POOP                 : 81
-PRINT                : 55
-RBRACKET             : 13 69
-RPAR                 : 9 47 55 60 64 65 74 75 76 77 78 79 80 81 82 83 84
+POINT                : 83 84 85
+POOP                 : 84
+PRINT                : 58
+RBRACKET             : 13 72
+RPAR                 : 9 50 58 63 67 68 77 78 79 80 81 82 83 84 85 86 87
 SEMICOLON            : 
-STRING               : 57 59
-TRUE                 : 53
-TURNLEFT             : 83
-TURNRIGHT            : 84
-WHILE                : 60
+STRING               : 60 62
+TRUE                 : 56
+TURNLEFT             : 86
+TURNRIGHT            : 87
+WHILE                : 63
 error                : 
 
 Nonterminals, with rules where they appear
 
 add                  : 28
 asign                : 5 18
-block                : 9 60 64 65 65
+block                : 9 63 67 68 68
 blockx               : 13 15 17
 call                 : 23
 class                : 2 0
 clean                : 26
-cond_1               : 64 65
-cond_2               : 64 65
-cond_else            : 65
+cond_1               : 67 68
+cond_2               : 67 68
+cond_else            : 68
 condition            : 19
 cycle                : 20
-cycle_1              : 60
-cycle_2              : 60
-cycle_3              : 60
+cycle_1              : 63
+cycle_2              : 63
+cycle_3              : 63
 eat                  : 25
 empty                : 4 6 8 12
 equal_val            : 36
 exp                  : 40 41 41 43 44 45 46
-expression           : 36 47 56 58 60 64 65
-expression_val       : 36
+exp_val              : 
+expression           : 36 50 59 61 63 67 68
+expression_val       : 
 func                 : 2 7
 func_list            : 1 7
 funcx                : 9
@@ -167,17 +171,19 @@ idCheck              : 9
 id_val               : 36
 init_vars            : 1 5
 list                 : 22
-listx                : 69 72 73
+listx                : 72 75 76
 move                 : 24
+op_val               : 43 44 45 46
 play                 : 27
 print                : 21
-printx               : 55 58 59
+printx               : 58 61 62
 statement            : 16 17
 termino              : 42 43 44 45 46
+termino_val          : 42 43 44 45 46
 turnleft             : 29
 turnright            : 30
 type                 : 31 32
-varcte               : 48 49
+varcte               : 51 52
 vars                 : 11 14 15
 varsGlobal           : 3
 vars_global          : 1 3
@@ -193,20 +199,20 @@ state 0
     (4) vars_global -> . empty
     (9) func -> . FUNC idCheck LPAR funcx RPAR block
     (31) varsGlobal -> . type ID
-    (85) empty -> .
+    (88) empty -> .
     (33) type -> . INT
     (34) type -> . FLOAT
     (35) type -> . BOOLEAN
 
   ! shift/reduce conflict for FUNC resolved as shift
     FUNC            shift and go to state 3
-    ID              reduce using rule 85 (empty -> .)
-    $end            reduce using rule 85 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
     INT             shift and go to state 4
     FLOAT           shift and go to state 2
     BOOLEAN         shift and go to state 5
 
-  ! FUNC            [ reduce using rule 85 (empty -> .) ]
+  ! FUNC            [ reduce using rule 88 (empty -> .) ]
 
     varsGlobal                     shift and go to state 1
     func                           shift and go to state 6
@@ -221,14 +227,14 @@ state 1
     (3) vars_global -> . varsGlobal vars_global
     (4) vars_global -> . empty
     (31) varsGlobal -> . type ID
-    (85) empty -> .
+    (88) empty -> .
     (33) type -> . INT
     (34) type -> . FLOAT
     (35) type -> . BOOLEAN
 
-    ID              reduce using rule 85 (empty -> .)
-    FUNC            reduce using rule 85 (empty -> .)
-    $end            reduce using rule 85 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    FUNC            reduce using rule 88 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
     INT             shift and go to state 4
     FLOAT           shift and go to state 2
     BOOLEAN         shift and go to state 5
@@ -277,20 +283,20 @@ state 6
     (4) vars_global -> . empty
     (9) func -> . FUNC idCheck LPAR funcx RPAR block
     (31) varsGlobal -> . type ID
-    (85) empty -> .
+    (88) empty -> .
     (33) type -> . INT
     (34) type -> . FLOAT
     (35) type -> . BOOLEAN
 
   ! shift/reduce conflict for FUNC resolved as shift
     FUNC            shift and go to state 3
-    ID              reduce using rule 85 (empty -> .)
-    $end            reduce using rule 85 (empty -> .)
+    ID              reduce using rule 88 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
     INT             shift and go to state 4
     FLOAT           shift and go to state 2
     BOOLEAN         shift and go to state 5
 
-  ! FUNC            [ reduce using rule 85 (empty -> .) ]
+  ! FUNC            [ reduce using rule 88 (empty -> .) ]
 
     varsGlobal                     shift and go to state 1
     func                           shift and go to state 6
@@ -304,12 +310,12 @@ state 7
     (1) class -> vars_global . init_vars func_list
     (5) init_vars -> . asign init_vars
     (6) init_vars -> . empty
-    (36) asign -> . ID id_val EQUAL equal_val expression expression_val
-    (85) empty -> .
+    (36) asign -> . ID id_val EQUAL equal_val expression
+    (88) empty -> .
 
     ID              shift and go to state 17
-    FUNC            reduce using rule 85 (empty -> .)
-    $end            reduce using rule 85 (empty -> .)
+    FUNC            reduce using rule 88 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
 
     init_vars                      shift and go to state 15
     asign                          shift and go to state 16
@@ -373,10 +379,10 @@ state 15
     (7) func_list -> . func func_list
     (8) func_list -> . empty
     (9) func -> . FUNC idCheck LPAR funcx RPAR block
-    (85) empty -> .
+    (88) empty -> .
 
     FUNC            shift and go to state 3
-    $end            reduce using rule 85 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
 
     func                           shift and go to state 21
     func_list                      shift and go to state 22
@@ -387,12 +393,12 @@ state 16
     (5) init_vars -> asign . init_vars
     (5) init_vars -> . asign init_vars
     (6) init_vars -> . empty
-    (36) asign -> . ID id_val EQUAL equal_val expression expression_val
-    (85) empty -> .
+    (36) asign -> . ID id_val EQUAL equal_val expression
+    (88) empty -> .
 
     ID              shift and go to state 17
-    FUNC            reduce using rule 85 (empty -> .)
-    $end            reduce using rule 85 (empty -> .)
+    FUNC            reduce using rule 88 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
 
     init_vars                      shift and go to state 24
     asign                          shift and go to state 16
@@ -400,7 +406,7 @@ state 16
 
 state 17
 
-    (36) asign -> ID . id_val EQUAL equal_val expression expression_val
+    (36) asign -> ID . id_val EQUAL equal_val expression
     (37) id_val -> .
 
     EQUAL           reduce using rule 37 (id_val -> .)
@@ -433,12 +439,12 @@ state 20
     (11) funcx -> . vars
     (12) funcx -> . empty
     (32) vars -> . type ID
-    (85) empty -> .
+    (88) empty -> .
     (33) type -> . INT
     (34) type -> . FLOAT
     (35) type -> . BOOLEAN
 
-    RPAR            reduce using rule 85 (empty -> .)
+    RPAR            reduce using rule 88 (empty -> .)
     INT             shift and go to state 4
     FLOAT           shift and go to state 2
     BOOLEAN         shift and go to state 5
@@ -454,10 +460,10 @@ state 21
     (7) func_list -> . func func_list
     (8) func_list -> . empty
     (9) func -> . FUNC idCheck LPAR funcx RPAR block
-    (85) empty -> .
+    (88) empty -> .
 
     FUNC            shift and go to state 3
-    $end            reduce using rule 85 (empty -> .)
+    $end            reduce using rule 88 (empty -> .)
 
     empty                          shift and go to state 23
     func                           shift and go to state 21
@@ -487,7 +493,7 @@ state 24
 
 state 25
 
-    (36) asign -> ID id_val . EQUAL equal_val expression expression_val
+    (36) asign -> ID id_val . EQUAL equal_val expression
 
     EQUAL           shift and go to state 31
 
@@ -529,7 +535,7 @@ state 30
 
 state 31
 
-    (36) asign -> ID id_val EQUAL . equal_val expression expression_val
+    (36) asign -> ID id_val EQUAL . equal_val expression
     (38) equal_val -> .
 
     LPAR            reduce using rule 38 (equal_val -> .)
@@ -575,35 +581,35 @@ state 33
 
 state 34
 
-    (36) asign -> ID id_val EQUAL equal_val . expression expression_val
+    (36) asign -> ID id_val EQUAL equal_val . expression
     (40) expression -> . exp
     (41) expression -> . exp COMPARISON exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
 
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
 
-    varcte                         shift and go to state 47
-    termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    expression                     shift and go to state 45
+    varcte                         shift and go to state 41
+    exp                            shift and go to state 45
+    expression                     shift and go to state 47
+    termino                        shift and go to state 44
 
 state 35
 
@@ -629,23 +635,23 @@ state 35
     (33) type -> . INT
     (34) type -> . FLOAT
     (35) type -> . BOOLEAN
-    (36) asign -> . ID id_val EQUAL equal_val expression expression_val
-    (64) condition -> . IF LPAR expression cond_1 RPAR block cond_2
-    (65) condition -> . IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
-    (60) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
-    (55) print -> . PRINT LPAR printx RPAR
-    (69) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
-    (74) call -> . ID LPAR RPAR
-    (75) call -> . ID LPAR ID RPAR
-    (76) move -> . MOVE LPAR ID RPAR
-    (77) eat -> . EAT LPAR ID RPAR
-    (78) clean -> . CLEAN LPAR ID RPAR
-    (79) play -> . PLAY LPAR ID RPAR
-    (80) add -> . ID POINT ADD LPAR CANDY RPAR
-    (81) add -> . ID POINT ADD LPAR POOP RPAR
-    (82) add -> . ID POINT ADD LPAR BALL RPAR
-    (83) turnleft -> . TURNLEFT LPAR RPAR
-    (84) turnright -> . TURNRIGHT LPAR RPAR
+    (36) asign -> . ID id_val EQUAL equal_val expression
+    (67) condition -> . IF LPAR expression cond_1 RPAR block cond_2
+    (68) condition -> . IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
+    (63) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (58) print -> . PRINT LPAR printx RPAR
+    (72) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
+    (77) call -> . ID LPAR RPAR
+    (78) call -> . ID LPAR ID RPAR
+    (79) move -> . MOVE LPAR ID RPAR
+    (80) eat -> . EAT LPAR ID RPAR
+    (81) clean -> . CLEAN LPAR ID RPAR
+    (82) play -> . PLAY LPAR ID RPAR
+    (83) add -> . ID POINT ADD LPAR CANDY RPAR
+    (84) add -> . ID POINT ADD LPAR POOP RPAR
+    (85) add -> . ID POINT ADD LPAR BALL RPAR
+    (86) turnleft -> . TURNLEFT LPAR RPAR
+    (87) turnright -> . TURNRIGHT LPAR RPAR
 
     INT             shift and go to state 4
     FLOAT           shift and go to state 2
@@ -694,182 +700,246 @@ state 36
 
 state 37
 
-    (48) termino -> MINUS . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (50) termino -> LPAR . expression RPAR
+    (40) expression -> . exp
+    (41) expression -> . exp COMPARISON exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
 
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
 
-    varcte                         shift and go to state 75
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 45
+    expression                     shift and go to state 75
 
 state 38
 
-    (51) varcte -> NUMINT .
+    (51) termino -> MINUS . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
 
-    PLUS            reduce using rule 51 (varcte -> NUMINT .)
-    MINUS           reduce using rule 51 (varcte -> NUMINT .)
-    MULTIPLY        reduce using rule 51 (varcte -> NUMINT .)
-    DIVIDE          reduce using rule 51 (varcte -> NUMINT .)
-    COMPARISON      reduce using rule 51 (varcte -> NUMINT .)
-    COMA            reduce using rule 51 (varcte -> NUMINT .)
-    RPAR            reduce using rule 51 (varcte -> NUMINT .)
-    ID              reduce using rule 51 (varcte -> NUMINT .)
-    FUNC            reduce using rule 51 (varcte -> NUMINT .)
-    $end            reduce using rule 51 (varcte -> NUMINT .)
-    INT             reduce using rule 51 (varcte -> NUMINT .)
-    FLOAT           reduce using rule 51 (varcte -> NUMINT .)
-    BOOLEAN         reduce using rule 51 (varcte -> NUMINT .)
-    IF              reduce using rule 51 (varcte -> NUMINT .)
-    WHILE           reduce using rule 51 (varcte -> NUMINT .)
-    PRINT           reduce using rule 51 (varcte -> NUMINT .)
-    LIST            reduce using rule 51 (varcte -> NUMINT .)
-    MOVE            reduce using rule 51 (varcte -> NUMINT .)
-    EAT             reduce using rule 51 (varcte -> NUMINT .)
-    CLEAN           reduce using rule 51 (varcte -> NUMINT .)
-    PLAY            reduce using rule 51 (varcte -> NUMINT .)
-    TURNLEFT        reduce using rule 51 (varcte -> NUMINT .)
-    TURNRIGHT       reduce using rule 51 (varcte -> NUMINT .)
-    RBRACKET        reduce using rule 51 (varcte -> NUMINT .)
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
 
+    varcte                         shift and go to state 76
 
 state 39
 
-    (53) varcte -> TRUE .
+    (54) varcte -> NUMINT .
 
-    PLUS            reduce using rule 53 (varcte -> TRUE .)
-    MINUS           reduce using rule 53 (varcte -> TRUE .)
-    MULTIPLY        reduce using rule 53 (varcte -> TRUE .)
-    DIVIDE          reduce using rule 53 (varcte -> TRUE .)
-    COMPARISON      reduce using rule 53 (varcte -> TRUE .)
-    COMA            reduce using rule 53 (varcte -> TRUE .)
-    RPAR            reduce using rule 53 (varcte -> TRUE .)
-    ID              reduce using rule 53 (varcte -> TRUE .)
-    FUNC            reduce using rule 53 (varcte -> TRUE .)
-    $end            reduce using rule 53 (varcte -> TRUE .)
-    INT             reduce using rule 53 (varcte -> TRUE .)
-    FLOAT           reduce using rule 53 (varcte -> TRUE .)
-    BOOLEAN         reduce using rule 53 (varcte -> TRUE .)
-    IF              reduce using rule 53 (varcte -> TRUE .)
-    WHILE           reduce using rule 53 (varcte -> TRUE .)
-    PRINT           reduce using rule 53 (varcte -> TRUE .)
-    LIST            reduce using rule 53 (varcte -> TRUE .)
-    MOVE            reduce using rule 53 (varcte -> TRUE .)
-    EAT             reduce using rule 53 (varcte -> TRUE .)
-    CLEAN           reduce using rule 53 (varcte -> TRUE .)
-    PLAY            reduce using rule 53 (varcte -> TRUE .)
-    TURNLEFT        reduce using rule 53 (varcte -> TRUE .)
-    TURNRIGHT       reduce using rule 53 (varcte -> TRUE .)
-    RBRACKET        reduce using rule 53 (varcte -> TRUE .)
+    PLUS            reduce using rule 54 (varcte -> NUMINT .)
+    MINUS           reduce using rule 54 (varcte -> NUMINT .)
+    MULTIPLY        reduce using rule 54 (varcte -> NUMINT .)
+    DIVIDE          reduce using rule 54 (varcte -> NUMINT .)
+    COMPARISON      reduce using rule 54 (varcte -> NUMINT .)
+    COMA            reduce using rule 54 (varcte -> NUMINT .)
+    RPAR            reduce using rule 54 (varcte -> NUMINT .)
+    ID              reduce using rule 54 (varcte -> NUMINT .)
+    FUNC            reduce using rule 54 (varcte -> NUMINT .)
+    $end            reduce using rule 54 (varcte -> NUMINT .)
+    INT             reduce using rule 54 (varcte -> NUMINT .)
+    FLOAT           reduce using rule 54 (varcte -> NUMINT .)
+    BOOLEAN         reduce using rule 54 (varcte -> NUMINT .)
+    IF              reduce using rule 54 (varcte -> NUMINT .)
+    WHILE           reduce using rule 54 (varcte -> NUMINT .)
+    PRINT           reduce using rule 54 (varcte -> NUMINT .)
+    LIST            reduce using rule 54 (varcte -> NUMINT .)
+    MOVE            reduce using rule 54 (varcte -> NUMINT .)
+    EAT             reduce using rule 54 (varcte -> NUMINT .)
+    CLEAN           reduce using rule 54 (varcte -> NUMINT .)
+    PLAY            reduce using rule 54 (varcte -> NUMINT .)
+    TURNLEFT        reduce using rule 54 (varcte -> NUMINT .)
+    TURNRIGHT       reduce using rule 54 (varcte -> NUMINT .)
+    RBRACKET        reduce using rule 54 (varcte -> NUMINT .)
 
 
 state 40
 
-    (54) varcte -> FALSE .
+    (56) varcte -> TRUE .
 
-    PLUS            reduce using rule 54 (varcte -> FALSE .)
-    MINUS           reduce using rule 54 (varcte -> FALSE .)
-    MULTIPLY        reduce using rule 54 (varcte -> FALSE .)
-    DIVIDE          reduce using rule 54 (varcte -> FALSE .)
-    COMPARISON      reduce using rule 54 (varcte -> FALSE .)
-    COMA            reduce using rule 54 (varcte -> FALSE .)
-    RPAR            reduce using rule 54 (varcte -> FALSE .)
-    ID              reduce using rule 54 (varcte -> FALSE .)
-    FUNC            reduce using rule 54 (varcte -> FALSE .)
-    $end            reduce using rule 54 (varcte -> FALSE .)
-    INT             reduce using rule 54 (varcte -> FALSE .)
-    FLOAT           reduce using rule 54 (varcte -> FALSE .)
-    BOOLEAN         reduce using rule 54 (varcte -> FALSE .)
-    IF              reduce using rule 54 (varcte -> FALSE .)
-    WHILE           reduce using rule 54 (varcte -> FALSE .)
-    PRINT           reduce using rule 54 (varcte -> FALSE .)
-    LIST            reduce using rule 54 (varcte -> FALSE .)
-    MOVE            reduce using rule 54 (varcte -> FALSE .)
-    EAT             reduce using rule 54 (varcte -> FALSE .)
-    CLEAN           reduce using rule 54 (varcte -> FALSE .)
-    PLAY            reduce using rule 54 (varcte -> FALSE .)
-    TURNLEFT        reduce using rule 54 (varcte -> FALSE .)
-    TURNRIGHT       reduce using rule 54 (varcte -> FALSE .)
-    RBRACKET        reduce using rule 54 (varcte -> FALSE .)
+    PLUS            reduce using rule 56 (varcte -> TRUE .)
+    MINUS           reduce using rule 56 (varcte -> TRUE .)
+    MULTIPLY        reduce using rule 56 (varcte -> TRUE .)
+    DIVIDE          reduce using rule 56 (varcte -> TRUE .)
+    COMPARISON      reduce using rule 56 (varcte -> TRUE .)
+    COMA            reduce using rule 56 (varcte -> TRUE .)
+    RPAR            reduce using rule 56 (varcte -> TRUE .)
+    ID              reduce using rule 56 (varcte -> TRUE .)
+    FUNC            reduce using rule 56 (varcte -> TRUE .)
+    $end            reduce using rule 56 (varcte -> TRUE .)
+    INT             reduce using rule 56 (varcte -> TRUE .)
+    FLOAT           reduce using rule 56 (varcte -> TRUE .)
+    BOOLEAN         reduce using rule 56 (varcte -> TRUE .)
+    IF              reduce using rule 56 (varcte -> TRUE .)
+    WHILE           reduce using rule 56 (varcte -> TRUE .)
+    PRINT           reduce using rule 56 (varcte -> TRUE .)
+    LIST            reduce using rule 56 (varcte -> TRUE .)
+    MOVE            reduce using rule 56 (varcte -> TRUE .)
+    EAT             reduce using rule 56 (varcte -> TRUE .)
+    CLEAN           reduce using rule 56 (varcte -> TRUE .)
+    PLAY            reduce using rule 56 (varcte -> TRUE .)
+    TURNLEFT        reduce using rule 56 (varcte -> TRUE .)
+    TURNRIGHT       reduce using rule 56 (varcte -> TRUE .)
+    RBRACKET        reduce using rule 56 (varcte -> TRUE .)
 
 
 state 41
 
-    (50) varcte -> ID .
+    (52) termino -> varcte .
 
-    PLUS            reduce using rule 50 (varcte -> ID .)
-    MINUS           reduce using rule 50 (varcte -> ID .)
-    MULTIPLY        reduce using rule 50 (varcte -> ID .)
-    DIVIDE          reduce using rule 50 (varcte -> ID .)
-    COMPARISON      reduce using rule 50 (varcte -> ID .)
-    COMA            reduce using rule 50 (varcte -> ID .)
-    RPAR            reduce using rule 50 (varcte -> ID .)
-    ID              reduce using rule 50 (varcte -> ID .)
-    FUNC            reduce using rule 50 (varcte -> ID .)
-    $end            reduce using rule 50 (varcte -> ID .)
-    INT             reduce using rule 50 (varcte -> ID .)
-    FLOAT           reduce using rule 50 (varcte -> ID .)
-    BOOLEAN         reduce using rule 50 (varcte -> ID .)
-    IF              reduce using rule 50 (varcte -> ID .)
-    WHILE           reduce using rule 50 (varcte -> ID .)
-    PRINT           reduce using rule 50 (varcte -> ID .)
-    LIST            reduce using rule 50 (varcte -> ID .)
-    MOVE            reduce using rule 50 (varcte -> ID .)
-    EAT             reduce using rule 50 (varcte -> ID .)
-    CLEAN           reduce using rule 50 (varcte -> ID .)
-    PLAY            reduce using rule 50 (varcte -> ID .)
-    TURNLEFT        reduce using rule 50 (varcte -> ID .)
-    TURNRIGHT       reduce using rule 50 (varcte -> ID .)
-    RBRACKET        reduce using rule 50 (varcte -> ID .)
+    PLUS            reduce using rule 52 (termino -> varcte .)
+    MINUS           reduce using rule 52 (termino -> varcte .)
+    MULTIPLY        reduce using rule 52 (termino -> varcte .)
+    DIVIDE          reduce using rule 52 (termino -> varcte .)
+    COMPARISON      reduce using rule 52 (termino -> varcte .)
+    ID              reduce using rule 52 (termino -> varcte .)
+    FUNC            reduce using rule 52 (termino -> varcte .)
+    $end            reduce using rule 52 (termino -> varcte .)
+    INT             reduce using rule 52 (termino -> varcte .)
+    FLOAT           reduce using rule 52 (termino -> varcte .)
+    BOOLEAN         reduce using rule 52 (termino -> varcte .)
+    IF              reduce using rule 52 (termino -> varcte .)
+    WHILE           reduce using rule 52 (termino -> varcte .)
+    PRINT           reduce using rule 52 (termino -> varcte .)
+    LIST            reduce using rule 52 (termino -> varcte .)
+    MOVE            reduce using rule 52 (termino -> varcte .)
+    EAT             reduce using rule 52 (termino -> varcte .)
+    CLEAN           reduce using rule 52 (termino -> varcte .)
+    PLAY            reduce using rule 52 (termino -> varcte .)
+    TURNLEFT        reduce using rule 52 (termino -> varcte .)
+    TURNRIGHT       reduce using rule 52 (termino -> varcte .)
+    RBRACKET        reduce using rule 52 (termino -> varcte .)
+    COMA            reduce using rule 52 (termino -> varcte .)
+    RPAR            reduce using rule 52 (termino -> varcte .)
 
 
 state 42
 
-    (42) exp -> termino .
-    (43) exp -> termino . PLUS exp
-    (44) exp -> termino . MINUS exp
-    (45) exp -> termino . MULTIPLY exp
-    (46) exp -> termino . DIVIDE exp
+    (57) varcte -> FALSE .
 
-    COMPARISON      reduce using rule 42 (exp -> termino .)
-    COMA            reduce using rule 42 (exp -> termino .)
-    RPAR            reduce using rule 42 (exp -> termino .)
-    ID              reduce using rule 42 (exp -> termino .)
-    FUNC            reduce using rule 42 (exp -> termino .)
-    $end            reduce using rule 42 (exp -> termino .)
-    INT             reduce using rule 42 (exp -> termino .)
-    FLOAT           reduce using rule 42 (exp -> termino .)
-    BOOLEAN         reduce using rule 42 (exp -> termino .)
-    IF              reduce using rule 42 (exp -> termino .)
-    WHILE           reduce using rule 42 (exp -> termino .)
-    PRINT           reduce using rule 42 (exp -> termino .)
-    LIST            reduce using rule 42 (exp -> termino .)
-    MOVE            reduce using rule 42 (exp -> termino .)
-    EAT             reduce using rule 42 (exp -> termino .)
-    CLEAN           reduce using rule 42 (exp -> termino .)
-    PLAY            reduce using rule 42 (exp -> termino .)
-    TURNLEFT        reduce using rule 42 (exp -> termino .)
-    TURNRIGHT       reduce using rule 42 (exp -> termino .)
-    RBRACKET        reduce using rule 42 (exp -> termino .)
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 79
-    MULTIPLY        shift and go to state 78
-    DIVIDE          shift and go to state 76
+    PLUS            reduce using rule 57 (varcte -> FALSE .)
+    MINUS           reduce using rule 57 (varcte -> FALSE .)
+    MULTIPLY        reduce using rule 57 (varcte -> FALSE .)
+    DIVIDE          reduce using rule 57 (varcte -> FALSE .)
+    COMPARISON      reduce using rule 57 (varcte -> FALSE .)
+    COMA            reduce using rule 57 (varcte -> FALSE .)
+    RPAR            reduce using rule 57 (varcte -> FALSE .)
+    ID              reduce using rule 57 (varcte -> FALSE .)
+    FUNC            reduce using rule 57 (varcte -> FALSE .)
+    $end            reduce using rule 57 (varcte -> FALSE .)
+    INT             reduce using rule 57 (varcte -> FALSE .)
+    FLOAT           reduce using rule 57 (varcte -> FALSE .)
+    BOOLEAN         reduce using rule 57 (varcte -> FALSE .)
+    IF              reduce using rule 57 (varcte -> FALSE .)
+    WHILE           reduce using rule 57 (varcte -> FALSE .)
+    PRINT           reduce using rule 57 (varcte -> FALSE .)
+    LIST            reduce using rule 57 (varcte -> FALSE .)
+    MOVE            reduce using rule 57 (varcte -> FALSE .)
+    EAT             reduce using rule 57 (varcte -> FALSE .)
+    CLEAN           reduce using rule 57 (varcte -> FALSE .)
+    PLAY            reduce using rule 57 (varcte -> FALSE .)
+    TURNLEFT        reduce using rule 57 (varcte -> FALSE .)
+    TURNRIGHT       reduce using rule 57 (varcte -> FALSE .)
+    RBRACKET        reduce using rule 57 (varcte -> FALSE .)
 
 
 state 43
 
+    (53) varcte -> ID .
+
+    PLUS            reduce using rule 53 (varcte -> ID .)
+    MINUS           reduce using rule 53 (varcte -> ID .)
+    MULTIPLY        reduce using rule 53 (varcte -> ID .)
+    DIVIDE          reduce using rule 53 (varcte -> ID .)
+    COMPARISON      reduce using rule 53 (varcte -> ID .)
+    COMA            reduce using rule 53 (varcte -> ID .)
+    RPAR            reduce using rule 53 (varcte -> ID .)
+    ID              reduce using rule 53 (varcte -> ID .)
+    FUNC            reduce using rule 53 (varcte -> ID .)
+    $end            reduce using rule 53 (varcte -> ID .)
+    INT             reduce using rule 53 (varcte -> ID .)
+    FLOAT           reduce using rule 53 (varcte -> ID .)
+    BOOLEAN         reduce using rule 53 (varcte -> ID .)
+    IF              reduce using rule 53 (varcte -> ID .)
+    WHILE           reduce using rule 53 (varcte -> ID .)
+    PRINT           reduce using rule 53 (varcte -> ID .)
+    LIST            reduce using rule 53 (varcte -> ID .)
+    MOVE            reduce using rule 53 (varcte -> ID .)
+    EAT             reduce using rule 53 (varcte -> ID .)
+    CLEAN           reduce using rule 53 (varcte -> ID .)
+    PLAY            reduce using rule 53 (varcte -> ID .)
+    TURNLEFT        reduce using rule 53 (varcte -> ID .)
+    TURNRIGHT       reduce using rule 53 (varcte -> ID .)
+    RBRACKET        reduce using rule 53 (varcte -> ID .)
+
+
+state 44
+
+    (42) exp -> termino . termino_val
+    (43) exp -> termino . termino_val PLUS op_val exp
+    (44) exp -> termino . termino_val MINUS op_val exp
+    (45) exp -> termino . termino_val MULTIPLY op_val exp
+    (46) exp -> termino . termino_val DIVIDE op_val exp
+    (47) termino_val -> .
+
+    PLUS            reduce using rule 47 (termino_val -> .)
+    MINUS           reduce using rule 47 (termino_val -> .)
+    MULTIPLY        reduce using rule 47 (termino_val -> .)
+    DIVIDE          reduce using rule 47 (termino_val -> .)
+    COMPARISON      reduce using rule 47 (termino_val -> .)
+    ID              reduce using rule 47 (termino_val -> .)
+    FUNC            reduce using rule 47 (termino_val -> .)
+    $end            reduce using rule 47 (termino_val -> .)
+    INT             reduce using rule 47 (termino_val -> .)
+    FLOAT           reduce using rule 47 (termino_val -> .)
+    BOOLEAN         reduce using rule 47 (termino_val -> .)
+    IF              reduce using rule 47 (termino_val -> .)
+    WHILE           reduce using rule 47 (termino_val -> .)
+    PRINT           reduce using rule 47 (termino_val -> .)
+    LIST            reduce using rule 47 (termino_val -> .)
+    MOVE            reduce using rule 47 (termino_val -> .)
+    EAT             reduce using rule 47 (termino_val -> .)
+    CLEAN           reduce using rule 47 (termino_val -> .)
+    PLAY            reduce using rule 47 (termino_val -> .)
+    TURNLEFT        reduce using rule 47 (termino_val -> .)
+    TURNRIGHT       reduce using rule 47 (termino_val -> .)
+    RBRACKET        reduce using rule 47 (termino_val -> .)
+    RPAR            reduce using rule 47 (termino_val -> .)
+    COMA            reduce using rule 47 (termino_val -> .)
+
+    termino_val                    shift and go to state 77
+
+state 45
+
     (40) expression -> exp .
     (41) expression -> exp . COMPARISON exp
 
-    RPAR            reduce using rule 40 (expression -> exp .)
     COMA            reduce using rule 40 (expression -> exp .)
+    RPAR            reduce using rule 40 (expression -> exp .)
     ID              reduce using rule 40 (expression -> exp .)
     FUNC            reduce using rule 40 (expression -> exp .)
     $end            reduce using rule 40 (expression -> exp .)
@@ -887,124 +957,60 @@ state 43
     TURNLEFT        reduce using rule 40 (expression -> exp .)
     TURNRIGHT       reduce using rule 40 (expression -> exp .)
     RBRACKET        reduce using rule 40 (expression -> exp .)
-    COMPARISON      shift and go to state 80
+    COMPARISON      shift and go to state 78
 
-
-state 44
-
-    (52) varcte -> NUMFLOAT .
-
-    PLUS            reduce using rule 52 (varcte -> NUMFLOAT .)
-    MINUS           reduce using rule 52 (varcte -> NUMFLOAT .)
-    MULTIPLY        reduce using rule 52 (varcte -> NUMFLOAT .)
-    DIVIDE          reduce using rule 52 (varcte -> NUMFLOAT .)
-    COMPARISON      reduce using rule 52 (varcte -> NUMFLOAT .)
-    COMA            reduce using rule 52 (varcte -> NUMFLOAT .)
-    RPAR            reduce using rule 52 (varcte -> NUMFLOAT .)
-    ID              reduce using rule 52 (varcte -> NUMFLOAT .)
-    FUNC            reduce using rule 52 (varcte -> NUMFLOAT .)
-    $end            reduce using rule 52 (varcte -> NUMFLOAT .)
-    INT             reduce using rule 52 (varcte -> NUMFLOAT .)
-    FLOAT           reduce using rule 52 (varcte -> NUMFLOAT .)
-    BOOLEAN         reduce using rule 52 (varcte -> NUMFLOAT .)
-    IF              reduce using rule 52 (varcte -> NUMFLOAT .)
-    WHILE           reduce using rule 52 (varcte -> NUMFLOAT .)
-    PRINT           reduce using rule 52 (varcte -> NUMFLOAT .)
-    LIST            reduce using rule 52 (varcte -> NUMFLOAT .)
-    MOVE            reduce using rule 52 (varcte -> NUMFLOAT .)
-    EAT             reduce using rule 52 (varcte -> NUMFLOAT .)
-    CLEAN           reduce using rule 52 (varcte -> NUMFLOAT .)
-    PLAY            reduce using rule 52 (varcte -> NUMFLOAT .)
-    TURNLEFT        reduce using rule 52 (varcte -> NUMFLOAT .)
-    TURNRIGHT       reduce using rule 52 (varcte -> NUMFLOAT .)
-    RBRACKET        reduce using rule 52 (varcte -> NUMFLOAT .)
-
-
-state 45
-
-    (36) asign -> ID id_val EQUAL equal_val expression . expression_val
-    (39) expression_val -> .
-
-    ID              reduce using rule 39 (expression_val -> .)
-    FUNC            reduce using rule 39 (expression_val -> .)
-    $end            reduce using rule 39 (expression_val -> .)
-    INT             reduce using rule 39 (expression_val -> .)
-    FLOAT           reduce using rule 39 (expression_val -> .)
-    BOOLEAN         reduce using rule 39 (expression_val -> .)
-    IF              reduce using rule 39 (expression_val -> .)
-    WHILE           reduce using rule 39 (expression_val -> .)
-    PRINT           reduce using rule 39 (expression_val -> .)
-    LIST            reduce using rule 39 (expression_val -> .)
-    MOVE            reduce using rule 39 (expression_val -> .)
-    EAT             reduce using rule 39 (expression_val -> .)
-    CLEAN           reduce using rule 39 (expression_val -> .)
-    PLAY            reduce using rule 39 (expression_val -> .)
-    TURNLEFT        reduce using rule 39 (expression_val -> .)
-    TURNRIGHT       reduce using rule 39 (expression_val -> .)
-    RBRACKET        reduce using rule 39 (expression_val -> .)
-
-    expression_val                 shift and go to state 81
 
 state 46
 
-    (47) termino -> LPAR . expression RPAR
-    (40) expression -> . exp
-    (41) expression -> . exp COMPARISON exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (55) varcte -> NUMFLOAT .
 
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    PLUS            reduce using rule 55 (varcte -> NUMFLOAT .)
+    MINUS           reduce using rule 55 (varcte -> NUMFLOAT .)
+    MULTIPLY        reduce using rule 55 (varcte -> NUMFLOAT .)
+    DIVIDE          reduce using rule 55 (varcte -> NUMFLOAT .)
+    COMPARISON      reduce using rule 55 (varcte -> NUMFLOAT .)
+    COMA            reduce using rule 55 (varcte -> NUMFLOAT .)
+    RPAR            reduce using rule 55 (varcte -> NUMFLOAT .)
+    ID              reduce using rule 55 (varcte -> NUMFLOAT .)
+    FUNC            reduce using rule 55 (varcte -> NUMFLOAT .)
+    $end            reduce using rule 55 (varcte -> NUMFLOAT .)
+    INT             reduce using rule 55 (varcte -> NUMFLOAT .)
+    FLOAT           reduce using rule 55 (varcte -> NUMFLOAT .)
+    BOOLEAN         reduce using rule 55 (varcte -> NUMFLOAT .)
+    IF              reduce using rule 55 (varcte -> NUMFLOAT .)
+    WHILE           reduce using rule 55 (varcte -> NUMFLOAT .)
+    PRINT           reduce using rule 55 (varcte -> NUMFLOAT .)
+    LIST            reduce using rule 55 (varcte -> NUMFLOAT .)
+    MOVE            reduce using rule 55 (varcte -> NUMFLOAT .)
+    EAT             reduce using rule 55 (varcte -> NUMFLOAT .)
+    CLEAN           reduce using rule 55 (varcte -> NUMFLOAT .)
+    PLAY            reduce using rule 55 (varcte -> NUMFLOAT .)
+    TURNLEFT        reduce using rule 55 (varcte -> NUMFLOAT .)
+    TURNRIGHT       reduce using rule 55 (varcte -> NUMFLOAT .)
+    RBRACKET        reduce using rule 55 (varcte -> NUMFLOAT .)
 
-    expression                     shift and go to state 82
-    termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    varcte                         shift and go to state 47
 
 state 47
 
-    (49) termino -> varcte .
+    (36) asign -> ID id_val EQUAL equal_val expression .
 
-    PLUS            reduce using rule 49 (termino -> varcte .)
-    MINUS           reduce using rule 49 (termino -> varcte .)
-    MULTIPLY        reduce using rule 49 (termino -> varcte .)
-    DIVIDE          reduce using rule 49 (termino -> varcte .)
-    COMPARISON      reduce using rule 49 (termino -> varcte .)
-    ID              reduce using rule 49 (termino -> varcte .)
-    FUNC            reduce using rule 49 (termino -> varcte .)
-    $end            reduce using rule 49 (termino -> varcte .)
-    INT             reduce using rule 49 (termino -> varcte .)
-    FLOAT           reduce using rule 49 (termino -> varcte .)
-    BOOLEAN         reduce using rule 49 (termino -> varcte .)
-    IF              reduce using rule 49 (termino -> varcte .)
-    WHILE           reduce using rule 49 (termino -> varcte .)
-    PRINT           reduce using rule 49 (termino -> varcte .)
-    LIST            reduce using rule 49 (termino -> varcte .)
-    MOVE            reduce using rule 49 (termino -> varcte .)
-    EAT             reduce using rule 49 (termino -> varcte .)
-    CLEAN           reduce using rule 49 (termino -> varcte .)
-    PLAY            reduce using rule 49 (termino -> varcte .)
-    TURNLEFT        reduce using rule 49 (termino -> varcte .)
-    TURNRIGHT       reduce using rule 49 (termino -> varcte .)
-    RBRACKET        reduce using rule 49 (termino -> varcte .)
-    RPAR            reduce using rule 49 (termino -> varcte .)
-    COMA            reduce using rule 49 (termino -> varcte .)
+    INT             reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    FLOAT           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    BOOLEAN         reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    ID              reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    IF              reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    WHILE           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    PRINT           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    LIST            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    MOVE            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    EAT             reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    CLEAN           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    PLAY            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    TURNLEFT        reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    TURNRIGHT       reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    RBRACKET        reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    FUNC            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
+    $end            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression .)
 
 
 state 48
@@ -1032,23 +1038,23 @@ state 48
     (33) type -> . INT
     (34) type -> . FLOAT
     (35) type -> . BOOLEAN
-    (36) asign -> . ID id_val EQUAL equal_val expression expression_val
-    (64) condition -> . IF LPAR expression cond_1 RPAR block cond_2
-    (65) condition -> . IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
-    (60) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
-    (55) print -> . PRINT LPAR printx RPAR
-    (69) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
-    (74) call -> . ID LPAR RPAR
-    (75) call -> . ID LPAR ID RPAR
-    (76) move -> . MOVE LPAR ID RPAR
-    (77) eat -> . EAT LPAR ID RPAR
-    (78) clean -> . CLEAN LPAR ID RPAR
-    (79) play -> . PLAY LPAR ID RPAR
-    (80) add -> . ID POINT ADD LPAR CANDY RPAR
-    (81) add -> . ID POINT ADD LPAR POOP RPAR
-    (82) add -> . ID POINT ADD LPAR BALL RPAR
-    (83) turnleft -> . TURNLEFT LPAR RPAR
-    (84) turnright -> . TURNRIGHT LPAR RPAR
+    (36) asign -> . ID id_val EQUAL equal_val expression
+    (67) condition -> . IF LPAR expression cond_1 RPAR block cond_2
+    (68) condition -> . IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
+    (63) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (58) print -> . PRINT LPAR printx RPAR
+    (72) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
+    (77) call -> . ID LPAR RPAR
+    (78) call -> . ID LPAR ID RPAR
+    (79) move -> . MOVE LPAR ID RPAR
+    (80) eat -> . EAT LPAR ID RPAR
+    (81) clean -> . CLEAN LPAR ID RPAR
+    (82) play -> . PLAY LPAR ID RPAR
+    (83) add -> . ID POINT ADD LPAR CANDY RPAR
+    (84) add -> . ID POINT ADD LPAR POOP RPAR
+    (85) add -> . ID POINT ADD LPAR BALL RPAR
+    (86) turnleft -> . TURNLEFT LPAR RPAR
+    (87) turnright -> . TURNRIGHT LPAR RPAR
 
     RBRACKET        reduce using rule 14 (blockx -> vars .)
     INT             shift and go to state 4
@@ -1076,7 +1082,7 @@ state 48
     type                           shift and go to state 29
     play                           shift and go to state 63
     turnleft                       shift and go to state 65
-    blockx                         shift and go to state 83
+    blockx                         shift and go to state 79
     eat                            shift and go to state 69
     condition                      shift and go to state 70
     cycle                          shift and go to state 71
@@ -1086,9 +1092,9 @@ state 48
 
 state 49
 
-    (83) turnleft -> TURNLEFT . LPAR RPAR
+    (86) turnleft -> TURNLEFT . LPAR RPAR
 
-    LPAR            shift and go to state 84
+    LPAR            shift and go to state 80
 
 
 state 50
@@ -1114,39 +1120,39 @@ state 50
 
 state 51
 
-    (60) cycle -> WHILE . cycle_1 LPAR expression RPAR cycle_2 block cycle_3
-    (61) cycle_1 -> .
+    (63) cycle -> WHILE . cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (64) cycle_1 -> .
 
-    LPAR            reduce using rule 61 (cycle_1 -> .)
+    LPAR            reduce using rule 64 (cycle_1 -> .)
 
-    cycle_1                        shift and go to state 85
+    cycle_1                        shift and go to state 81
 
 state 52
 
-    (55) print -> PRINT . LPAR printx RPAR
+    (58) print -> PRINT . LPAR printx RPAR
 
-    LPAR            shift and go to state 86
+    LPAR            shift and go to state 82
 
 
 state 53
 
-    (69) list -> LIST . ID EQUAL LBRACKET listx RBRACKET
+    (72) list -> LIST . ID EQUAL LBRACKET listx RBRACKET
 
-    ID              shift and go to state 87
+    ID              shift and go to state 83
 
 
 state 54
 
-    (36) asign -> ID . id_val EQUAL equal_val expression expression_val
-    (74) call -> ID . LPAR RPAR
-    (75) call -> ID . LPAR ID RPAR
-    (80) add -> ID . POINT ADD LPAR CANDY RPAR
-    (81) add -> ID . POINT ADD LPAR POOP RPAR
-    (82) add -> ID . POINT ADD LPAR BALL RPAR
+    (36) asign -> ID . id_val EQUAL equal_val expression
+    (77) call -> ID . LPAR RPAR
+    (78) call -> ID . LPAR ID RPAR
+    (83) add -> ID . POINT ADD LPAR CANDY RPAR
+    (84) add -> ID . POINT ADD LPAR POOP RPAR
+    (85) add -> ID . POINT ADD LPAR BALL RPAR
     (37) id_val -> .
 
-    LPAR            shift and go to state 88
-    POINT           shift and go to state 89
+    LPAR            shift and go to state 84
+    POINT           shift and go to state 85
     EQUAL           reduce using rule 37 (id_val -> .)
 
     id_val                         shift and go to state 25
@@ -1239,23 +1245,23 @@ state 58
     (33) type -> . INT
     (34) type -> . FLOAT
     (35) type -> . BOOLEAN
-    (36) asign -> . ID id_val EQUAL equal_val expression expression_val
-    (64) condition -> . IF LPAR expression cond_1 RPAR block cond_2
-    (65) condition -> . IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
-    (60) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
-    (55) print -> . PRINT LPAR printx RPAR
-    (69) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
-    (74) call -> . ID LPAR RPAR
-    (75) call -> . ID LPAR ID RPAR
-    (76) move -> . MOVE LPAR ID RPAR
-    (77) eat -> . EAT LPAR ID RPAR
-    (78) clean -> . CLEAN LPAR ID RPAR
-    (79) play -> . PLAY LPAR ID RPAR
-    (80) add -> . ID POINT ADD LPAR CANDY RPAR
-    (81) add -> . ID POINT ADD LPAR POOP RPAR
-    (82) add -> . ID POINT ADD LPAR BALL RPAR
-    (83) turnleft -> . TURNLEFT LPAR RPAR
-    (84) turnright -> . TURNRIGHT LPAR RPAR
+    (36) asign -> . ID id_val EQUAL equal_val expression
+    (67) condition -> . IF LPAR expression cond_1 RPAR block cond_2
+    (68) condition -> . IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
+    (63) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (58) print -> . PRINT LPAR printx RPAR
+    (72) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
+    (77) call -> . ID LPAR RPAR
+    (78) call -> . ID LPAR ID RPAR
+    (79) move -> . MOVE LPAR ID RPAR
+    (80) eat -> . EAT LPAR ID RPAR
+    (81) clean -> . CLEAN LPAR ID RPAR
+    (82) play -> . PLAY LPAR ID RPAR
+    (83) add -> . ID POINT ADD LPAR CANDY RPAR
+    (84) add -> . ID POINT ADD LPAR POOP RPAR
+    (85) add -> . ID POINT ADD LPAR BALL RPAR
+    (86) turnleft -> . TURNLEFT LPAR RPAR
+    (87) turnright -> . TURNRIGHT LPAR RPAR
 
     RBRACKET        reduce using rule 16 (blockx -> statement .)
     INT             shift and go to state 4
@@ -1283,7 +1289,7 @@ state 58
     type                           shift and go to state 29
     play                           shift and go to state 63
     turnleft                       shift and go to state 65
-    blockx                         shift and go to state 90
+    blockx                         shift and go to state 86
     eat                            shift and go to state 69
     condition                      shift and go to state 70
     cycle                          shift and go to state 71
@@ -1314,24 +1320,24 @@ state 59
 
 state 60
 
-    (64) condition -> IF . LPAR expression cond_1 RPAR block cond_2
-    (65) condition -> IF . LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
+    (67) condition -> IF . LPAR expression cond_1 RPAR block cond_2
+    (68) condition -> IF . LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
 
-    LPAR            shift and go to state 91
+    LPAR            shift and go to state 87
 
 
 state 61
 
-    (77) eat -> EAT . LPAR ID RPAR
+    (80) eat -> EAT . LPAR ID RPAR
 
-    LPAR            shift and go to state 92
+    LPAR            shift and go to state 88
 
 
 state 62
 
-    (79) play -> PLAY . LPAR ID RPAR
+    (82) play -> PLAY . LPAR ID RPAR
 
-    LPAR            shift and go to state 93
+    LPAR            shift and go to state 89
 
 
 state 63
@@ -1357,9 +1363,9 @@ state 63
 
 state 64
 
-    (76) move -> MOVE . LPAR ID RPAR
+    (79) move -> MOVE . LPAR ID RPAR
 
-    LPAR            shift and go to state 94
+    LPAR            shift and go to state 90
 
 
 state 65
@@ -1387,21 +1393,21 @@ state 66
 
     (13) block -> LBRACKET blockx . RBRACKET
 
-    RBRACKET        shift and go to state 95
+    RBRACKET        shift and go to state 91
 
 
 state 67
 
-    (84) turnright -> TURNRIGHT . LPAR RPAR
+    (87) turnright -> TURNRIGHT . LPAR RPAR
 
-    LPAR            shift and go to state 96
+    LPAR            shift and go to state 92
 
 
 state 68
 
-    (78) clean -> CLEAN . LPAR ID RPAR
+    (81) clean -> CLEAN . LPAR ID RPAR
 
-    LPAR            shift and go to state 97
+    LPAR            shift and go to state 93
 
 
 state 69
@@ -1532,359 +1538,253 @@ state 74
 
 state 75
 
-    (48) termino -> MINUS varcte .
+    (50) termino -> LPAR expression . RPAR
 
-    PLUS            reduce using rule 48 (termino -> MINUS varcte .)
-    MINUS           reduce using rule 48 (termino -> MINUS varcte .)
-    MULTIPLY        reduce using rule 48 (termino -> MINUS varcte .)
-    DIVIDE          reduce using rule 48 (termino -> MINUS varcte .)
-    COMPARISON      reduce using rule 48 (termino -> MINUS varcte .)
-    ID              reduce using rule 48 (termino -> MINUS varcte .)
-    FUNC            reduce using rule 48 (termino -> MINUS varcte .)
-    $end            reduce using rule 48 (termino -> MINUS varcte .)
-    INT             reduce using rule 48 (termino -> MINUS varcte .)
-    FLOAT           reduce using rule 48 (termino -> MINUS varcte .)
-    BOOLEAN         reduce using rule 48 (termino -> MINUS varcte .)
-    IF              reduce using rule 48 (termino -> MINUS varcte .)
-    WHILE           reduce using rule 48 (termino -> MINUS varcte .)
-    PRINT           reduce using rule 48 (termino -> MINUS varcte .)
-    LIST            reduce using rule 48 (termino -> MINUS varcte .)
-    MOVE            reduce using rule 48 (termino -> MINUS varcte .)
-    EAT             reduce using rule 48 (termino -> MINUS varcte .)
-    CLEAN           reduce using rule 48 (termino -> MINUS varcte .)
-    PLAY            reduce using rule 48 (termino -> MINUS varcte .)
-    TURNLEFT        reduce using rule 48 (termino -> MINUS varcte .)
-    TURNRIGHT       reduce using rule 48 (termino -> MINUS varcte .)
-    RBRACKET        reduce using rule 48 (termino -> MINUS varcte .)
-    RPAR            reduce using rule 48 (termino -> MINUS varcte .)
-    COMA            reduce using rule 48 (termino -> MINUS varcte .)
+    RPAR            shift and go to state 94
 
 
 state 76
 
-    (46) exp -> termino DIVIDE . exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (51) termino -> MINUS varcte .
 
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    PLUS            reduce using rule 51 (termino -> MINUS varcte .)
+    MINUS           reduce using rule 51 (termino -> MINUS varcte .)
+    MULTIPLY        reduce using rule 51 (termino -> MINUS varcte .)
+    DIVIDE          reduce using rule 51 (termino -> MINUS varcte .)
+    COMPARISON      reduce using rule 51 (termino -> MINUS varcte .)
+    ID              reduce using rule 51 (termino -> MINUS varcte .)
+    FUNC            reduce using rule 51 (termino -> MINUS varcte .)
+    $end            reduce using rule 51 (termino -> MINUS varcte .)
+    INT             reduce using rule 51 (termino -> MINUS varcte .)
+    FLOAT           reduce using rule 51 (termino -> MINUS varcte .)
+    BOOLEAN         reduce using rule 51 (termino -> MINUS varcte .)
+    IF              reduce using rule 51 (termino -> MINUS varcte .)
+    WHILE           reduce using rule 51 (termino -> MINUS varcte .)
+    PRINT           reduce using rule 51 (termino -> MINUS varcte .)
+    LIST            reduce using rule 51 (termino -> MINUS varcte .)
+    MOVE            reduce using rule 51 (termino -> MINUS varcte .)
+    EAT             reduce using rule 51 (termino -> MINUS varcte .)
+    CLEAN           reduce using rule 51 (termino -> MINUS varcte .)
+    PLAY            reduce using rule 51 (termino -> MINUS varcte .)
+    TURNLEFT        reduce using rule 51 (termino -> MINUS varcte .)
+    TURNRIGHT       reduce using rule 51 (termino -> MINUS varcte .)
+    RBRACKET        reduce using rule 51 (termino -> MINUS varcte .)
+    COMA            reduce using rule 51 (termino -> MINUS varcte .)
+    RPAR            reduce using rule 51 (termino -> MINUS varcte .)
 
-    termino                        shift and go to state 42
-    exp                            shift and go to state 98
-    varcte                         shift and go to state 47
 
 state 77
 
-    (43) exp -> termino PLUS . exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (42) exp -> termino termino_val .
+    (43) exp -> termino termino_val . PLUS op_val exp
+    (44) exp -> termino termino_val . MINUS op_val exp
+    (45) exp -> termino termino_val . MULTIPLY op_val exp
+    (46) exp -> termino termino_val . DIVIDE op_val exp
 
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    COMPARISON      reduce using rule 42 (exp -> termino termino_val .)
+    RPAR            reduce using rule 42 (exp -> termino termino_val .)
+    ID              reduce using rule 42 (exp -> termino termino_val .)
+    FUNC            reduce using rule 42 (exp -> termino termino_val .)
+    $end            reduce using rule 42 (exp -> termino termino_val .)
+    INT             reduce using rule 42 (exp -> termino termino_val .)
+    FLOAT           reduce using rule 42 (exp -> termino termino_val .)
+    BOOLEAN         reduce using rule 42 (exp -> termino termino_val .)
+    IF              reduce using rule 42 (exp -> termino termino_val .)
+    WHILE           reduce using rule 42 (exp -> termino termino_val .)
+    PRINT           reduce using rule 42 (exp -> termino termino_val .)
+    LIST            reduce using rule 42 (exp -> termino termino_val .)
+    MOVE            reduce using rule 42 (exp -> termino termino_val .)
+    EAT             reduce using rule 42 (exp -> termino termino_val .)
+    CLEAN           reduce using rule 42 (exp -> termino termino_val .)
+    PLAY            reduce using rule 42 (exp -> termino termino_val .)
+    TURNLEFT        reduce using rule 42 (exp -> termino termino_val .)
+    TURNRIGHT       reduce using rule 42 (exp -> termino termino_val .)
+    RBRACKET        reduce using rule 42 (exp -> termino termino_val .)
+    COMA            reduce using rule 42 (exp -> termino termino_val .)
+    PLUS            shift and go to state 96
+    MINUS           shift and go to state 98
+    MULTIPLY        shift and go to state 97
+    DIVIDE          shift and go to state 95
 
-    termino                        shift and go to state 42
-    exp                            shift and go to state 99
-    varcte                         shift and go to state 47
 
 state 78
 
-    (45) exp -> termino MULTIPLY . exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (41) expression -> exp COMPARISON . exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
 
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
 
-    termino                        shift and go to state 42
-    exp                            shift and go to state 100
-    varcte                         shift and go to state 47
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 99
 
 state 79
-
-    (44) exp -> termino MINUS . exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
-
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
-
-    termino                        shift and go to state 42
-    exp                            shift and go to state 101
-    varcte                         shift and go to state 47
-
-state 80
-
-    (41) expression -> exp COMPARISON . exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
-
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
-
-    termino                        shift and go to state 42
-    exp                            shift and go to state 102
-    varcte                         shift and go to state 47
-
-state 81
-
-    (36) asign -> ID id_val EQUAL equal_val expression expression_val .
-
-    INT             reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    FLOAT           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    BOOLEAN         reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    ID              reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    IF              reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    WHILE           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    PRINT           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    LIST            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    MOVE            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    EAT             reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    CLEAN           reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    PLAY            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    TURNLEFT        reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    TURNRIGHT       reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    RBRACKET        reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    FUNC            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-    $end            reduce using rule 36 (asign -> ID id_val EQUAL equal_val expression expression_val .)
-
-
-state 82
-
-    (47) termino -> LPAR expression . RPAR
-
-    RPAR            shift and go to state 103
-
-
-state 83
 
     (15) blockx -> vars blockx .
 
     RBRACKET        reduce using rule 15 (blockx -> vars blockx .)
 
 
+state 80
+
+    (86) turnleft -> TURNLEFT LPAR . RPAR
+
+    RPAR            shift and go to state 100
+
+
+state 81
+
+    (63) cycle -> WHILE cycle_1 . LPAR expression RPAR cycle_2 block cycle_3
+
+    LPAR            shift and go to state 101
+
+
+state 82
+
+    (58) print -> PRINT LPAR . printx RPAR
+    (59) printx -> . expression
+    (60) printx -> . STRING
+    (61) printx -> . expression COMA printx
+    (62) printx -> . STRING COMA printx
+    (40) expression -> . exp
+    (41) expression -> . exp COMPARISON exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
+
+    STRING          shift and go to state 103
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
+
+    varcte                         shift and go to state 41
+    printx                         shift and go to state 102
+    termino                        shift and go to state 44
+    exp                            shift and go to state 45
+    expression                     shift and go to state 104
+
+state 83
+
+    (72) list -> LIST ID . EQUAL LBRACKET listx RBRACKET
+
+    EQUAL           shift and go to state 105
+
+
 state 84
 
-    (83) turnleft -> TURNLEFT LPAR . RPAR
+    (77) call -> ID LPAR . RPAR
+    (78) call -> ID LPAR . ID RPAR
 
-    RPAR            shift and go to state 104
+    RPAR            shift and go to state 107
+    ID              shift and go to state 106
 
 
 state 85
 
-    (60) cycle -> WHILE cycle_1 . LPAR expression RPAR cycle_2 block cycle_3
+    (83) add -> ID POINT . ADD LPAR CANDY RPAR
+    (84) add -> ID POINT . ADD LPAR POOP RPAR
+    (85) add -> ID POINT . ADD LPAR BALL RPAR
 
-    LPAR            shift and go to state 105
+    ADD             shift and go to state 108
 
 
 state 86
-
-    (55) print -> PRINT LPAR . printx RPAR
-    (56) printx -> . expression
-    (57) printx -> . STRING
-    (58) printx -> . expression COMA printx
-    (59) printx -> . STRING COMA printx
-    (40) expression -> . exp
-    (41) expression -> . exp COMPARISON exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
-
-    STRING          shift and go to state 106
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
-
-    printx                         shift and go to state 107
-    expression                     shift and go to state 108
-    termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    varcte                         shift and go to state 47
-
-state 87
-
-    (69) list -> LIST ID . EQUAL LBRACKET listx RBRACKET
-
-    EQUAL           shift and go to state 109
-
-
-state 88
-
-    (74) call -> ID LPAR . RPAR
-    (75) call -> ID LPAR . ID RPAR
-
-    RPAR            shift and go to state 111
-    ID              shift and go to state 110
-
-
-state 89
-
-    (80) add -> ID POINT . ADD LPAR CANDY RPAR
-    (81) add -> ID POINT . ADD LPAR POOP RPAR
-    (82) add -> ID POINT . ADD LPAR BALL RPAR
-
-    ADD             shift and go to state 112
-
-
-state 90
 
     (17) blockx -> statement blockx .
 
     RBRACKET        reduce using rule 17 (blockx -> statement blockx .)
 
 
-state 91
+state 87
 
-    (64) condition -> IF LPAR . expression cond_1 RPAR block cond_2
-    (65) condition -> IF LPAR . expression cond_1 RPAR block ELSE cond_else block cond_2
+    (67) condition -> IF LPAR . expression cond_1 RPAR block cond_2
+    (68) condition -> IF LPAR . expression cond_1 RPAR block ELSE cond_else block cond_2
     (40) expression -> . exp
     (41) expression -> . exp COMPARISON exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
 
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
 
-    varcte                         shift and go to state 47
-    termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    expression                     shift and go to state 113
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 45
+    expression                     shift and go to state 109
 
-state 92
+state 88
 
-    (77) eat -> EAT LPAR . ID RPAR
+    (80) eat -> EAT LPAR . ID RPAR
 
-    ID              shift and go to state 114
-
-
-state 93
-
-    (79) play -> PLAY LPAR . ID RPAR
-
-    ID              shift and go to state 115
+    ID              shift and go to state 110
 
 
-state 94
+state 89
 
-    (76) move -> MOVE LPAR . ID RPAR
+    (82) play -> PLAY LPAR . ID RPAR
 
-    ID              shift and go to state 116
+    ID              shift and go to state 111
 
 
-state 95
+state 90
+
+    (79) move -> MOVE LPAR . ID RPAR
+
+    ID              shift and go to state 112
+
+
+state 91
 
     (13) block -> LBRACKET blockx RBRACKET .
 
-    ELSE            reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
     INT             reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
     FLOAT           reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
     BOOLEAN         reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
@@ -1902,132 +1802,119 @@ state 95
     RBRACKET        reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
     FUNC            reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
     $end            reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
+    ELSE            reduce using rule 13 (block -> LBRACKET blockx RBRACKET .)
 
+
+state 92
+
+    (87) turnright -> TURNRIGHT LPAR . RPAR
+
+    RPAR            shift and go to state 113
+
+
+state 93
+
+    (81) clean -> CLEAN LPAR . ID RPAR
+
+    ID              shift and go to state 114
+
+
+state 94
+
+    (50) termino -> LPAR expression RPAR .
+
+    PLUS            reduce using rule 50 (termino -> LPAR expression RPAR .)
+    MINUS           reduce using rule 50 (termino -> LPAR expression RPAR .)
+    MULTIPLY        reduce using rule 50 (termino -> LPAR expression RPAR .)
+    DIVIDE          reduce using rule 50 (termino -> LPAR expression RPAR .)
+    COMPARISON      reduce using rule 50 (termino -> LPAR expression RPAR .)
+    ID              reduce using rule 50 (termino -> LPAR expression RPAR .)
+    FUNC            reduce using rule 50 (termino -> LPAR expression RPAR .)
+    $end            reduce using rule 50 (termino -> LPAR expression RPAR .)
+    INT             reduce using rule 50 (termino -> LPAR expression RPAR .)
+    FLOAT           reduce using rule 50 (termino -> LPAR expression RPAR .)
+    BOOLEAN         reduce using rule 50 (termino -> LPAR expression RPAR .)
+    IF              reduce using rule 50 (termino -> LPAR expression RPAR .)
+    WHILE           reduce using rule 50 (termino -> LPAR expression RPAR .)
+    PRINT           reduce using rule 50 (termino -> LPAR expression RPAR .)
+    LIST            reduce using rule 50 (termino -> LPAR expression RPAR .)
+    MOVE            reduce using rule 50 (termino -> LPAR expression RPAR .)
+    EAT             reduce using rule 50 (termino -> LPAR expression RPAR .)
+    CLEAN           reduce using rule 50 (termino -> LPAR expression RPAR .)
+    PLAY            reduce using rule 50 (termino -> LPAR expression RPAR .)
+    TURNLEFT        reduce using rule 50 (termino -> LPAR expression RPAR .)
+    TURNRIGHT       reduce using rule 50 (termino -> LPAR expression RPAR .)
+    RBRACKET        reduce using rule 50 (termino -> LPAR expression RPAR .)
+    COMA            reduce using rule 50 (termino -> LPAR expression RPAR .)
+    RPAR            reduce using rule 50 (termino -> LPAR expression RPAR .)
+
+
+state 95
+
+    (46) exp -> termino termino_val DIVIDE . op_val exp
+    (48) op_val -> .
+
+    LPAR            reduce using rule 48 (op_val -> .)
+    MINUS           reduce using rule 48 (op_val -> .)
+    ID              reduce using rule 48 (op_val -> .)
+    NUMINT          reduce using rule 48 (op_val -> .)
+    NUMFLOAT        reduce using rule 48 (op_val -> .)
+    TRUE            reduce using rule 48 (op_val -> .)
+    FALSE           reduce using rule 48 (op_val -> .)
+
+    op_val                         shift and go to state 115
 
 state 96
 
-    (84) turnright -> TURNRIGHT LPAR . RPAR
+    (43) exp -> termino termino_val PLUS . op_val exp
+    (48) op_val -> .
 
-    RPAR            shift and go to state 117
+    LPAR            reduce using rule 48 (op_val -> .)
+    MINUS           reduce using rule 48 (op_val -> .)
+    ID              reduce using rule 48 (op_val -> .)
+    NUMINT          reduce using rule 48 (op_val -> .)
+    NUMFLOAT        reduce using rule 48 (op_val -> .)
+    TRUE            reduce using rule 48 (op_val -> .)
+    FALSE           reduce using rule 48 (op_val -> .)
 
+    op_val                         shift and go to state 116
 
 state 97
 
-    (78) clean -> CLEAN LPAR . ID RPAR
+    (45) exp -> termino termino_val MULTIPLY . op_val exp
+    (48) op_val -> .
 
-    ID              shift and go to state 118
+    LPAR            reduce using rule 48 (op_val -> .)
+    MINUS           reduce using rule 48 (op_val -> .)
+    ID              reduce using rule 48 (op_val -> .)
+    NUMINT          reduce using rule 48 (op_val -> .)
+    NUMFLOAT        reduce using rule 48 (op_val -> .)
+    TRUE            reduce using rule 48 (op_val -> .)
+    FALSE           reduce using rule 48 (op_val -> .)
 
+    op_val                         shift and go to state 117
 
 state 98
 
-    (46) exp -> termino DIVIDE exp .
+    (44) exp -> termino termino_val MINUS . op_val exp
+    (48) op_val -> .
 
-    COMPARISON      reduce using rule 46 (exp -> termino DIVIDE exp .)
-    COMA            reduce using rule 46 (exp -> termino DIVIDE exp .)
-    RPAR            reduce using rule 46 (exp -> termino DIVIDE exp .)
-    ID              reduce using rule 46 (exp -> termino DIVIDE exp .)
-    FUNC            reduce using rule 46 (exp -> termino DIVIDE exp .)
-    $end            reduce using rule 46 (exp -> termino DIVIDE exp .)
-    INT             reduce using rule 46 (exp -> termino DIVIDE exp .)
-    FLOAT           reduce using rule 46 (exp -> termino DIVIDE exp .)
-    BOOLEAN         reduce using rule 46 (exp -> termino DIVIDE exp .)
-    IF              reduce using rule 46 (exp -> termino DIVIDE exp .)
-    WHILE           reduce using rule 46 (exp -> termino DIVIDE exp .)
-    PRINT           reduce using rule 46 (exp -> termino DIVIDE exp .)
-    LIST            reduce using rule 46 (exp -> termino DIVIDE exp .)
-    MOVE            reduce using rule 46 (exp -> termino DIVIDE exp .)
-    EAT             reduce using rule 46 (exp -> termino DIVIDE exp .)
-    CLEAN           reduce using rule 46 (exp -> termino DIVIDE exp .)
-    PLAY            reduce using rule 46 (exp -> termino DIVIDE exp .)
-    TURNLEFT        reduce using rule 46 (exp -> termino DIVIDE exp .)
-    TURNRIGHT       reduce using rule 46 (exp -> termino DIVIDE exp .)
-    RBRACKET        reduce using rule 46 (exp -> termino DIVIDE exp .)
+    LPAR            reduce using rule 48 (op_val -> .)
+    MINUS           reduce using rule 48 (op_val -> .)
+    ID              reduce using rule 48 (op_val -> .)
+    NUMINT          reduce using rule 48 (op_val -> .)
+    NUMFLOAT        reduce using rule 48 (op_val -> .)
+    TRUE            reduce using rule 48 (op_val -> .)
+    FALSE           reduce using rule 48 (op_val -> .)
 
+    op_val                         shift and go to state 118
 
 state 99
 
-    (43) exp -> termino PLUS exp .
-
-    COMPARISON      reduce using rule 43 (exp -> termino PLUS exp .)
-    COMA            reduce using rule 43 (exp -> termino PLUS exp .)
-    RPAR            reduce using rule 43 (exp -> termino PLUS exp .)
-    ID              reduce using rule 43 (exp -> termino PLUS exp .)
-    FUNC            reduce using rule 43 (exp -> termino PLUS exp .)
-    $end            reduce using rule 43 (exp -> termino PLUS exp .)
-    INT             reduce using rule 43 (exp -> termino PLUS exp .)
-    FLOAT           reduce using rule 43 (exp -> termino PLUS exp .)
-    BOOLEAN         reduce using rule 43 (exp -> termino PLUS exp .)
-    IF              reduce using rule 43 (exp -> termino PLUS exp .)
-    WHILE           reduce using rule 43 (exp -> termino PLUS exp .)
-    PRINT           reduce using rule 43 (exp -> termino PLUS exp .)
-    LIST            reduce using rule 43 (exp -> termino PLUS exp .)
-    MOVE            reduce using rule 43 (exp -> termino PLUS exp .)
-    EAT             reduce using rule 43 (exp -> termino PLUS exp .)
-    CLEAN           reduce using rule 43 (exp -> termino PLUS exp .)
-    PLAY            reduce using rule 43 (exp -> termino PLUS exp .)
-    TURNLEFT        reduce using rule 43 (exp -> termino PLUS exp .)
-    TURNRIGHT       reduce using rule 43 (exp -> termino PLUS exp .)
-    RBRACKET        reduce using rule 43 (exp -> termino PLUS exp .)
-
-
-state 100
-
-    (45) exp -> termino MULTIPLY exp .
-
-    COMPARISON      reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    COMA            reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    RPAR            reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    ID              reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    FUNC            reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    $end            reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    INT             reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    FLOAT           reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    BOOLEAN         reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    IF              reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    WHILE           reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    PRINT           reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    LIST            reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    MOVE            reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    EAT             reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    CLEAN           reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    PLAY            reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    TURNLEFT        reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    TURNRIGHT       reduce using rule 45 (exp -> termino MULTIPLY exp .)
-    RBRACKET        reduce using rule 45 (exp -> termino MULTIPLY exp .)
-
-
-state 101
-
-    (44) exp -> termino MINUS exp .
-
-    COMPARISON      reduce using rule 44 (exp -> termino MINUS exp .)
-    COMA            reduce using rule 44 (exp -> termino MINUS exp .)
-    RPAR            reduce using rule 44 (exp -> termino MINUS exp .)
-    ID              reduce using rule 44 (exp -> termino MINUS exp .)
-    FUNC            reduce using rule 44 (exp -> termino MINUS exp .)
-    $end            reduce using rule 44 (exp -> termino MINUS exp .)
-    INT             reduce using rule 44 (exp -> termino MINUS exp .)
-    FLOAT           reduce using rule 44 (exp -> termino MINUS exp .)
-    BOOLEAN         reduce using rule 44 (exp -> termino MINUS exp .)
-    IF              reduce using rule 44 (exp -> termino MINUS exp .)
-    WHILE           reduce using rule 44 (exp -> termino MINUS exp .)
-    PRINT           reduce using rule 44 (exp -> termino MINUS exp .)
-    LIST            reduce using rule 44 (exp -> termino MINUS exp .)
-    MOVE            reduce using rule 44 (exp -> termino MINUS exp .)
-    EAT             reduce using rule 44 (exp -> termino MINUS exp .)
-    CLEAN           reduce using rule 44 (exp -> termino MINUS exp .)
-    PLAY            reduce using rule 44 (exp -> termino MINUS exp .)
-    TURNLEFT        reduce using rule 44 (exp -> termino MINUS exp .)
-    TURNRIGHT       reduce using rule 44 (exp -> termino MINUS exp .)
-    RBRACKET        reduce using rule 44 (exp -> termino MINUS exp .)
-
-
-state 102
-
     (41) expression -> exp COMPARISON exp .
 
-    RPAR            reduce using rule 41 (expression -> exp COMPARISON exp .)
     COMA            reduce using rule 41 (expression -> exp COMPARISON exp .)
+    RPAR            reduce using rule 41 (expression -> exp COMPARISON exp .)
     ID              reduce using rule 41 (expression -> exp COMPARISON exp .)
     FUNC            reduce using rule 41 (expression -> exp COMPARISON exp .)
     $end            reduce using rule 41 (expression -> exp COMPARISON exp .)
@@ -2047,820 +1934,1010 @@ state 102
     RBRACKET        reduce using rule 41 (expression -> exp COMPARISON exp .)
 
 
+state 100
+
+    (86) turnleft -> TURNLEFT LPAR RPAR .
+
+    INT             reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    FLOAT           reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    BOOLEAN         reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    ID              reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    IF              reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    WHILE           reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    PRINT           reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    LIST            reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    MOVE            reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    EAT             reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    CLEAN           reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    PLAY            reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    TURNLEFT        reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    TURNRIGHT       reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+    RBRACKET        reduce using rule 86 (turnleft -> TURNLEFT LPAR RPAR .)
+
+
+state 101
+
+    (63) cycle -> WHILE cycle_1 LPAR . expression RPAR cycle_2 block cycle_3
+    (40) expression -> . exp
+    (41) expression -> . exp COMPARISON exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
+
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 45
+    expression                     shift and go to state 119
+
+state 102
+
+    (58) print -> PRINT LPAR printx . RPAR
+
+    RPAR            shift and go to state 120
+
+
 state 103
 
-    (47) termino -> LPAR expression RPAR .
+    (60) printx -> STRING .
+    (62) printx -> STRING . COMA printx
 
-    PLUS            reduce using rule 47 (termino -> LPAR expression RPAR .)
-    MINUS           reduce using rule 47 (termino -> LPAR expression RPAR .)
-    MULTIPLY        reduce using rule 47 (termino -> LPAR expression RPAR .)
-    DIVIDE          reduce using rule 47 (termino -> LPAR expression RPAR .)
-    COMPARISON      reduce using rule 47 (termino -> LPAR expression RPAR .)
-    ID              reduce using rule 47 (termino -> LPAR expression RPAR .)
-    FUNC            reduce using rule 47 (termino -> LPAR expression RPAR .)
-    $end            reduce using rule 47 (termino -> LPAR expression RPAR .)
-    INT             reduce using rule 47 (termino -> LPAR expression RPAR .)
-    FLOAT           reduce using rule 47 (termino -> LPAR expression RPAR .)
-    BOOLEAN         reduce using rule 47 (termino -> LPAR expression RPAR .)
-    IF              reduce using rule 47 (termino -> LPAR expression RPAR .)
-    WHILE           reduce using rule 47 (termino -> LPAR expression RPAR .)
-    PRINT           reduce using rule 47 (termino -> LPAR expression RPAR .)
-    LIST            reduce using rule 47 (termino -> LPAR expression RPAR .)
-    MOVE            reduce using rule 47 (termino -> LPAR expression RPAR .)
-    EAT             reduce using rule 47 (termino -> LPAR expression RPAR .)
-    CLEAN           reduce using rule 47 (termino -> LPAR expression RPAR .)
-    PLAY            reduce using rule 47 (termino -> LPAR expression RPAR .)
-    TURNLEFT        reduce using rule 47 (termino -> LPAR expression RPAR .)
-    TURNRIGHT       reduce using rule 47 (termino -> LPAR expression RPAR .)
-    RBRACKET        reduce using rule 47 (termino -> LPAR expression RPAR .)
-    RPAR            reduce using rule 47 (termino -> LPAR expression RPAR .)
-    COMA            reduce using rule 47 (termino -> LPAR expression RPAR .)
+    RPAR            reduce using rule 60 (printx -> STRING .)
+    COMA            shift and go to state 121
 
 
 state 104
 
-    (83) turnleft -> TURNLEFT LPAR RPAR .
+    (59) printx -> expression .
+    (61) printx -> expression . COMA printx
 
-    INT             reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    FLOAT           reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    BOOLEAN         reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    ID              reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    IF              reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    WHILE           reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    PRINT           reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    LIST            reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    MOVE            reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    EAT             reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    CLEAN           reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    PLAY            reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    TURNLEFT        reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    TURNRIGHT       reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
-    RBRACKET        reduce using rule 83 (turnleft -> TURNLEFT LPAR RPAR .)
+    RPAR            reduce using rule 59 (printx -> expression .)
+    COMA            shift and go to state 122
 
 
 state 105
 
-    (60) cycle -> WHILE cycle_1 LPAR . expression RPAR cycle_2 block cycle_3
-    (40) expression -> . exp
-    (41) expression -> . exp COMPARISON exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
-
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
-
-    termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    expression                     shift and go to state 119
-    varcte                         shift and go to state 47
-
-state 106
-
-    (57) printx -> STRING .
-    (59) printx -> STRING . COMA printx
-
-    RPAR            reduce using rule 57 (printx -> STRING .)
-    COMA            shift and go to state 120
-
-
-state 107
-
-    (55) print -> PRINT LPAR printx . RPAR
-
-    RPAR            shift and go to state 121
-
-
-state 108
-
-    (56) printx -> expression .
-    (58) printx -> expression . COMA printx
-
-    RPAR            reduce using rule 56 (printx -> expression .)
-    COMA            shift and go to state 122
-
-
-state 109
-
-    (69) list -> LIST ID EQUAL . LBRACKET listx RBRACKET
+    (72) list -> LIST ID EQUAL . LBRACKET listx RBRACKET
 
     LBRACKET        shift and go to state 123
 
 
-state 110
+state 106
 
-    (75) call -> ID LPAR ID . RPAR
+    (78) call -> ID LPAR ID . RPAR
 
     RPAR            shift and go to state 124
 
 
-state 111
+state 107
 
-    (74) call -> ID LPAR RPAR .
+    (77) call -> ID LPAR RPAR .
 
-    INT             reduce using rule 74 (call -> ID LPAR RPAR .)
-    FLOAT           reduce using rule 74 (call -> ID LPAR RPAR .)
-    BOOLEAN         reduce using rule 74 (call -> ID LPAR RPAR .)
-    ID              reduce using rule 74 (call -> ID LPAR RPAR .)
-    IF              reduce using rule 74 (call -> ID LPAR RPAR .)
-    WHILE           reduce using rule 74 (call -> ID LPAR RPAR .)
-    PRINT           reduce using rule 74 (call -> ID LPAR RPAR .)
-    LIST            reduce using rule 74 (call -> ID LPAR RPAR .)
-    MOVE            reduce using rule 74 (call -> ID LPAR RPAR .)
-    EAT             reduce using rule 74 (call -> ID LPAR RPAR .)
-    CLEAN           reduce using rule 74 (call -> ID LPAR RPAR .)
-    PLAY            reduce using rule 74 (call -> ID LPAR RPAR .)
-    TURNLEFT        reduce using rule 74 (call -> ID LPAR RPAR .)
-    TURNRIGHT       reduce using rule 74 (call -> ID LPAR RPAR .)
-    RBRACKET        reduce using rule 74 (call -> ID LPAR RPAR .)
+    INT             reduce using rule 77 (call -> ID LPAR RPAR .)
+    FLOAT           reduce using rule 77 (call -> ID LPAR RPAR .)
+    BOOLEAN         reduce using rule 77 (call -> ID LPAR RPAR .)
+    ID              reduce using rule 77 (call -> ID LPAR RPAR .)
+    IF              reduce using rule 77 (call -> ID LPAR RPAR .)
+    WHILE           reduce using rule 77 (call -> ID LPAR RPAR .)
+    PRINT           reduce using rule 77 (call -> ID LPAR RPAR .)
+    LIST            reduce using rule 77 (call -> ID LPAR RPAR .)
+    MOVE            reduce using rule 77 (call -> ID LPAR RPAR .)
+    EAT             reduce using rule 77 (call -> ID LPAR RPAR .)
+    CLEAN           reduce using rule 77 (call -> ID LPAR RPAR .)
+    PLAY            reduce using rule 77 (call -> ID LPAR RPAR .)
+    TURNLEFT        reduce using rule 77 (call -> ID LPAR RPAR .)
+    TURNRIGHT       reduce using rule 77 (call -> ID LPAR RPAR .)
+    RBRACKET        reduce using rule 77 (call -> ID LPAR RPAR .)
 
 
-state 112
+state 108
 
-    (80) add -> ID POINT ADD . LPAR CANDY RPAR
-    (81) add -> ID POINT ADD . LPAR POOP RPAR
-    (82) add -> ID POINT ADD . LPAR BALL RPAR
+    (83) add -> ID POINT ADD . LPAR CANDY RPAR
+    (84) add -> ID POINT ADD . LPAR POOP RPAR
+    (85) add -> ID POINT ADD . LPAR BALL RPAR
 
     LPAR            shift and go to state 125
 
 
-state 113
+state 109
 
-    (64) condition -> IF LPAR expression . cond_1 RPAR block cond_2
-    (65) condition -> IF LPAR expression . cond_1 RPAR block ELSE cond_else block cond_2
-    (66) cond_1 -> .
+    (67) condition -> IF LPAR expression . cond_1 RPAR block cond_2
+    (68) condition -> IF LPAR expression . cond_1 RPAR block ELSE cond_else block cond_2
+    (69) cond_1 -> .
 
-    RPAR            reduce using rule 66 (cond_1 -> .)
+    RPAR            reduce using rule 69 (cond_1 -> .)
 
     cond_1                         shift and go to state 126
 
-state 114
+state 110
 
-    (77) eat -> EAT LPAR ID . RPAR
+    (80) eat -> EAT LPAR ID . RPAR
 
     RPAR            shift and go to state 127
 
 
-state 115
+state 111
 
-    (79) play -> PLAY LPAR ID . RPAR
+    (82) play -> PLAY LPAR ID . RPAR
 
     RPAR            shift and go to state 128
 
 
-state 116
+state 112
 
-    (76) move -> MOVE LPAR ID . RPAR
+    (79) move -> MOVE LPAR ID . RPAR
 
     RPAR            shift and go to state 129
 
 
-state 117
+state 113
 
-    (84) turnright -> TURNRIGHT LPAR RPAR .
+    (87) turnright -> TURNRIGHT LPAR RPAR .
 
-    INT             reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    FLOAT           reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    BOOLEAN         reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    ID              reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    IF              reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    WHILE           reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    PRINT           reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    LIST            reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    MOVE            reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    EAT             reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    CLEAN           reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    PLAY            reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    TURNLEFT        reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    TURNRIGHT       reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
-    RBRACKET        reduce using rule 84 (turnright -> TURNRIGHT LPAR RPAR .)
+    INT             reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    FLOAT           reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    BOOLEAN         reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    ID              reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    IF              reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    WHILE           reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    PRINT           reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    LIST            reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    MOVE            reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    EAT             reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    CLEAN           reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    PLAY            reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    TURNLEFT        reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    TURNRIGHT       reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
+    RBRACKET        reduce using rule 87 (turnright -> TURNRIGHT LPAR RPAR .)
 
 
-state 118
+state 114
 
-    (78) clean -> CLEAN LPAR ID . RPAR
+    (81) clean -> CLEAN LPAR ID . RPAR
 
     RPAR            shift and go to state 130
 
 
+state 115
+
+    (46) exp -> termino termino_val DIVIDE op_val . exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
+
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 131
+
+state 116
+
+    (43) exp -> termino termino_val PLUS op_val . exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
+
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 132
+
+state 117
+
+    (45) exp -> termino termino_val MULTIPLY op_val . exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
+
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 133
+
+state 118
+
+    (44) exp -> termino termino_val MINUS op_val . exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
+
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 44
+    exp                            shift and go to state 134
+
 state 119
 
-    (60) cycle -> WHILE cycle_1 LPAR expression . RPAR cycle_2 block cycle_3
+    (63) cycle -> WHILE cycle_1 LPAR expression . RPAR cycle_2 block cycle_3
 
-    RPAR            shift and go to state 131
+    RPAR            shift and go to state 135
 
 
 state 120
 
-    (59) printx -> STRING COMA . printx
-    (56) printx -> . expression
-    (57) printx -> . STRING
-    (58) printx -> . expression COMA printx
-    (59) printx -> . STRING COMA printx
-    (40) expression -> . exp
-    (41) expression -> . exp COMPARISON exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (58) print -> PRINT LPAR printx RPAR .
 
-    STRING          shift and go to state 106
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    INT             reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    FLOAT           reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    BOOLEAN         reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    ID              reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    IF              reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    WHILE           reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    PRINT           reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    LIST            reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    MOVE            reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    EAT             reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    CLEAN           reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    PLAY            reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    TURNLEFT        reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    TURNRIGHT       reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
+    RBRACKET        reduce using rule 58 (print -> PRINT LPAR printx RPAR .)
 
-    printx                         shift and go to state 132
-    expression                     shift and go to state 108
-    termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    varcte                         shift and go to state 47
 
 state 121
 
-    (55) print -> PRINT LPAR printx RPAR .
+    (62) printx -> STRING COMA . printx
+    (59) printx -> . expression
+    (60) printx -> . STRING
+    (61) printx -> . expression COMA printx
+    (62) printx -> . STRING COMA printx
+    (40) expression -> . exp
+    (41) expression -> . exp COMPARISON exp
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
 
-    INT             reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    FLOAT           reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    BOOLEAN         reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    ID              reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    IF              reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    WHILE           reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    PRINT           reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    LIST            reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    MOVE            reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    EAT             reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    CLEAN           reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    PLAY            reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    TURNLEFT        reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    TURNRIGHT       reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
-    RBRACKET        reduce using rule 55 (print -> PRINT LPAR printx RPAR .)
+    STRING          shift and go to state 103
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
 
+    varcte                         shift and go to state 41
+    printx                         shift and go to state 136
+    termino                        shift and go to state 44
+    exp                            shift and go to state 45
+    expression                     shift and go to state 104
 
 state 122
 
-    (58) printx -> expression COMA . printx
-    (56) printx -> . expression
-    (57) printx -> . STRING
-    (58) printx -> . expression COMA printx
-    (59) printx -> . STRING COMA printx
+    (61) printx -> expression COMA . printx
+    (59) printx -> . expression
+    (60) printx -> . STRING
+    (61) printx -> . expression COMA printx
+    (62) printx -> . STRING COMA printx
     (40) expression -> . exp
     (41) expression -> . exp COMPARISON exp
-    (42) exp -> . termino
-    (43) exp -> . termino PLUS exp
-    (44) exp -> . termino MINUS exp
-    (45) exp -> . termino MULTIPLY exp
-    (46) exp -> . termino DIVIDE exp
-    (47) termino -> . LPAR expression RPAR
-    (48) termino -> . MINUS varcte
-    (49) termino -> . varcte
-    (50) varcte -> . ID
-    (51) varcte -> . NUMINT
-    (52) varcte -> . NUMFLOAT
-    (53) varcte -> . TRUE
-    (54) varcte -> . FALSE
+    (42) exp -> . termino termino_val
+    (43) exp -> . termino termino_val PLUS op_val exp
+    (44) exp -> . termino termino_val MINUS op_val exp
+    (45) exp -> . termino termino_val MULTIPLY op_val exp
+    (46) exp -> . termino termino_val DIVIDE op_val exp
+    (50) termino -> . LPAR expression RPAR
+    (51) termino -> . MINUS varcte
+    (52) termino -> . varcte
+    (53) varcte -> . ID
+    (54) varcte -> . NUMINT
+    (55) varcte -> . NUMFLOAT
+    (56) varcte -> . TRUE
+    (57) varcte -> . FALSE
 
-    STRING          shift and go to state 106
-    LPAR            shift and go to state 46
-    MINUS           shift and go to state 37
-    ID              shift and go to state 41
-    NUMINT          shift and go to state 38
-    NUMFLOAT        shift and go to state 44
-    TRUE            shift and go to state 39
-    FALSE           shift and go to state 40
+    STRING          shift and go to state 103
+    LPAR            shift and go to state 37
+    MINUS           shift and go to state 38
+    ID              shift and go to state 43
+    NUMINT          shift and go to state 39
+    NUMFLOAT        shift and go to state 46
+    TRUE            shift and go to state 40
+    FALSE           shift and go to state 42
 
-    printx                         shift and go to state 133
-    expression                     shift and go to state 108
-    termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    varcte                         shift and go to state 47
+    varcte                         shift and go to state 41
+    printx                         shift and go to state 137
+    termino                        shift and go to state 44
+    exp                            shift and go to state 45
+    expression                     shift and go to state 104
 
 state 123
 
-    (69) list -> LIST ID EQUAL LBRACKET . listx RBRACKET
-    (70) listx -> . ID
-    (71) listx -> . NUMINT
-    (72) listx -> . ID COMA listx
-    (73) listx -> . NUMINT COMA listx
+    (72) list -> LIST ID EQUAL LBRACKET . listx RBRACKET
+    (73) listx -> . ID
+    (74) listx -> . NUMINT
+    (75) listx -> . ID COMA listx
+    (76) listx -> . NUMINT COMA listx
 
-    ID              shift and go to state 136
-    NUMINT          shift and go to state 135
+    ID              shift and go to state 140
+    NUMINT          shift and go to state 139
 
-    listx                          shift and go to state 134
+    listx                          shift and go to state 138
 
 state 124
 
-    (75) call -> ID LPAR ID RPAR .
+    (78) call -> ID LPAR ID RPAR .
 
-    INT             reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    FLOAT           reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    BOOLEAN         reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    ID              reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    IF              reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    WHILE           reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    PRINT           reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    LIST            reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    MOVE            reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    EAT             reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    CLEAN           reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    PLAY            reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    TURNLEFT        reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    TURNRIGHT       reduce using rule 75 (call -> ID LPAR ID RPAR .)
-    RBRACKET        reduce using rule 75 (call -> ID LPAR ID RPAR .)
+    INT             reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    FLOAT           reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    BOOLEAN         reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    ID              reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    IF              reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    WHILE           reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    PRINT           reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    LIST            reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    MOVE            reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    EAT             reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    CLEAN           reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    PLAY            reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    TURNLEFT        reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    TURNRIGHT       reduce using rule 78 (call -> ID LPAR ID RPAR .)
+    RBRACKET        reduce using rule 78 (call -> ID LPAR ID RPAR .)
 
 
 state 125
 
-    (80) add -> ID POINT ADD LPAR . CANDY RPAR
-    (81) add -> ID POINT ADD LPAR . POOP RPAR
-    (82) add -> ID POINT ADD LPAR . BALL RPAR
+    (83) add -> ID POINT ADD LPAR . CANDY RPAR
+    (84) add -> ID POINT ADD LPAR . POOP RPAR
+    (85) add -> ID POINT ADD LPAR . BALL RPAR
 
-    CANDY           shift and go to state 139
-    POOP            shift and go to state 137
-    BALL            shift and go to state 138
+    CANDY           shift and go to state 143
+    POOP            shift and go to state 141
+    BALL            shift and go to state 142
 
 
 state 126
 
-    (64) condition -> IF LPAR expression cond_1 . RPAR block cond_2
-    (65) condition -> IF LPAR expression cond_1 . RPAR block ELSE cond_else block cond_2
+    (67) condition -> IF LPAR expression cond_1 . RPAR block cond_2
+    (68) condition -> IF LPAR expression cond_1 . RPAR block ELSE cond_else block cond_2
 
-    RPAR            shift and go to state 140
+    RPAR            shift and go to state 144
 
 
 state 127
 
-    (77) eat -> EAT LPAR ID RPAR .
+    (80) eat -> EAT LPAR ID RPAR .
 
-    INT             reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    FLOAT           reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    BOOLEAN         reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    ID              reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    IF              reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    WHILE           reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    PRINT           reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    LIST            reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    MOVE            reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    EAT             reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    CLEAN           reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    PLAY            reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    TURNLEFT        reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    TURNRIGHT       reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
-    RBRACKET        reduce using rule 77 (eat -> EAT LPAR ID RPAR .)
+    INT             reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    FLOAT           reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    BOOLEAN         reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    ID              reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    IF              reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    WHILE           reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    PRINT           reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    LIST            reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    MOVE            reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    EAT             reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    CLEAN           reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    PLAY            reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    TURNLEFT        reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    TURNRIGHT       reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
+    RBRACKET        reduce using rule 80 (eat -> EAT LPAR ID RPAR .)
 
 
 state 128
 
-    (79) play -> PLAY LPAR ID RPAR .
+    (82) play -> PLAY LPAR ID RPAR .
 
-    INT             reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    FLOAT           reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    BOOLEAN         reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    ID              reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    IF              reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    WHILE           reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    PRINT           reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    LIST            reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    MOVE            reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    EAT             reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    CLEAN           reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    PLAY            reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    TURNLEFT        reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    TURNRIGHT       reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
-    RBRACKET        reduce using rule 79 (play -> PLAY LPAR ID RPAR .)
+    INT             reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    FLOAT           reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    BOOLEAN         reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    ID              reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    IF              reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    WHILE           reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    PRINT           reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    LIST            reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    MOVE            reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    EAT             reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    CLEAN           reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    PLAY            reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    TURNLEFT        reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    TURNRIGHT       reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
+    RBRACKET        reduce using rule 82 (play -> PLAY LPAR ID RPAR .)
 
 
 state 129
 
-    (76) move -> MOVE LPAR ID RPAR .
+    (79) move -> MOVE LPAR ID RPAR .
 
-    INT             reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    FLOAT           reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    BOOLEAN         reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    ID              reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    IF              reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    WHILE           reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    PRINT           reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    LIST            reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    MOVE            reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    EAT             reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    CLEAN           reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    PLAY            reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    TURNLEFT        reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    TURNRIGHT       reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
-    RBRACKET        reduce using rule 76 (move -> MOVE LPAR ID RPAR .)
+    INT             reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    FLOAT           reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    BOOLEAN         reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    ID              reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    IF              reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    WHILE           reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    PRINT           reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    LIST            reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    MOVE            reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    EAT             reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    CLEAN           reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    PLAY            reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    TURNLEFT        reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    TURNRIGHT       reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
+    RBRACKET        reduce using rule 79 (move -> MOVE LPAR ID RPAR .)
 
 
 state 130
 
-    (78) clean -> CLEAN LPAR ID RPAR .
+    (81) clean -> CLEAN LPAR ID RPAR .
 
-    INT             reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    FLOAT           reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    BOOLEAN         reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    ID              reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    IF              reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    WHILE           reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    PRINT           reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    LIST            reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    MOVE            reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    EAT             reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    CLEAN           reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    PLAY            reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    TURNLEFT        reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    TURNRIGHT       reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
-    RBRACKET        reduce using rule 78 (clean -> CLEAN LPAR ID RPAR .)
+    INT             reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    FLOAT           reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    BOOLEAN         reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    ID              reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    IF              reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    WHILE           reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    PRINT           reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    LIST            reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    MOVE            reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    EAT             reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    CLEAN           reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    PLAY            reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    TURNLEFT        reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    TURNRIGHT       reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
+    RBRACKET        reduce using rule 81 (clean -> CLEAN LPAR ID RPAR .)
 
 
 state 131
 
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR . cycle_2 block cycle_3
-    (62) cycle_2 -> .
+    (46) exp -> termino termino_val DIVIDE op_val exp .
 
-    LBRACKET        reduce using rule 62 (cycle_2 -> .)
+    COMPARISON      reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    RPAR            reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    ID              reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    FUNC            reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    $end            reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    INT             reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    FLOAT           reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    BOOLEAN         reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    IF              reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    WHILE           reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    PRINT           reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    LIST            reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    MOVE            reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    EAT             reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    CLEAN           reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    PLAY            reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    TURNLEFT        reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    TURNRIGHT       reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    RBRACKET        reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
+    COMA            reduce using rule 46 (exp -> termino termino_val DIVIDE op_val exp .)
 
-    cycle_2                        shift and go to state 141
 
 state 132
 
-    (59) printx -> STRING COMA printx .
+    (43) exp -> termino termino_val PLUS op_val exp .
 
-    RPAR            reduce using rule 59 (printx -> STRING COMA printx .)
+    COMPARISON      reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    RPAR            reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    ID              reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    FUNC            reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    $end            reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    INT             reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    FLOAT           reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    BOOLEAN         reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    IF              reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    WHILE           reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    PRINT           reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    LIST            reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    MOVE            reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    EAT             reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    CLEAN           reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    PLAY            reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    TURNLEFT        reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    TURNRIGHT       reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    RBRACKET        reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
+    COMA            reduce using rule 43 (exp -> termino termino_val PLUS op_val exp .)
 
 
 state 133
 
-    (58) printx -> expression COMA printx .
+    (45) exp -> termino termino_val MULTIPLY op_val exp .
 
-    RPAR            reduce using rule 58 (printx -> expression COMA printx .)
+    COMPARISON      reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    RPAR            reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    ID              reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    FUNC            reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    $end            reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    INT             reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    FLOAT           reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    BOOLEAN         reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    IF              reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    WHILE           reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    PRINT           reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    LIST            reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    MOVE            reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    EAT             reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    CLEAN           reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    PLAY            reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    TURNLEFT        reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    TURNRIGHT       reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    RBRACKET        reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
+    COMA            reduce using rule 45 (exp -> termino termino_val MULTIPLY op_val exp .)
 
 
 state 134
 
-    (69) list -> LIST ID EQUAL LBRACKET listx . RBRACKET
+    (44) exp -> termino termino_val MINUS op_val exp .
 
-    RBRACKET        shift and go to state 142
+    COMPARISON      reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    RPAR            reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    ID              reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    FUNC            reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    $end            reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    INT             reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    FLOAT           reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    BOOLEAN         reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    IF              reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    WHILE           reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    PRINT           reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    LIST            reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    MOVE            reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    EAT             reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    CLEAN           reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    PLAY            reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    TURNLEFT        reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    TURNRIGHT       reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    RBRACKET        reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
+    COMA            reduce using rule 44 (exp -> termino termino_val MINUS op_val exp .)
 
 
 state 135
 
-    (71) listx -> NUMINT .
-    (73) listx -> NUMINT . COMA listx
+    (63) cycle -> WHILE cycle_1 LPAR expression RPAR . cycle_2 block cycle_3
+    (65) cycle_2 -> .
 
-    RBRACKET        reduce using rule 71 (listx -> NUMINT .)
-    COMA            shift and go to state 143
+    LBRACKET        reduce using rule 65 (cycle_2 -> .)
 
+    cycle_2                        shift and go to state 145
 
 state 136
 
-    (70) listx -> ID .
-    (72) listx -> ID . COMA listx
+    (62) printx -> STRING COMA printx .
 
-    RBRACKET        reduce using rule 70 (listx -> ID .)
-    COMA            shift and go to state 144
+    RPAR            reduce using rule 62 (printx -> STRING COMA printx .)
 
 
 state 137
 
-    (81) add -> ID POINT ADD LPAR POOP . RPAR
+    (61) printx -> expression COMA printx .
 
-    RPAR            shift and go to state 145
+    RPAR            reduce using rule 61 (printx -> expression COMA printx .)
 
 
 state 138
 
-    (82) add -> ID POINT ADD LPAR BALL . RPAR
+    (72) list -> LIST ID EQUAL LBRACKET listx . RBRACKET
 
-    RPAR            shift and go to state 146
+    RBRACKET        shift and go to state 146
 
 
 state 139
 
-    (80) add -> ID POINT ADD LPAR CANDY . RPAR
+    (74) listx -> NUMINT .
+    (76) listx -> NUMINT . COMA listx
 
-    RPAR            shift and go to state 147
+    RBRACKET        reduce using rule 74 (listx -> NUMINT .)
+    COMA            shift and go to state 147
 
 
 state 140
 
-    (64) condition -> IF LPAR expression cond_1 RPAR . block cond_2
-    (65) condition -> IF LPAR expression cond_1 RPAR . block ELSE cond_else block cond_2
-    (13) block -> . LBRACKET blockx RBRACKET
+    (73) listx -> ID .
+    (75) listx -> ID . COMA listx
 
-    LBRACKET        shift and go to state 35
+    RBRACKET        reduce using rule 73 (listx -> ID .)
+    COMA            shift and go to state 148
 
-    block                          shift and go to state 148
 
 state 141
 
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 . block cycle_3
-    (13) block -> . LBRACKET blockx RBRACKET
+    (84) add -> ID POINT ADD LPAR POOP . RPAR
 
-    LBRACKET        shift and go to state 35
+    RPAR            shift and go to state 149
 
-    block                          shift and go to state 149
 
 state 142
 
-    (69) list -> LIST ID EQUAL LBRACKET listx RBRACKET .
+    (85) add -> ID POINT ADD LPAR BALL . RPAR
 
-    INT             reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    FLOAT           reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    BOOLEAN         reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    ID              reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    IF              reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    WHILE           reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    PRINT           reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    LIST            reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    MOVE            reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    EAT             reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    CLEAN           reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    PLAY            reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    TURNLEFT        reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    TURNRIGHT       reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
-    RBRACKET        reduce using rule 69 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    RPAR            shift and go to state 150
 
 
 state 143
 
-    (73) listx -> NUMINT COMA . listx
-    (70) listx -> . ID
-    (71) listx -> . NUMINT
-    (72) listx -> . ID COMA listx
-    (73) listx -> . NUMINT COMA listx
+    (83) add -> ID POINT ADD LPAR CANDY . RPAR
 
-    ID              shift and go to state 136
-    NUMINT          shift and go to state 135
+    RPAR            shift and go to state 151
 
-    listx                          shift and go to state 150
 
 state 144
 
-    (72) listx -> ID COMA . listx
-    (70) listx -> . ID
-    (71) listx -> . NUMINT
-    (72) listx -> . ID COMA listx
-    (73) listx -> . NUMINT COMA listx
-
-    ID              shift and go to state 136
-    NUMINT          shift and go to state 135
-
-    listx                          shift and go to state 151
-
-state 145
-
-    (81) add -> ID POINT ADD LPAR POOP RPAR .
-
-    INT             reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    FLOAT           reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    BOOLEAN         reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    ID              reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    IF              reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    WHILE           reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    PRINT           reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    LIST            reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    MOVE            reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    EAT             reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    CLEAN           reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    PLAY            reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    TURNLEFT        reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    TURNRIGHT       reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-    RBRACKET        reduce using rule 81 (add -> ID POINT ADD LPAR POOP RPAR .)
-
-
-state 146
-
-    (82) add -> ID POINT ADD LPAR BALL RPAR .
-
-    INT             reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    FLOAT           reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    BOOLEAN         reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    ID              reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    IF              reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    WHILE           reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    PRINT           reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    LIST            reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    MOVE            reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    EAT             reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    CLEAN           reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    PLAY            reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    TURNLEFT        reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    TURNRIGHT       reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-    RBRACKET        reduce using rule 82 (add -> ID POINT ADD LPAR BALL RPAR .)
-
-
-state 147
-
-    (80) add -> ID POINT ADD LPAR CANDY RPAR .
-
-    INT             reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    FLOAT           reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    BOOLEAN         reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    ID              reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    IF              reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    WHILE           reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    PRINT           reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    LIST            reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    MOVE            reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    EAT             reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    CLEAN           reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    PLAY            reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    TURNLEFT        reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    TURNRIGHT       reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-    RBRACKET        reduce using rule 80 (add -> ID POINT ADD LPAR CANDY RPAR .)
-
-
-state 148
-
-    (64) condition -> IF LPAR expression cond_1 RPAR block . cond_2
-    (65) condition -> IF LPAR expression cond_1 RPAR block . ELSE cond_else block cond_2
-    (67) cond_2 -> .
-
-    ELSE            shift and go to state 153
-    INT             reduce using rule 67 (cond_2 -> .)
-    FLOAT           reduce using rule 67 (cond_2 -> .)
-    BOOLEAN         reduce using rule 67 (cond_2 -> .)
-    ID              reduce using rule 67 (cond_2 -> .)
-    IF              reduce using rule 67 (cond_2 -> .)
-    WHILE           reduce using rule 67 (cond_2 -> .)
-    PRINT           reduce using rule 67 (cond_2 -> .)
-    LIST            reduce using rule 67 (cond_2 -> .)
-    MOVE            reduce using rule 67 (cond_2 -> .)
-    EAT             reduce using rule 67 (cond_2 -> .)
-    CLEAN           reduce using rule 67 (cond_2 -> .)
-    PLAY            reduce using rule 67 (cond_2 -> .)
-    TURNLEFT        reduce using rule 67 (cond_2 -> .)
-    TURNRIGHT       reduce using rule 67 (cond_2 -> .)
-    RBRACKET        reduce using rule 67 (cond_2 -> .)
-
-    cond_2                         shift and go to state 152
-
-state 149
-
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block . cycle_3
-    (63) cycle_3 -> .
-
-    INT             reduce using rule 63 (cycle_3 -> .)
-    FLOAT           reduce using rule 63 (cycle_3 -> .)
-    BOOLEAN         reduce using rule 63 (cycle_3 -> .)
-    ID              reduce using rule 63 (cycle_3 -> .)
-    IF              reduce using rule 63 (cycle_3 -> .)
-    WHILE           reduce using rule 63 (cycle_3 -> .)
-    PRINT           reduce using rule 63 (cycle_3 -> .)
-    LIST            reduce using rule 63 (cycle_3 -> .)
-    MOVE            reduce using rule 63 (cycle_3 -> .)
-    EAT             reduce using rule 63 (cycle_3 -> .)
-    CLEAN           reduce using rule 63 (cycle_3 -> .)
-    PLAY            reduce using rule 63 (cycle_3 -> .)
-    TURNLEFT        reduce using rule 63 (cycle_3 -> .)
-    TURNRIGHT       reduce using rule 63 (cycle_3 -> .)
-    RBRACKET        reduce using rule 63 (cycle_3 -> .)
-
-    cycle_3                        shift and go to state 154
-
-state 150
-
-    (73) listx -> NUMINT COMA listx .
-
-    RBRACKET        reduce using rule 73 (listx -> NUMINT COMA listx .)
-
-
-state 151
-
-    (72) listx -> ID COMA listx .
-
-    RBRACKET        reduce using rule 72 (listx -> ID COMA listx .)
-
-
-state 152
-
-    (64) condition -> IF LPAR expression cond_1 RPAR block cond_2 .
-
-    INT             reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    FLOAT           reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    BOOLEAN         reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    ID              reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    IF              reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    WHILE           reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    PRINT           reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    LIST            reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    MOVE            reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    EAT             reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    CLEAN           reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    PLAY            reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    TURNLEFT        reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    TURNRIGHT       reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-    RBRACKET        reduce using rule 64 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
-
-
-state 153
-
-    (65) condition -> IF LPAR expression cond_1 RPAR block ELSE . cond_else block cond_2
-    (68) cond_else -> .
-
-    LBRACKET        reduce using rule 68 (cond_else -> .)
-
-    cond_else                      shift and go to state 155
-
-state 154
-
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .
-
-    INT             reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    FLOAT           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    BOOLEAN         reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    ID              reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    IF              reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    WHILE           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    PRINT           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    LIST            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    MOVE            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    EAT             reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    CLEAN           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    PLAY            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    TURNLEFT        reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    TURNRIGHT       reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    RBRACKET        reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-
-
-state 155
-
-    (65) condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else . block cond_2
+    (67) condition -> IF LPAR expression cond_1 RPAR . block cond_2
+    (68) condition -> IF LPAR expression cond_1 RPAR . block ELSE cond_else block cond_2
     (13) block -> . LBRACKET blockx RBRACKET
 
     LBRACKET        shift and go to state 35
 
-    block                          shift and go to state 156
+    block                          shift and go to state 152
+
+state 145
+
+    (63) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 . block cycle_3
+    (13) block -> . LBRACKET blockx RBRACKET
+
+    LBRACKET        shift and go to state 35
+
+    block                          shift and go to state 153
+
+state 146
+
+    (72) list -> LIST ID EQUAL LBRACKET listx RBRACKET .
+
+    INT             reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    FLOAT           reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    BOOLEAN         reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    ID              reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    IF              reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    WHILE           reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    PRINT           reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    LIST            reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    MOVE            reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    EAT             reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    CLEAN           reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    PLAY            reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    TURNLEFT        reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    TURNRIGHT       reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+    RBRACKET        reduce using rule 72 (list -> LIST ID EQUAL LBRACKET listx RBRACKET .)
+
+
+state 147
+
+    (76) listx -> NUMINT COMA . listx
+    (73) listx -> . ID
+    (74) listx -> . NUMINT
+    (75) listx -> . ID COMA listx
+    (76) listx -> . NUMINT COMA listx
+
+    ID              shift and go to state 140
+    NUMINT          shift and go to state 139
+
+    listx                          shift and go to state 154
+
+state 148
+
+    (75) listx -> ID COMA . listx
+    (73) listx -> . ID
+    (74) listx -> . NUMINT
+    (75) listx -> . ID COMA listx
+    (76) listx -> . NUMINT COMA listx
+
+    ID              shift and go to state 140
+    NUMINT          shift and go to state 139
+
+    listx                          shift and go to state 155
+
+state 149
+
+    (84) add -> ID POINT ADD LPAR POOP RPAR .
+
+    INT             reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    FLOAT           reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    BOOLEAN         reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    ID              reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    IF              reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    WHILE           reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    PRINT           reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    LIST            reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    MOVE            reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    EAT             reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    CLEAN           reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    PLAY            reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    TURNLEFT        reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    TURNRIGHT       reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+    RBRACKET        reduce using rule 84 (add -> ID POINT ADD LPAR POOP RPAR .)
+
+
+state 150
+
+    (85) add -> ID POINT ADD LPAR BALL RPAR .
+
+    INT             reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    FLOAT           reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    BOOLEAN         reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    ID              reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    IF              reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    WHILE           reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    PRINT           reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    LIST            reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    MOVE            reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    EAT             reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    CLEAN           reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    PLAY            reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    TURNLEFT        reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    TURNRIGHT       reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+    RBRACKET        reduce using rule 85 (add -> ID POINT ADD LPAR BALL RPAR .)
+
+
+state 151
+
+    (83) add -> ID POINT ADD LPAR CANDY RPAR .
+
+    INT             reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    FLOAT           reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    BOOLEAN         reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    ID              reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    IF              reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    WHILE           reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    PRINT           reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    LIST            reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    MOVE            reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    EAT             reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    CLEAN           reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    PLAY            reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    TURNLEFT        reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    TURNRIGHT       reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+    RBRACKET        reduce using rule 83 (add -> ID POINT ADD LPAR CANDY RPAR .)
+
+
+state 152
+
+    (67) condition -> IF LPAR expression cond_1 RPAR block . cond_2
+    (68) condition -> IF LPAR expression cond_1 RPAR block . ELSE cond_else block cond_2
+    (70) cond_2 -> .
+
+    ELSE            shift and go to state 157
+    INT             reduce using rule 70 (cond_2 -> .)
+    FLOAT           reduce using rule 70 (cond_2 -> .)
+    BOOLEAN         reduce using rule 70 (cond_2 -> .)
+    ID              reduce using rule 70 (cond_2 -> .)
+    IF              reduce using rule 70 (cond_2 -> .)
+    WHILE           reduce using rule 70 (cond_2 -> .)
+    PRINT           reduce using rule 70 (cond_2 -> .)
+    LIST            reduce using rule 70 (cond_2 -> .)
+    MOVE            reduce using rule 70 (cond_2 -> .)
+    EAT             reduce using rule 70 (cond_2 -> .)
+    CLEAN           reduce using rule 70 (cond_2 -> .)
+    PLAY            reduce using rule 70 (cond_2 -> .)
+    TURNLEFT        reduce using rule 70 (cond_2 -> .)
+    TURNRIGHT       reduce using rule 70 (cond_2 -> .)
+    RBRACKET        reduce using rule 70 (cond_2 -> .)
+
+    cond_2                         shift and go to state 156
+
+state 153
+
+    (63) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block . cycle_3
+    (66) cycle_3 -> .
+
+    INT             reduce using rule 66 (cycle_3 -> .)
+    FLOAT           reduce using rule 66 (cycle_3 -> .)
+    BOOLEAN         reduce using rule 66 (cycle_3 -> .)
+    ID              reduce using rule 66 (cycle_3 -> .)
+    IF              reduce using rule 66 (cycle_3 -> .)
+    WHILE           reduce using rule 66 (cycle_3 -> .)
+    PRINT           reduce using rule 66 (cycle_3 -> .)
+    LIST            reduce using rule 66 (cycle_3 -> .)
+    MOVE            reduce using rule 66 (cycle_3 -> .)
+    EAT             reduce using rule 66 (cycle_3 -> .)
+    CLEAN           reduce using rule 66 (cycle_3 -> .)
+    PLAY            reduce using rule 66 (cycle_3 -> .)
+    TURNLEFT        reduce using rule 66 (cycle_3 -> .)
+    TURNRIGHT       reduce using rule 66 (cycle_3 -> .)
+    RBRACKET        reduce using rule 66 (cycle_3 -> .)
+
+    cycle_3                        shift and go to state 158
+
+state 154
+
+    (76) listx -> NUMINT COMA listx .
+
+    RBRACKET        reduce using rule 76 (listx -> NUMINT COMA listx .)
+
+
+state 155
+
+    (75) listx -> ID COMA listx .
+
+    RBRACKET        reduce using rule 75 (listx -> ID COMA listx .)
+
 
 state 156
 
-    (65) condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block . cond_2
-    (67) cond_2 -> .
+    (67) condition -> IF LPAR expression cond_1 RPAR block cond_2 .
 
-    INT             reduce using rule 67 (cond_2 -> .)
-    FLOAT           reduce using rule 67 (cond_2 -> .)
-    BOOLEAN         reduce using rule 67 (cond_2 -> .)
-    ID              reduce using rule 67 (cond_2 -> .)
-    IF              reduce using rule 67 (cond_2 -> .)
-    WHILE           reduce using rule 67 (cond_2 -> .)
-    PRINT           reduce using rule 67 (cond_2 -> .)
-    LIST            reduce using rule 67 (cond_2 -> .)
-    MOVE            reduce using rule 67 (cond_2 -> .)
-    EAT             reduce using rule 67 (cond_2 -> .)
-    CLEAN           reduce using rule 67 (cond_2 -> .)
-    PLAY            reduce using rule 67 (cond_2 -> .)
-    TURNLEFT        reduce using rule 67 (cond_2 -> .)
-    TURNRIGHT       reduce using rule 67 (cond_2 -> .)
-    RBRACKET        reduce using rule 67 (cond_2 -> .)
+    INT             reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    FLOAT           reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    BOOLEAN         reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    ID              reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    IF              reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    WHILE           reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    PRINT           reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    LIST            reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    MOVE            reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    EAT             reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    CLEAN           reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    PLAY            reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    TURNLEFT        reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    TURNRIGHT       reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
+    RBRACKET        reduce using rule 67 (condition -> IF LPAR expression cond_1 RPAR block cond_2 .)
 
-    cond_2                         shift and go to state 157
 
 state 157
 
-    (65) condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .
+    (68) condition -> IF LPAR expression cond_1 RPAR block ELSE . cond_else block cond_2
+    (71) cond_else -> .
 
-    INT             reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    FLOAT           reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    BOOLEAN         reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    ID              reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    IF              reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    WHILE           reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    PRINT           reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    LIST            reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    MOVE            reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    EAT             reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    CLEAN           reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    PLAY            reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    TURNLEFT        reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    TURNRIGHT       reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
-    RBRACKET        reduce using rule 65 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    LBRACKET        reduce using rule 71 (cond_else -> .)
+
+    cond_else                      shift and go to state 159
+
+state 158
+
+    (63) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .
+
+    INT             reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    FLOAT           reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    BOOLEAN         reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    ID              reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    IF              reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    WHILE           reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    PRINT           reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    LIST            reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    MOVE            reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    EAT             reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    CLEAN           reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    PLAY            reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    TURNLEFT        reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    TURNRIGHT       reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    RBRACKET        reduce using rule 63 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+
+
+state 159
+
+    (68) condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else . block cond_2
+    (13) block -> . LBRACKET blockx RBRACKET
+
+    LBRACKET        shift and go to state 35
+
+    block                          shift and go to state 160
+
+state 160
+
+    (68) condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block . cond_2
+    (70) cond_2 -> .
+
+    INT             reduce using rule 70 (cond_2 -> .)
+    FLOAT           reduce using rule 70 (cond_2 -> .)
+    BOOLEAN         reduce using rule 70 (cond_2 -> .)
+    ID              reduce using rule 70 (cond_2 -> .)
+    IF              reduce using rule 70 (cond_2 -> .)
+    WHILE           reduce using rule 70 (cond_2 -> .)
+    PRINT           reduce using rule 70 (cond_2 -> .)
+    LIST            reduce using rule 70 (cond_2 -> .)
+    MOVE            reduce using rule 70 (cond_2 -> .)
+    EAT             reduce using rule 70 (cond_2 -> .)
+    CLEAN           reduce using rule 70 (cond_2 -> .)
+    PLAY            reduce using rule 70 (cond_2 -> .)
+    TURNLEFT        reduce using rule 70 (cond_2 -> .)
+    TURNRIGHT       reduce using rule 70 (cond_2 -> .)
+    RBRACKET        reduce using rule 70 (cond_2 -> .)
+
+    cond_2                         shift and go to state 161
+
+state 161
+
+    (68) condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .
+
+    INT             reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    FLOAT           reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    BOOLEAN         reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    ID              reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    IF              reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    WHILE           reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    PRINT           reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    LIST            reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    MOVE            reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    EAT             reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    CLEAN           reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    PLAY            reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    TURNLEFT        reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    TURNRIGHT       reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
+    RBRACKET        reduce using rule 68 (condition -> IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2 .)
 
 WARNING: 
 WARNING: Conflicts:

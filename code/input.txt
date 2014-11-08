@@ -1,13 +1,10 @@
-int gatoGlobal
+int A
+int B
 
-gatoGlobal = 3
-gatoGlobal = 4
-
+A = 3 + 4
+B = 5 + 8
 func boy (){
 	int perro
-	float pelota
-	boolean hambre
-	perro = 7+9
 }
 
 func girl (){
