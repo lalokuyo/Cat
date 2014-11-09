@@ -1,15 +1,11 @@
-int A
+bool A
 int B
 int C
 int D
 int E
 
-A = 9
-B = 1 + A
-C = 2 - A
-D = 3 * A
-E = 4 / A
-E = 4+4
+A = 8 < 9 + 3
+A = 8 != 9 + 3
 
 func boy (){
 	int perro
@@ -17,7 +13,7 @@ func boy (){
 
 func girl (){
 	int mochila
-	boolean bolsa
+	bool bolsa
 }
 
 

@@ -33,12 +33,13 @@ tokens = [
           #Constant
           'STRING', 
           'NUMINT', 
-          'NUMFLOAT'
+          'NUMFLOAT',
+          'BOOLEANTYPE'
           ] 
 
 #Palabras Reservadas - NO TERMINALES
 reserved = {
-   'boolean': 'BOOLEAN',
+   'bool': 'BOOLEAN',
    'true'   : 'TRUE',
    'false'  : 'FALSE',  
    'int'    : 'INT',
@@ -84,8 +85,6 @@ t_MINUS     = r'-'
 
 t_ignore 	= " \t"
 #t_STRING  = r'[a-zA-Z_][a-zA-Z0-9_]*'
-
-
 #Funciones a ejecutar en caso de encontrar token
 
 # This rule must be done before the int rule.
@@ -98,6 +97,11 @@ def t_NUMFLOAT(t):
 def t_NUMINT(t):
     r'\d+'
     t.value = int(t.value)
+    return t
+
+def t_BOOLEANTYPE(t):
+    r'true|false'
+    t.value = bool(t.value)
     return t
 
 def t_ID(t):
