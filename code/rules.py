@@ -221,12 +221,20 @@ def p_type(p):
           '''
   p[0] = p[1]
 
-def variableExist(allvars, key):
+def variableExist(key):
+  global vartemp_list
+  global variables_globales
+  allvars = vartemp_list + variables_globales
+
   for var in allvars:
     if key == var.name:
       return True
 
-def variableFetch(allvars, key):
+def variableFetch(key):
+  global vartemp_list
+  global variables_globales
+  allvars = vartemp_list + variables_globales
+
   for var in allvars:
     if key == var.name:
       return var
@@ -234,8 +242,7 @@ def variableFetch(allvars, key):
 def p_asign(p): 
   '''asign : ID id_val EQUAL equal_val expression'''
 
-  global vartemp_list
-  global variables_globales
+  
   global cuadruplos_list
   global cont
   global mem_cte
@@ -246,15 +253,14 @@ def p_asign(p):
   if pila_Operador:
     cuadruplo_temp = Cuadruplo()
     cuadruplo_temp.set_operator(pila_Operador.pop())
-    #print pila_Oz
     operand1 = pila_Oz.pop()  #3
     result   = pila_Oz.pop()  #A
     #print "asign",pila_Oz
     #print operand1, "OP1"
     #print result, "result"
-    allvars = vartemp_list + variables_globales
-    if variableExist(allvars, result):            #IF variable exists
-      result = variableFetch(allvars, result)
+  
+    if variableExist(result):            #IF variable exists
+      result = variableFetch(result)
       operand1_type = verify(operand1)          #int
 
       if semantic_cube[operand1_type][result.type]['='] != 'error':
@@ -281,12 +287,6 @@ def p_equal_val(p):
   '''equal_val : '''
   global pila_Operador
   pila_Operador.append(p[-1])
-
-def p_expression_val(p): 
-  '''expression_val : '''
-  global pila_Oz
-  pila_Oz.append(p[-1])
-
 
 #********* MATH OPERATIONS **************
 
@@ -339,8 +339,16 @@ def p_exp(p):
     #print pila_Oz
     operator = pila_Operador.pop()
     operand2 = pila_Oz.pop() #4
-    #print "oz", operand2
     operand1 = pila_Oz.pop() #3
+
+    #IF operation involves another variable.
+    if verify(operand1) == "string":
+      varx = variableFetch(operand1)
+      operand1 = varx.value
+
+    if verify(operand2) == "string":
+      varx = variableFetch(operand2)
+      operand2 = varx.value
 
     cuadruplo_temp = Cuadruplo()
     cuadruplo_temp.set_operator(operator)
@@ -359,16 +367,15 @@ def p_exp(p):
       temp.mem  = mem_temp
 
       if operator == "+":
-        #print "SUMA"
         total = operand1 + operand2
         cte_memoryAssign(total)
 
         temp.value = total
+        #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
         cuadruplo_temp.set_result(temp.mem)
         cuadruplo_temp.set_cont(cont)
-        #cuadruplo_temp.print_cuadruplo()
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(total)
 
@@ -379,6 +386,58 @@ def p_exp(p):
 
       if operator == "-":
         total = operand1 - operand2
+        cte_memoryAssign(total)
+
+        temp.value = total
+        #Cuadruple set
+        cuadruplo_temp.set_operand1(op1_mem)
+        cuadruplo_temp.set_operand2(op2_mem)
+        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_cont(cont)
+        cuadruplos_list.append(cuadruplo_temp)
+        pila_Oz.append(total)
+
+        temp_cont += 1
+        mem_temp  += 1
+        cont      += 1
+        p[0] = p[1]
+
+      if operator == "*":
+        total = operand1 * operand2
+        cte_memoryAssign(total)
+
+        temp.value = total
+        #Cuadruple set
+        cuadruplo_temp.set_operand1(op1_mem)
+        cuadruplo_temp.set_operand2(op2_mem)
+        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_cont(cont)
+        cuadruplos_list.append(cuadruplo_temp)
+        pila_Oz.append(total)
+
+        temp_cont += 1
+        mem_temp  += 1
+        cont      += 1
+        p[0] = p[1]
+
+      if operator == "/":
+        total = operand1 / operand2
+        cte_memoryAssign(total)
+
+        temp.value = total
+        #Cuadruple set
+        cuadruplo_temp.set_operand1(op1_mem)
+        cuadruplo_temp.set_operand2(op2_mem)
+        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_cont(cont)
+        cuadruplos_list.append(cuadruplo_temp)
+        pila_Oz.append(total)
+
+        temp_cont += 1
+        mem_temp  += 1
+        cont      += 1
+        p[0] = p[1]
+
     else:
       print "Semantic Error"
   p[0] = p[1]
@@ -393,11 +452,6 @@ def p_op_val(p):
   '''op_val : '''
   global pila_Operador
   pila_Operador.append(p[-1])
-
-def p_exp_val(p):
-  '''exp_val : '''
-  global pila_Oz
-  pila_Oz.append(p[-1])
 
 
 def p_termino(p):

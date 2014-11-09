@@ -50,13 +50,5 @@ for x in cuadruplos_list:
     x.print_cuadruplo()
 
 
-'''while 1:
-    try:
-        s = raw_input('input > ')
-    except EOFError:
-        break
-    if not s: continue
-    yacc.parse(s)'''
-
 
 
