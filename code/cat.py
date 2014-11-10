@@ -35,8 +35,11 @@ input_file.close()
 
 #Print de vars globales
 print "GLOBALES"
+#print variables_globales
 for x in variables_globales:
-	x.print_var()
+    x.print_var(),
+    if isinstance(x.value, Node):
+       x.value.print_var()
 
 #"TABLA", functions_table
 print "LOCALES"

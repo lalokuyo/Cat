@@ -261,8 +261,6 @@ def p_asign(p):
   global pila_Oz
   global pila_Operador
 
-  print pila_Oz, "oz"
-  print pila_Operador, "op"
   cteMemory = 0
 
   if pila_Operador and pila_Operador[-1] == "=":
@@ -281,10 +279,6 @@ def p_asign(p):
         #Type - IF TEMPORAL
       if isinstance(operand1, Node):
         operand1_type = verify(operand1.value)
-        print "type", operand1
-
-      print "cube", result.type, operand1_type
-
       #2. Verify cube
       if semantic_cube[operand1_type][result.type]['='] != 'error':
 
@@ -300,7 +294,6 @@ def p_asign(p):
           cteMemory = operand1.mem
         
         result.value = operand1 
-        result.print_var()
         #3. Forming cuadruple
         cuadruplo_temp.set_cont(cont)
         cuadruplo_temp.set_operand1(cteMemory)
@@ -351,7 +344,7 @@ def p_exp(p):
   pos_ops = ['+', '-', '*', '/', '>', '<', '>=', '<=', '==', '!=','&&', '||']
 
   if pila_Operador and pila_Operador[-1] in pos_ops: 
-    print pila_Oz
+    #print pila_Oz
     operator = pila_Operador.pop()
     operand2 = pila_Oz.pop() #4
     operand1 = pila_Oz.pop() #3
@@ -369,7 +362,7 @@ def p_exp(p):
     cuadruplo_temp.set_operator(operator)
 
     #print operand2
-    print cte_list
+    #print cte_list
     op2_mem = cte_list[operand2]  #80808
     if operand1:
       op1_mem = cte_list[operand1]
@@ -479,7 +472,7 @@ def p_exp(p):
         cuadruplo_temp.set_result(temp.mem)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
-        pila_.append(total)
+        pila_Oz.append(temp)
         temp_cont += 1
         mem_temp  += 1
         cont      += 1
@@ -495,7 +488,7 @@ def p_exp(p):
         cuadruplo_temp.set_result(temp.mem)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(total)
+        pila_Oz.append(temp)
         temp_cont += 1
         mem_temp  += 1
         cont      += 1
@@ -512,7 +505,7 @@ def p_exp(p):
         cuadruplo_temp.set_result(temp.mem)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(total)
+        pila_Oz.append(temp)
 
         temp_cont += 1
         mem_temp  += 1
@@ -530,7 +523,7 @@ def p_exp(p):
         cuadruplo_temp.set_result(temp.mem)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(total)
+        pila_Oz.append(temp)
 
         temp_cont += 1
         mem_temp  += 1
@@ -548,7 +541,7 @@ def p_exp(p):
         cuadruplo_temp.set_result(temp.mem)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(total)
+        pila_Oz.append(temp)
 
         temp_cont += 1
         mem_temp  += 1
@@ -583,12 +576,8 @@ def p_varcte(p):
             | NUMFLOAT
             | BOOLEANTYPE
             '''
-  print "NUM", p[1]
-  if 1:
-    print "si"
-  print isinstance(1, int)        
-  cte_memoryAssign(p[1])
 
+  cte_memoryAssign(p[1])
 
   p[0] = p[1]
   return p
