@@ -661,27 +661,27 @@ def p_cond_1(p):
   'cond_1 : '
   global pila_Oz
   global pila_Operador
-  global pila_Operador
+  global cont
+
   #PILA SALTOS
-  print pila_Oz, "PILA OZ"
-  print pila_Operador, "OPr"
+  #print pila_Oz, "PILA OZ"
+  #print pila_Operador, "OPr"
 
   aux = pila_Oz.pop()
-  aux = verify(aux)
-  print aux
-  if aux == "bool":
+  exp_value = verify(aux.value)
+  if exp_value == "bool":
     cuadruplo_temp = Cuadruplo()
-    result = pila_Operador.pop()
+    result = aux.name
     cuadruplo_temp.set_operator("gotoF")
     cuadruplo_temp.set_operand1(result)
+    cuadruplo_temp.set_cont(cont)
     cuadruplos_list.append(cuadruplo_temp)
     cont += 1
     pila_saltos.append(cont-1)
+
   else:
     print "Semantic Error COND_1"
     cuadrupleError()
-  #pila_tipo.append(p[4])
-
 
 def p_cond_2(p):
   'cond_2 : '
@@ -690,8 +690,10 @@ def p_cond_2(p):
   global cuadruplos_list
   global cont
 
-  fin = pila_saltos.pop()
-  cuadruplos_list[fin].set_operator(cont)
+  fin = pila_saltos.pop()  # num
+  #print fin, "fin"
+  print cuadruplos_list[fin].print_cuadruplo()
+  cuadruplos_list[fin].set_result(cont)
 
 def p_cond_else(p):
   'cond_else : '
