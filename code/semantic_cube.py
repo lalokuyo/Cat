@@ -1,7 +1,7 @@
 
 #Verifies the element to know the type of it.
 def verify(x):
-    if isinstance(x, int) and x != True and x != False:
+    if isinstance(x, int) and isinstance(x, bool) == False:
         return 'int'
     if isinstance(x, float):
         return 'float'

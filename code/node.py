@@ -14,10 +14,10 @@ class Node(object):
 		self.type 	= ""
 		self.value 	= ''
 		self.scope 	= ""
-		self.mem 	= ''
+		self.mem	= ''
 		
 	def __str__(self):
-		s = "{name:" + str(self.name) + " type:" + str(self.type) + " value:" + str(self.value) + "}"
+		s = "{name:" + str(self.name) + " type:" + str(self.type) + " value:" + str(self.value) + " scope:" + str(self.scope) + " mem:" + str(self.mem) + "}"
 		#s += "".join( ["i: " + str(i) + "\n" for i in self.args])
 		return s
 

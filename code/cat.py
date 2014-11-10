@@ -49,6 +49,7 @@ print "CUADRUPLOS"
 for x in cuadruplos_list:
     x.print_cuadruplo()
 
-
+print pila_Oz, "OZ"
+print pila_Operador, "OPer"
 
 
