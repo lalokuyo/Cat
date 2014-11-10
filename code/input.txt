@@ -1,20 +1,18 @@
 
-bool b
-
-
+int A
+A = 4
+	
 func boy (){
-	int perro
-	if (3 < 4){
-		int a
-		a = 5
-		if(4 != 5){
-			bool boobs
-			boobs = true
-		}
-		a = 7
-	}
-	int carro
-	carro = 89
+  int perro
+  if (3 < 5){
+    int c
+    c = 5
+  }else{
+    A = 3
+    int v
+  }
+  int B
+  B = 3
 }
 
 func girl (){

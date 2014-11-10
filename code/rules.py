@@ -382,7 +382,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -400,7 +400,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -418,7 +418,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -436,7 +436,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -452,7 +452,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         #pila_Operador.append(temp.mem)
@@ -469,7 +469,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -485,7 +485,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -502,7 +502,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -520,7 +520,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -538,7 +538,7 @@ def p_exp(p):
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.mem)
+        cuadruplo_temp.set_result(temp.name)
         cuadruplo_temp.set_cont(cont)
         cuadruplos_list.append(cuadruplo_temp)
         pila_Oz.append(temp)
@@ -654,9 +654,14 @@ def p_cycle_3(p):
 
 # ************ IF ***************
 def p_condition(p):
-  '''condition : IF LPAR exp RPAR cond_1 block cond_2
-                  | IF LPAR expression cond_1 RPAR block ELSE cond_else block cond_2
-                  '''
+  '''condition :  IF LPAR exp RPAR cond_1 block else cond_2
+              '''
+
+def p_else(p):
+  '''else : ELSE cond_else block
+                     | empty
+                     '''
+
 def p_cond_1(p):
   'cond_1 : '
   global pila_Oz
@@ -691,23 +696,23 @@ def p_cond_2(p):
   global cont
 
   fin = pila_saltos.pop()  # num
-  #print fin, "fin"
-  print cuadruplos_list[fin].print_cuadruplo()
+  #print cuadruplos_list[fin].print_cuadruplo()
   cuadruplos_list[fin].set_result(cont)
 
 def p_cond_else(p):
   'cond_else : '
-
   global cont
   global pila_saltos
   global cuadruplos_list
   
+  print pila_saltos, "Saltos"
   cuadruplo_temp = Cuadruplo()
-  cuadruplo_temp.set_operador("goto")
+  cuadruplo_temp.set_operator("goto")
+  cuadruplo_temp.set_cont(cont)
   cuadruplos_list.append(cuadruplo_temp)
   cont += 1
   falso = pila_saltos.pop()
-  cuadruplos_list[falso].set_resultado(cont)
+  cuadruplos_list[falso].set_result(cont)
   pila_saltos.append(cont-1)   
 
 
