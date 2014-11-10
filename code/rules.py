@@ -603,12 +603,9 @@ def p_printx(p):
                 | STRING COMA printx 
                 '''
 
-# ************ WHILE ***************
+# ************ WHILE **********************
 def p_cycle(p):
-  '''cycle : WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3'''
-
-  global pila_tipo
-  pila_tipo.append(p[4])
+  '''cycle : WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3'''
 
 def p_cycle_1(p):
   'cycle_1 : '
@@ -619,23 +616,24 @@ def p_cycle_1(p):
 
 def p_cycle_2(p):
   'cycle_2 : '
-
-  global pila_op
-  global cuadruplos_list
-  global pila_saltos
+  global pila_Oz
+  global pila_Operador
   global cont
 
-  aux = pila_tipo.pop()
-  if not isinstance(aux, bool):
-    print "Semantic error at:"
-  else:
+  aux = pila_Oz.pop()
+  exp_value = verify(aux.value)
+  if exp_value == "bool":
     cuadruplo_temp = Cuadruplo()
-    result = pila_op.pop()
+    result = aux.name
     cuadruplo_temp.set_operator("gotoF")
     cuadruplo_temp.set_operand1(result)
+    cuadruplo_temp.set_cont(cont)
     cuadruplos_list.append(cuadruplo_temp)
     cont += 1
     pila_saltos.append(cont-1)
+  else:
+    print "Semantic Error cycle_2"
+    cuadrupleError()
 
 def p_cycle_3(p):
   'cycle_3 : '
@@ -643,16 +641,19 @@ def p_cycle_3(p):
   global pila_saltos
   global pila_op
 
-  cuadruplo_temp = Cuadruplo()
   falso = pila_saltos.pop()
   retorno = pila_saltos.pop()
-  cuadruplo_temp.set_operador("goto")
-  cuadruplo_temp.set_resultado(retorno)
-  cuadruplos.append(cuadruplo_temp)
-  cont += 1
-  cuadruplos[falso].set_resultado(cont)
 
-# ************ IF ***************
+  cuadruplo_temp = Cuadruplo()
+  cuadruplo_temp.set_operator("goto")
+  cuadruplo_temp.set_cont(cont)
+  cuadruplo_temp.set_result(retorno)
+  
+  cuadruplos_list.append(cuadruplo_temp)
+  cont += 1
+  cuadruplos_list[falso].set_result(cont)
+
+# ************ IF **************************
 def p_condition(p):
   '''condition :  IF LPAR exp RPAR cond_1 block else cond_2
               '''
@@ -705,7 +706,7 @@ def p_cond_else(p):
   global pila_saltos
   global cuadruplos_list
   
-  print pila_saltos, "Saltos"
+  #print pila_saltos, "Saltos"
   cuadruplo_temp = Cuadruplo()
   cuadruplo_temp.set_operator("goto")
   cuadruplo_temp.set_cont(cont)
@@ -715,7 +716,7 @@ def p_cond_else(p):
   cuadruplos_list[falso].set_result(cont)
   pila_saltos.append(cont-1)   
 
-
+# *********************** *******************
 def p_list(p):
     '''list : LIST ID EQUAL LBRACKET listx RBRACKET'''
 

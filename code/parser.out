@@ -69,7 +69,7 @@ Rule 56    printx -> expression
 Rule 57    printx -> STRING
 Rule 58    printx -> expression COMA printx
 Rule 59    printx -> STRING COMA printx
-Rule 60    cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+Rule 60    cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
 Rule 61    cycle_1 -> <empty>
 Rule 62    cycle_2 -> <empty>
 Rule 63    cycle_3 -> <empty>
@@ -162,8 +162,8 @@ eat                  : 25
 else                 : 64
 empty                : 4 6 8 12 66
 equal_val            : 36
-exp                  : 39 41 42 43 44 45 64
-expression           : 36 48 56 58 60
+exp                  : 39 41 42 43 44 45 60 64
+expression           : 36 48 56 58
 func                 : 2 7
 func_list            : 1 7
 funcx                : 9
@@ -634,7 +634,7 @@ state 35
     (35) type -> . BOOLEAN
     (36) asign -> . ID id_val EQUAL equal_val expression
     (64) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
-    (60) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (60) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
     (55) print -> . PRINT LPAR printx RPAR
     (70) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
     (75) call -> . ID LPAR RPAR
@@ -1001,7 +1001,7 @@ state 47
     (35) type -> . BOOLEAN
     (36) asign -> . ID id_val EQUAL equal_val expression
     (64) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
-    (60) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (60) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
     (55) print -> . PRINT LPAR printx RPAR
     (70) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
     (75) call -> . ID LPAR RPAR
@@ -1080,7 +1080,7 @@ state 49
 
 state 50
 
-    (60) cycle -> WHILE . cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (60) cycle -> WHILE . cycle_1 LPAR exp RPAR cycle_2 block cycle_3
     (61) cycle_1 -> .
 
     LPAR            reduce using rule 61 (cycle_1 -> .)
@@ -1207,7 +1207,7 @@ state 57
     (35) type -> . BOOLEAN
     (36) asign -> . ID id_val EQUAL equal_val expression
     (64) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
-    (60) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+    (60) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
     (55) print -> . PRINT LPAR printx RPAR
     (70) list -> . LIST ID EQUAL LBRACKET listx RBRACKET
     (75) call -> . ID LPAR RPAR
@@ -1582,7 +1582,7 @@ state 78
 
 state 79
 
-    (60) cycle -> WHILE cycle_1 . LPAR expression RPAR cycle_2 block cycle_3
+    (60) cycle -> WHILE cycle_1 . LPAR exp RPAR cycle_2 block cycle_3
 
     LPAR            shift and go to state 99
 
@@ -1865,8 +1865,7 @@ state 98
 
 state 99
 
-    (60) cycle -> WHILE cycle_1 LPAR . expression RPAR cycle_2 block cycle_3
-    (39) expression -> . exp
+    (60) cycle -> WHILE cycle_1 LPAR . exp RPAR cycle_2 block cycle_3
     (40) exp -> . termino termino_val
     (41) exp -> . termino termino_val PLUS op_val exp
     (42) exp -> . termino termino_val MINUS op_val exp
@@ -1890,8 +1889,7 @@ state 99
 
     varcte                         shift and go to state 40
     termino                        shift and go to state 42
-    exp                            shift and go to state 43
-    expression                     shift and go to state 118
+    exp                            shift and go to state 118
 
 state 100
 
@@ -2160,7 +2158,7 @@ state 117
 
 state 118
 
-    (60) cycle -> WHILE cycle_1 LPAR expression . RPAR cycle_2 block cycle_3
+    (60) cycle -> WHILE cycle_1 LPAR exp . RPAR cycle_2 block cycle_3
 
     RPAR            shift and go to state 135
 
@@ -2523,7 +2521,7 @@ state 134
 
 state 135
 
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR . cycle_2 block cycle_3
+    (60) cycle -> WHILE cycle_1 LPAR exp RPAR . cycle_2 block cycle_3
     (62) cycle_2 -> .
 
     LBRACKET        reduce using rule 62 (cycle_2 -> .)
@@ -2601,7 +2599,7 @@ state 144
 
 state 145
 
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 . block cycle_3
+    (60) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 . block cycle_3
     (13) block -> . LBRACKET blockx RBRACKET
 
     LBRACKET        shift and go to state 35
@@ -2747,7 +2745,7 @@ state 152
 
 state 153
 
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block . cycle_3
+    (60) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block . cycle_3
     (63) cycle_3 -> .
 
     INT             reduce using rule 63 (cycle_3 -> .)
@@ -2837,23 +2835,23 @@ state 158
 
 state 159
 
-    (60) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .
+    (60) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .
 
-    INT             reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    FLOAT           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    BOOLEAN         reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    ID              reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    IF              reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    WHILE           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    PRINT           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    LIST            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    MOVE            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    EAT             reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    CLEAN           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    PLAY            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    TURNLEFT        reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    TURNRIGHT       reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
-    RBRACKET        reduce using rule 60 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    INT             reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    FLOAT           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    BOOLEAN         reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    ID              reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    IF              reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    WHILE           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    PRINT           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    LIST            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    MOVE            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    EAT             reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    CLEAN           reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    PLAY            reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    TURNLEFT        reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    TURNRIGHT       reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    RBRACKET        reduce using rule 60 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
 
 
 state 160

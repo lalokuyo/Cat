@@ -4,12 +4,9 @@ A = 4
 	
 func boy (){
   int perro
-  if (3 < 5){
+  while (3 < 5){
     int c
     c = 5
-  }else{
-    A = 3
-    int v
   }
   int B
   B = 3
