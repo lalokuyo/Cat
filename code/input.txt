@@ -1,22 +1,21 @@
 
 int A
-int B
 int C
+int B
 A = 4
-B = 3
 C = 7
+
+B = 5
 	
 func boy (){
-	list perro = [1]
-	list carro = [A, B, C]
-	carro.add(6)
-	perro.remove()
-	B = A + C + 3
+	C = 6+7
+	boy()
 }
 
 func girl (){
-	int mochila
-	bool bcolsa
+	int Z
+	Z = A + B
+	boy()
+	
 }
-
 

@@ -6,7 +6,6 @@
 #  
 # Syntax / Grammar rules
 # ----------------------------------------------------------------------------
-
 from tokens import reserved
 from node import Node
 from semantic_cube import *
@@ -24,13 +23,13 @@ pila_saltos     = []
 
 cont            = 0
 cuadruplos_list = []
-
 temp_cont       = 0
-
 
 # ****** TABLES **********
 funcName            = ""
+functions_directory = {}
 functions_table     = {}
+param_cont          = 0
 
 #Variables table
 vartemp_list        = []       #Locales a funcion
@@ -45,7 +44,8 @@ cte_list            = {}
 # *** MEMORY ALLOCATIONS ***
 #types
 mem_global  = 1000
-#mem_local   = 
+mem_func    = 5
+#mem_local  = 
 
 mem_true    = 2000
 mem_false   = 3000
@@ -66,7 +66,7 @@ def p_class(p):
   '''class : vars_global init_vars func_list
             | func class
             '''
-  #print "Tabla func", functions_table
+  #print "Tabla func", functions_directory
 
 def p_vars_global(p):
   '''vars_global : varsGlobal vars_global
@@ -85,29 +85,48 @@ def p_func_list(p):
                  '''
 
 def p_func(p):
-  #'func : vars_global'
-  'func :  FUNC idCheck LPAR funcx RPAR block'
-  #'func : FUNC idCheck LPAR funcx RPAR block '
- 
+  'func :  FUNC idCheck LPAR funcx RPAR block func_end' 
   #Verify name of functions
   global funcName
-  #print funcName
   global vartemp_list
-  functions_table[p[2]] = vartemp_list  #Se asigna varTable a func
+
+   #Se asigna varTable a func dict
+  functions_directory[p[2]] = vartemp_list 
 
   #Empty temp variables  
   vartemp_list = []
   funcName = ""
 
+def p_func_end(p):
+  'func_end : '
+  global pila_Oz
+  global cont
+  global cuadruplos_list
+
+  cuadruplo_temp = Cuadruplo()
+  cuadruplo_temp.set_cont(cont)
+  cuadruplo_temp.set_operator("Ret")
+  cuadruplos_list.append(cuadruplo_temp)
+
+  cont += 1
+
+
 def p_idCheck(p):  #Checks function id
   'idCheck : ID'
-
+  global functions_table
+  global functions_directory
   global funcName
+  global mem_func
 
-  if p[1] in functions_table:
+  if p[1] in functions_directory:
     print "Existing variable"
   else:
+    #Add name to func Table
+    functions_table[p[1]] = mem_func
     funcName = p[1]
+
+    mem_func += 1
+
     p[0] = p[1]
 
 
@@ -117,7 +136,7 @@ def p_funcx(p):
   p[0] = p[1]
 
 def p_block(p):
-  '''block : LCBRACKET blockx RCBRACKET'''
+  '''block : LCBRACKET blockx  RCBRACKET'''
   #print "entra block"
   p[0] = p[2]
 
@@ -278,6 +297,7 @@ def p_asign(p):
     cuadruplo_temp = Cuadruplo()
     operatorX = pila_Operador.pop()
     cuadruplo_temp.set_operator(operatorX)
+    #print pila_Oz
     operand1 = pila_Oz.pop()  #3
     result   = pila_Oz.pop()  #A
 
@@ -362,7 +382,7 @@ def p_exp(p):
   pos_ops = ['+', '-', '*', '/', '>', '<', '>=', '<=', '==', '!=','&&', '||']
 
   if pila_Operador and pila_Operador[-1] in pos_ops: 
-    #print pila_Oz
+    #print pila_Oz, "poz"
     operator = pila_Operador.pop()
     operand2 = pila_Oz.pop() #4
     operand1 = pila_Oz.pop() #3
@@ -373,8 +393,8 @@ def p_exp(p):
       operand1 = varx.value
 
     if verify(operand2) == "string":
-      varx = variableFetch(operand2)
-      operand2 = varx.value
+      vary = variableFetch(operand2)
+      operand2 = vary.value
 
       #If temporal from another operation.
     if isinstance(operand1, Node):
@@ -385,7 +405,7 @@ def p_exp(p):
     cuadruplo_temp = Cuadruplo()
     cuadruplo_temp.set_operator(operator)
 
-    #print operand2, "OP2"
+    #print operand1, operand2, "OP2"
     #print isinstance(operand2, int), "isinstance"
     #print cte_list[]
     op2_mem = cte_list[operand2]  #80808
@@ -617,7 +637,7 @@ def cte_memoryAssign(x):
       cte_list[x] = mem_cte
       mem_cte += 1
 
-#*****
+# ******************* PRINT *******************************
 def p_print(p):
     ''' print : PRINT LPAR printx RPAR'''
 
@@ -628,7 +648,7 @@ def p_printx(p):
                 | STRING COMA printx 
                 '''
 
-# ************ WHILE **********************
+# ***************** WHILE *******************************+
 def p_cycle(p):
   '''cycle : WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3'''
 
@@ -678,7 +698,7 @@ def p_cycle_3(p):
   cont += 1
   cuadruplos_list[falso].set_result(cont)
 
-# ************ IF **************************
+# ******************* IF **********************************
 def p_condition(p):
   '''condition :  IF LPAR exp RPAR cond_1 block else cond_2
               '''
@@ -741,7 +761,7 @@ def p_cond_else(p):
   cuadruplos_list[falso].set_result(cont)
   pila_saltos.append(cont-1)   
 
-# ************* LISTS **************************
+# ******************** LISTS *******************************
 def p_list(p):
     '''list : LIST idCheck_List EQUAL LBRACKET listx RBRACKET'''
     global list_temp
@@ -909,10 +929,84 @@ def p_remove(p):
     print "Empty list"
   p[0] = p[1]
 
+
+# ******************* CALL FUNCTION **********************************
 def p_call(p):
-    '''call : ID LPAR RPAR 
-             | ID LPAR ID RPAR
-             '''
+  '''call : ID id_call LPAR RPAR 
+            | ID id_call LPAR par_call params RPAR
+           '''
+  global pila_Oz
+  global cont
+  global param_cont
+
+  print pila_Oz
+  if "(" in pila_Oz:
+    item = "x"
+    #Take elements out of stack until no params
+    while item != "(":
+      item = pila_Oz.pop()
+      if item != "(":
+        param = "param" + str(param_cont)
+        if isinstance(item, Node):
+          op1 = item.name
+        else:
+          op1 = item
+        #PARAMS
+        cuadruplo_temp = Cuadruplo()
+        cuadruplo_temp.set_cont(cont)
+        cuadruplo_temp.set_operator("param")
+        cuadruplo_temp.set_operand1(op1)
+        cuadruplo_temp.set_result(param)
+        cuadruplos_list.append(cuadruplo_temp)
+        cont += 1
+        param_cont += 1
+
+  subname = pila_Oz.pop()
+  #GO SUB
+  cuadruplo_sub = Cuadruplo()
+  cuadruplo_sub.set_cont(cont)
+  cuadruplo_sub.set_operator("goSub")
+  cuadruplo_sub.set_operand1(subname)
+  cuadruplos_list.append(cuadruplo_sub)
+  cont += 1
+
+  param_cont = 0
+  
+
+def p_id_call(p):
+  'id_call : '
+  global functions_table
+  global pila_Oz
+  global cont
+  global cuadruplos_list
+
+  if p[-1] in functions_table:
+    #print "Existing variable"
+    cuadruplo_temp = Cuadruplo()
+    cuadruplo_temp.set_cont(cont)
+    cuadruplo_temp.set_operator("ERA")
+    cuadruplo_temp.set_operand1(p[-1])
+    cuadruplos_list.append(cuadruplo_temp)
+
+    cont += 1
+    pila_Oz.append(p[-1])
+    p[0] = p[-1]
+  else:
+    print "Not existing function"
+    cuadrupleError()
+
+def p_par_call(p):
+  'par_call  : '
+  global pila_Oz
+  pila_Oz.append("(")
+
+def p_params(p):
+  '''params : expression COMA params
+              | ID COMA params
+              | expression
+              | ID
+              '''
+# ************************************
 
 def p_move(p):
     '''move : MOVE LPAR ID RPAR'''

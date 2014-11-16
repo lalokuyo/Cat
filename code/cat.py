@@ -41,13 +41,15 @@ for x in variables_globales:
     if isinstance(x.value, Node):
        x.value.print_var()
 
-#"TABLA", functions_table
+#"TABLA", functions_directory
 print "LOCALES"
-for x in functions_table:
-	var_list = functions_table[x]
+for x in functions_directory:
+	var_list = functions_directory[x]
 	for y in var_list:
 		print y
 
+print "FUNCIONES"
+print functions_table
 
 print "CUADRUPLOS"
 for x in cuadruplos_list:
