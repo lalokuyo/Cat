@@ -12,7 +12,7 @@ class Node(object):
 	def __init__(self,):
 		self.name 	= ""
 		self.type 	= ""
-		self.value 	= ''
+		self.value 	= 0
 		self.scope 	= ""
 		self.mem	= ''
 		

@@ -46,7 +46,8 @@ print "LOCALES"
 for x in functions_table:
 	var_list = functions_table[x]
 	for y in var_list:
-		y.print_var()
+		print y
+
 
 print "CUADRUPLOS"
 for x in cuadruplos_list:
@@ -55,4 +56,6 @@ for x in cuadruplos_list:
 print pila_Oz, "OZ"
 print pila_Operador, "OPer"
 
+
+#lista.append(3,4)
 

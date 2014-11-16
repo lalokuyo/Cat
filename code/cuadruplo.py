@@ -7,7 +7,6 @@
 # Estructura del Cuadruplo
 # ----------------------------------------------------------------------------
 
-
 class Cuadruplo: 
     
     #Constructor

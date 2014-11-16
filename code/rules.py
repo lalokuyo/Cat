@@ -11,6 +11,7 @@ from tokens import reserved
 from node import Node
 from semantic_cube import *
 from cuadruplo import *
+from linkedList import *
 
 # GLOBAL VARIABLES
 
@@ -23,9 +24,9 @@ pila_saltos     = []
 
 cont            = 0
 cuadruplos_list = []
-temporal_list   = []
+
 temp_cont       = 0
-  
+
 
 # ****** TABLES **********
 funcName            = ""
@@ -35,14 +36,21 @@ functions_table     = {}
 vartemp_list        = []       #Locales a funcion
 variables_globales  = []
 
+#LISTAS
+list_directory      = []       #directorio de listas
+list_temp           = []
+
 cte_list            = {}
 
 # *** MEMORY ALLOCATIONS ***
 #types
 mem_global  = 1000
+#mem_local   = 
+
 mem_true    = 2000
 mem_false   = 3000
 
+mem_list    = 4000
 mem_int     = 5000
 mem_float   = 6000
 mem_boolean = 7000
@@ -109,7 +117,7 @@ def p_funcx(p):
   p[0] = p[1]
 
 def p_block(p):
-  '''block : LBRACKET blockx RBRACKET'''
+  '''block : LCBRACKET blockx RCBRACKET'''
   #print "entra block"
   p[0] = p[2]
 
@@ -135,6 +143,7 @@ def p_statement(p):
                 | clean
                 | play
                 | add
+                | remove
                 | turnleft
                 | turnright
                 '''    
@@ -250,7 +259,8 @@ def cuadrupleError():
   cuadruplos_list.append(cuadruplo_temp)
 
 def p_asign(p): 
-  '''asign : ID id_val EQUAL equal_val expression'''
+  '''asign : ID id_val EQUAL equal_val expression
+          '''
 
   global cuadruplos_list
   global cont
@@ -262,6 +272,7 @@ def p_asign(p):
   global pila_Operador
 
   cteMemory = 0
+  auxtemp   = False
 
   if pila_Operador and pila_Operador[-1] == "=":
     cuadruplo_temp = Cuadruplo()
@@ -279,27 +290,35 @@ def p_asign(p):
         #Type - IF TEMPORAL
       if isinstance(operand1, Node):
         operand1_type = verify(operand1.value)
+
       #2. Verify cube
       if semantic_cube[operand1_type][result.type]['='] != 'error':
-
         if operand1 == True: #true left for visualization
           cteMemory = mem_true
+          result.value = True
           mem_true += 1
         elif operand1 == False:
           cteMemory = mem_false
+          result.value = False
           mem_false += 1
         elif operand1 in cte_list:
           cteMemory = cte_list[operand1]
+          result.value = operand1 
         elif isinstance(operand1, Node):
           cteMemory = operand1.mem
+          result.value = operand1.value
+          auxtemp = True
         
-        result.value = operand1 
         #3. Forming cuadruple
         cuadruplo_temp.set_cont(cont)
-        cuadruplo_temp.set_operand1(cteMemory)
+        if auxtemp:
+          cuadruplo_temp.set_operand1(operand1.name)
+        else:
+          cuadruplo_temp.set_operand1(cteMemory)
         cuadruplo_temp.set_result(result.mem)
         cuadruplos_list.append(cuadruplo_temp)
         cont += 1
+      #elif isinstance(operand1, Node):
       else:
         print "Semantic Error at asign"
         cuadrupleError()
@@ -336,7 +355,6 @@ def p_exp(p):
   global pila_Operador
   global pila_temp
   global temp_cont
-  global temporal_list
   global mem_cte
   global mem_temp
   global cte_list
@@ -358,11 +376,18 @@ def p_exp(p):
       varx = variableFetch(operand2)
       operand2 = varx.value
 
+      #If temporal from another operation.
+    if isinstance(operand1, Node):
+      operand1 = operand1.value
+    if isinstance(operand2, Node):
+      operand2 = operand2.value
+
     cuadruplo_temp = Cuadruplo()
     cuadruplo_temp.set_operator(operator)
 
-    #print operand2
-    #print cte_list
+    #print operand2, "OP2"
+    #print isinstance(operand2, int), "isinstance"
+    #print cte_list[]
     op2_mem = cte_list[operand2]  #80808
     if operand1:
       op1_mem = cte_list[operand1]
@@ -716,17 +741,173 @@ def p_cond_else(p):
   cuadruplos_list[falso].set_result(cont)
   pila_saltos.append(cont-1)   
 
-# *********************** *******************
+# ************* LISTS **************************
 def p_list(p):
-    '''list : LIST ID EQUAL LBRACKET listx RBRACKET'''
+    '''list : LIST idCheck_List EQUAL LBRACKET listx RBRACKET'''
+    global list_temp
+    #print list_temp
+    list_temp = []
 
 def p_listx(p):
-    '''listx : ID 
-              | NUMINT
-              | ID COMA listx
-              | NUMINT COMA listx
+    '''listx : ID id_param
+              | ID id_param COMA listx
+              | NUMINT id_param
+              | NUMINT id_param COMA listx
+              | NUMFLOAT id_param
+              | NUMFLOAT id_param COMA listx
               '''
 
+def p_idCheck_List(p):  #Checks function id
+  'idCheck_List : ID'
+  global list_directory
+  global vartemp_list
+  global pila_Oz
+  global mem_list
+  global list_temp
+
+  if p[1] in list_directory:
+    print "Existing List"
+  else:
+    #Create list and append
+    #pila_Oz.append(p[1])
+    aux_list = LinkedList()
+    aux_list.set_name(p[1])
+    aux_list.set_mem(mem_list)
+    list_temp = aux_list
+    mem_list = mem_list + 1
+
+    vartemp_list.append(aux_list)
+    list_directory.append(aux_list)
+    p[0] = p[1]
+
+def p_id_param(p):
+  '''id_param :'''
+  global vartemp_list
+  global variables_globales
+  global list_temp
+  global pila_Oz
+
+  if any(x.name == p[-1] for x in vartemp_list) or any(x.name == p[-1] for x in variables_globales):
+    #Add to list
+    list_temp.lista.append(p[-1])
+    #pila_Oz.append(p[-1])
+  elif isinstance(p[-1], int) or isinstance(p[-1], float):
+    list_temp.lista.append(p[-1])
+  else:
+    print "Error at: " + p[-1]
+
+# ****************** ADD TO LIST **********************************
+
+def p_id_param2(p):
+  '''id_param2 :'''
+  global vartemp_list
+  global variables_globales
+  global list_temp
+  global pila_Oz
+
+  if any(x.name == p[-1] for x in vartemp_list) or any(x.name == p[-1] for x in variables_globales):
+    #Add to list
+    list_temp.lista.append(p[-1])
+    pila_Oz.append(p[-1])
+  elif isinstance(p[-1], int) or isinstance(p[-1], float):
+    list_temp.lista.append(p[-1])
+    pila_Oz.append(p[-1])
+  else:
+    print "Error at: " + p[-1]
+
+def p_listx_add(p):
+  '''listx_add : ID id_param2
+                  | NUMINT id_param2
+                  | NUMFLOAT id_param2
+                  '''
+  p[0] = p[1]
+
+def p_add(p):
+  '''add : ID idCheck_Add POINT ADD LPAR listx_add RPAR '''
+  global list_temp
+  global cont
+  global cuadruplos_list
+  global pila_Oz
+  cteMemory = 0
+
+  value  = pila_Oz.pop()
+  cte_memoryAssign(value)
+  if value in cte_list:
+    cteMemory = cte_list[value]
+  elif isinstance(value, Node):
+    cteMemory = value.mem
+
+  #print value
+  memory = list_temp.get_mem()
+  #Cuadruple creation 
+  cuadruplo_temp = Cuadruplo()
+  cuadruplo_temp.set_cont(cont)
+  cuadruplo_temp.set_operator("add")
+  cuadruplo_temp.set_operand1(cteMemory)
+  cuadruplo_temp.set_result(memory)
+  cuadruplos_list.append(cuadruplo_temp)
+
+  list_temp = []
+  cont = cont + 1
+
+
+def p_idCheck_Add(p):  #Checks function id
+  'idCheck_Add : '
+  global list_directory
+  global list_temp
+
+  #Check if lists exists in list of index
+  if any(x.name == p[-1] for x in list_directory) or any(x.name == p[-1] for x in list_directory):
+    #print "Exists"
+    list_temp = variableFetch(p[-1])
+    #print list_temp
+  else:
+    print "No exists"
+
+
+# ****************** REMOVE TO LIST **********************************
+def p_remove(p):
+  '''remove : ID idCheck_Add POINT REMOVE LPAR RPAR '''
+  global list_temp
+  global cont
+  global cuadruplos_list
+  global temp_cont
+  global mem_temp
+  global pila_Oz
+
+  memory  = list_temp.get_mem()
+  length  = len(list_temp.lista)
+  cuadruplo_temp = Cuadruplo()
+
+  if length >= 0:
+    catch = Node()
+    catch = list_temp.lista.pop()
+
+    #Temporal
+    temp        = Node()
+    tname       = "t" + str(temp_cont)
+    temp.name   = tname
+    temp.mem    = mem_temp
+    temp.value  = catch
+    #pila_Oz.append(temp)
+
+    #Cuadruple creation
+    cuadruplo_temp.set_cont(cont)
+    cuadruplo_temp.set_operator("rm")
+    cuadruplo_temp.set_result(temp.name)
+    cuadruplos_list.append(cuadruplo_temp)
+
+    list_temp = []
+    cont      += 1
+    mem_temp  += 1
+    temp_cont += 1
+
+  else:
+    cuadruplo_temp.set_cont(-1)
+    cuadruplo_temp.set_operator("EMPTY LIST")
+    cuadruplos_list.append(cuadruplo_temp)
+    print "Empty list"
+  p[0] = p[1]
 
 def p_call(p):
     '''call : ID LPAR RPAR 
@@ -744,12 +925,6 @@ def p_clean(p):
 
 def p_play(p):
     '''play : PLAY LPAR ID RPAR'''
-
-def p_add(p):
-    '''add : ID POINT ADD LPAR CANDY RPAR
-            | ID POINT ADD LPAR POOP RPAR
-            | ID POINT ADD LPAR BALL RPAR
-            '''
 
 def p_turnleft(p):
     '''turnleft : TURNLEFT LPAR RPAR'''

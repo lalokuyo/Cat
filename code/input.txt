@@ -1,15 +1,17 @@
 
 int A
+int B
+int C
 A = 4
+B = 3
+C = 7
 	
 func boy (){
-  int perro
-  while (3 < 5){
-    int c
-    c = 5
-  }
-  int B
-  B = 3
+	list perro = [1]
+	list carro = [A, B, C]
+	carro.add(6)
+	perro.remove()
+	B = A + C + 3
 }
 
 func girl (){

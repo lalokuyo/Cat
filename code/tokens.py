@@ -22,6 +22,9 @@ tokens = [
           'RPAR', 
           'LBRACKET',
           'RBRACKET',
+          'LCBRACKET',
+          'RCBRACKET',
+
 
           #Operations 
           'COMPARISON', 
@@ -56,6 +59,7 @@ reserved = {
    'play'   : 'PLAY',
    'ball'   : 'BALL',
    'list'   : 'LIST',
+   'remove' : 'REMOVE',
    'add'    : 'ADD',
    'move'   : 'MOVE',
    'turnleft'   : 'TURNLEFT',
@@ -74,8 +78,10 @@ t_SEMICOLON = r':'
 t_COMA      = r','
 t_LPAR      = r'\('
 t_RPAR      = r'\)'
-t_LBRACKET  = r'\{'
-t_RBRACKET  = r'\}'
+t_LCBRACKET  = r'\{'
+t_RCBRACKET  = r'\}'
+t_LBRACKET  = r'\['
+t_RBRACKET  = r'\]'
 t_COMPARISON  = r'<=|>=|<|>|==|!=|&&|\|\|'
 
 t_MULTIPLY  = r'\*'
