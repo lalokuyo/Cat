@@ -1,21 +1,19 @@
 
-int A
-int C
+bool A
 int B
-A = 4
-C = 7
+int C
+int D
+int E
+E = 2
 
-B = 5
-	
+A = (5 < E)
+B = (5 * 5) / 3
+
 func boy (){
-	C = 6+7
-	boy()
+	int X
 }
 
 func girl (){
 	int Z
-	Z = A + B
-	boy()
-	
 }
 

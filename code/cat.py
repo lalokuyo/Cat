@@ -58,6 +58,10 @@ for x in cuadruplos_list:
 print pila_Oz, "OZ"
 print pila_Operador, "OPer"
 
+print "TEMPS"
+for x in list_temp:
+	print x
+
 
 #lista.append(3,4)
 

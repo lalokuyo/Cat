@@ -358,19 +358,25 @@ def p_equal_val(p):
 
 #********* MATH OPERATIONS **************
 
+def createCuad(operator, op1_name, op2_name, result):
+  global cont
+  global cuadruplos_list
+
+  #SET CUADRUPLE -op, tmp, tmp, tmp
+  cuadruplo_temp = Cuadruplo()
+  cuadruplo_temp.set_cont(cont)
+  cuadruplo_temp.set_operator(operator)
+  cuadruplo_temp.set_operand1(op1_name)
+  cuadruplo_temp.set_operand2(op2_name)
+  cuadruplo_temp.set_result(result)
+  cuadruplos_list.append(cuadruplo_temp)
+  cont += 1
+  print "hi ;)"
+
 def p_expression(p):
   '''expression : exp
+                | exp termino_val COMPARISON op_val expression
                 '''
-  p[0] = p[1]
-  
-def p_exp(p):
-  '''exp : termino termino_val
-          | termino termino_val PLUS op_val exp 
-          | termino termino_val MINUS op_val exp 
-          | termino termino_val MULTIPLY op_val exp 
-          | termino termino_val DIVIDE op_val exp
-          | termino termino_val COMPARISON op_val exp
-          '''
   global cont
   global pila_Operador
   global pila_temp
@@ -378,8 +384,9 @@ def p_exp(p):
   global mem_cte
   global mem_temp
   global cte_list
+  global list_temp
 
-  pos_ops = ['+', '-', '*', '/', '>', '<', '>=', '<=', '==', '!=','&&', '||']
+  pos_ops = ['>', '<', '>=', '<=', '==', '!=','&&', '||']
 
   if pila_Operador and pila_Operador[-1] in pos_ops: 
     #print pila_Oz, "poz"
@@ -405,9 +412,6 @@ def p_exp(p):
     cuadruplo_temp = Cuadruplo()
     cuadruplo_temp.set_operator(operator)
 
-    #print operand1, operand2, "OP2"
-    #print isinstance(operand2, int), "isinstance"
-    #print cte_list[]
     op2_mem = cte_list[operand2]  #80808
     if operand1:
       op1_mem = cte_list[operand1]
@@ -419,81 +423,11 @@ def p_exp(p):
       tname     = "t" + str(temp_cont)
       temp.name = tname
       temp.mem  = mem_temp
-      if operator == "+":
-        total = operand1 + operand2
-        cte_memoryAssign(total)
-
-        temp.value = total
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == "-":
-        total = operand1 - operand2
-        cte_memoryAssign(total)
-
-        temp.value = total
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == "*":
-        total = operand1 * operand2
-        cte_memoryAssign(total)
-
-        temp.value = total
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == "/":
-        total = operand1 / operand2
-        cte_memoryAssign(total)
-
-        temp.value = total
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
+      
       if operator == "<":
         total = operand1 < operand2
         temp.value = total
+        print "AQUI ANDO", pila_Oz
         #Cuadruple set
         cuadruplo_temp.set_operand1(op1_mem)
         cuadruplo_temp.set_operand2(op2_mem)
@@ -595,12 +529,190 @@ def p_exp(p):
     else:
       print "Semantic Error EXP"
 
+  p[0] = p[1] 
+
+def p_exp(p):
+  '''exp : termino 
+          | termino PLUS op_val exp 
+          | termino MINUS op_val exp
+          '''
+  global pila_Operador
+  global pila_temp
+  global temp_cont
+  global mem_cte
+  global mem_temp
+  global cte_list
+  global list_temp
+
+  pos_ops = ['+', '-']
+
+  if pila_Operador and pila_Operador[-1] in pos_ops: 
+    operator = pila_Operador.pop()
+    operand2 = pila_Oz.pop() #4
+    operand1 = pila_Oz.pop() #3
+
+    op1_name = ""
+    op2_name = ""
+
+    #****** VALUES *****
+    #IF CTE - MEMORY DIRECTIONS
+    if isinstance(operand2, Node) == False and verify(operand2) != "string":
+      op2_name = cte_list[operand2]  #80808
+    if isinstance(operand1, Node) == False and verify(operand1) != "string":
+      op1_name = cte_list[operand1]
+
+    #IF ID
+    if verify(operand1) == "string":
+      varx = variableFetch(operand1)
+      operand1 = varx.value
+      op1_name = varx.name
+    if verify(operand2) == "string":
+      vary = variableFetch(operand2)
+      operand2 = vary.value
+      op2_name = vary.name
+
+    #IF TEMPORAL
+    if isinstance(operand1, Node):
+      op1_name = operand1.name
+      operand1 = operand1.value
+    if isinstance(operand2, Node):
+      op2_name = operand2.name
+      operand2 = operand2.value
+
+    term2 = verify(operand2) #int, float, str, bool
+    term1 = verify(operand1)
+
+    if semantic_cube[term1][term2][operator] != 'error':
+      temp      = Node()
+      tname     = "t" + str(temp_cont)
+      temp.name = tname
+      temp.mem  = mem_temp
+
+      if operator == "+":
+        total = operand1 + operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+
+      if operator == "-":
+        total = operand1 - operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+    else:
+      print "Semantic Error EXP"
+
   p[0] = p[1]
+
+def p_termino(p):
+  '''termino : factor
+              | factor MULTIPLY op_val termino 
+              | factor DIVIDE op_val termino
+              '''
+  global cont
+  global pila_Operador
+  global pila_temp
+  global temp_cont
+  global mem_cte
+  global mem_temp
+  global cte_list
+
+  pos_ops = ['*', '/']
+
+  if pila_Operador and pila_Operador[-1] in pos_ops: 
+    #print pila_Oz, "poz"
+    operator = pila_Operador.pop()
+    operand2 = pila_Oz.pop() #4
+    operand1 = pila_Oz.pop() #3
+    op1_name = ""
+    op2_name = ""
+
+    #****** VALUES *****
+    #IF CTE - MEMORY DIRECTIONS
+    if isinstance(operand2, Node) == False and verify(operand2) != "string":
+      op2_name = cte_list[operand2]  #80808
+    if isinstance(operand1, Node) == False and verify(operand1) != "string":
+      op1_name = cte_list[operand1]
+
+    #IF ID
+    if verify(operand1) == "string":
+      varx = variableFetch(operand1)
+      operand1 = varx.value
+      op1_name = varx.name
+    if verify(operand2) == "string":
+      vary = variableFetch(operand2)
+      operand2 = vary.value
+      op2_name = vary.name
+
+    #IF TEMPORAL
+    if isinstance(operand1, Node):
+      op1_name = operand1.name
+      operand1 = operand1.value
+    if isinstance(operand2, Node):
+      op2_name = operand2.name
+      operand2 = operand2.value
+
+    term2 = verify(operand2) #int, float, str, bool
+    term1 = verify(operand1)
+
+    if semantic_cube[term1][term2][operator] != 'error':
+      temp      = Node()
+      tname     = "t" + str(temp_cont)
+      temp.name = tname
+      temp.mem  = mem_temp
+      
+      if operator == "*":
+        total = operand1 * operand2
+        cte_memoryAssign(total)
+        temp.value = total
+        
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+
+      if operator == "/":
+        total = operand1 / operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+    else:
+      print "Semantic Error EXP"
+  p[0] = p[1]
+
 
 def p_termino_val(p):
   '''termino_val : '''
   global pila_Oz
-  #print "TERMINO_VAL", p[-1]
+  print "TERMINO_VAL", p[-1]
   pila_Oz.append(p[-1])
 
 def p_op_val(p):
@@ -608,10 +720,10 @@ def p_op_val(p):
   global pila_Operador
   pila_Operador.append(p[-1])
 
-def p_termino(p):
-  '''termino : LPAR expression RPAR
+def p_factor(p):
+  '''factor : LPAR expression RPAR
             | MINUS varcte
-            | varcte
+            | varcte termino_val
             '''
   p[0] = p[1]
 
@@ -626,6 +738,7 @@ def p_varcte(p):
 
   p[0] = p[1]
   return p
+
 
 def cte_memoryAssign(x):
   global cte_list
