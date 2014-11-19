@@ -11,6 +11,7 @@ from node import Node
 from semantic_cube import *
 from cuadruplo import *
 from linkedList import *
+from func import *
 
 # GLOBAL VARIABLES
 
@@ -29,7 +30,10 @@ temp_cont       = 0
 funcName            = ""
 functions_directory = {}
 functions_table     = {}
+functions_cont      = {}
+func_list           = []
 param_cont          = 0
+paramtemp_list      = []
 
 #Variables table
 vartemp_list        = []       #Locales a funcion
@@ -44,19 +48,18 @@ cte_list            = {}
 # *** MEMORY ALLOCATIONS ***
 #types
 mem_global  = 1000
-mem_func    = 5
-#mem_local  = 
-
-mem_true    = 2000
-mem_false   = 3000
-
+mem_func    = 2000
+#mem_local  = 3000
 mem_list    = 4000
+
 mem_int     = 5000
 mem_float   = 6000
 mem_boolean = 7000
 mem_cte     = 8000
 mem_temp    = 90000
 
+mem_true    = 12000
+mem_false   = 13000
 # ***** TEMP VARS ***
 
 
@@ -96,6 +99,7 @@ def p_func(p):
   #Empty temp variables  
   vartemp_list = []
   funcName = ""
+  param_cont = 0
 
 def p_func_end(p):
   'func_end : '
@@ -117,13 +121,22 @@ def p_idCheck(p):  #Checks function id
   global functions_directory
   global funcName
   global mem_func
+  global cont
+  global func_list
 
   if p[1] in functions_directory:
     print "Existing variable"
   else:
     #Add name to func Table
     functions_table[p[1]] = mem_func
+    functions_cont[p[1]]  = cont
     funcName = p[1]
+
+    #Functions structure
+    func_temp = Func()
+    func_temp.name = funcName
+    func_temp.mem  = mem_func
+    func_list.append(func_temp)
 
     mem_func += 1
 
@@ -131,15 +144,25 @@ def p_idCheck(p):  #Checks function id
 
 
 def p_funcx(p):
-  '''funcx : vars
+  '''funcx : vars paramCheck
+            | vars paramCheck COMA funcx
             | empty'''
+
   p[0] = p[1]
+
+def p_paramCheck(p):
+  '''paramCheck : '''
+  global param_cont
+  global paramtemp_list
+
+  param_temp = paramtemp_list.pop()
+  param_temp.param = "param" + str(param_cont)
+  param_cont += 1
 
 def p_block(p):
   '''block : LCBRACKET blockx  RCBRACKET'''
   #print "entra block"
   p[0] = p[2]
-
 
 def p_blockx(p):
   '''blockx : vars 
@@ -165,8 +188,53 @@ def p_statement(p):
                 | remove
                 | turnleft
                 | turnright
+                | return
                 '''    
   p[0] = p[1]
+
+def p_return(p):
+  '''return : RETURN LPAR par_call expression RPAR par_call2 '''
+  global pila_Oz
+  global funcName
+
+  func_temp = functionFetch(funcName)
+  print func_temp.name
+  print pila_Oz, "RETURn"
+  #Check for ")"
+  item = pila_Oz.pop()
+  if item == ")":
+    #Take elements out of stack until no params
+    while item != "(":
+      item = pila_Oz.pop()
+      if item != "(":
+
+        if isinstance(item, str):
+          var = variableFetch(item)
+        if isinstance(var, Node):
+          op1 = var.mem
+          func_temp.ret = var
+        else:
+          op1 = item
+          func_temp.ret = item
+        #RETURN CUAD
+        createCuad("RETURN", op1, None, None)
+        #TEMP CUAD
+        temp      = Node()
+        tname     = "t" + str(temp_cont)
+        temp.name = tname
+        temp.mem  = mem_temp
+        #CHECAR*************** * * ** * *!!!!1
+
+  print pila_Oz, "SALE RETURN "
+    #pila_Oz.append(temp)
+    #list_temp.append(temp)
+
+def functionFetch(key):
+  global func_list
+  for func in func_list:
+    if key == func.name:
+      return func
+
 
 def p_varsGlobal(p):
   '''varsGlobal : type ID'''
@@ -243,6 +311,8 @@ def p_vars(p):
       mem_boolean += 1
 
     vartemp_list.append(var)
+    paramtemp_list.append(var)
+
     p[0] = var
   
 def p_type(p):
@@ -279,25 +349,22 @@ def cuadrupleError():
 
 def p_asign(p): 
   '''asign : ID id_val EQUAL equal_val expression
+            | ID id_val EQUAL equal_val call
           '''
-
   global cuadruplos_list
   global cont
   global mem_cte
   global mem_true
   global mem_false
-
   global pila_Oz
   global pila_Operador
 
   cteMemory = 0
   auxtemp   = False
-
   if pila_Operador and pila_Operador[-1] == "=":
     cuadruplo_temp = Cuadruplo()
     operatorX = pila_Operador.pop()
     cuadruplo_temp.set_operator(operatorX)
-    #print pila_Oz
     operand1 = pila_Oz.pop()  #3
     result   = pila_Oz.pop()  #A
 
@@ -343,8 +410,9 @@ def p_asign(p):
         print "Semantic Error at asign"
         cuadrupleError()
     else:
+      cuadrupleError()
       print "Undeclared variable:", p[1]
-  #print cte_list, "LISTA"
+  print pila_Oz, "ASIGN"
 
 def p_id_val(p): 
   '''id_val : '''
@@ -367,17 +435,17 @@ def createCuad(operator, op1_name, op2_name, result):
   cuadruplo_temp.set_cont(cont)
   cuadruplo_temp.set_operator(operator)
   cuadruplo_temp.set_operand1(op1_name)
-  cuadruplo_temp.set_operand2(op2_name)
-  cuadruplo_temp.set_result(result)
+  if op2_name != None:
+    cuadruplo_temp.set_operand2(op2_name)
+  if result != None:
+    cuadruplo_temp.set_result(result)
   cuadruplos_list.append(cuadruplo_temp)
   cont += 1
-  print "hi ;)"
 
 def p_expression(p):
   '''expression : exp
-                | exp termino_val COMPARISON op_val expression
+                | exp COMPARISON op_val expression
                 '''
-  global cont
   global pila_Operador
   global pila_temp
   global temp_cont
@@ -387,164 +455,6 @@ def p_expression(p):
   global list_temp
 
   pos_ops = ['>', '<', '>=', '<=', '==', '!=','&&', '||']
-
-  if pila_Operador and pila_Operador[-1] in pos_ops: 
-    #print pila_Oz, "poz"
-    operator = pila_Operador.pop()
-    operand2 = pila_Oz.pop() #4
-    operand1 = pila_Oz.pop() #3
-
-    #IF operation involves another variable.
-    if verify(operand1) == "string":
-      varx = variableFetch(operand1)
-      operand1 = varx.value
-
-    if verify(operand2) == "string":
-      vary = variableFetch(operand2)
-      operand2 = vary.value
-
-      #If temporal from another operation.
-    if isinstance(operand1, Node):
-      operand1 = operand1.value
-    if isinstance(operand2, Node):
-      operand2 = operand2.value
-
-    cuadruplo_temp = Cuadruplo()
-    cuadruplo_temp.set_operator(operator)
-
-    op2_mem = cte_list[operand2]  #80808
-    if operand1:
-      op1_mem = cte_list[operand1]
-
-    term2 = verify(operand2) #int, float, str, bool
-    term1 = verify(operand1) 
-    if semantic_cube[term1][term2][operator] != 'error':
-      temp      = Node()
-      tname     = "t" + str(temp_cont)
-      temp.name = tname
-      temp.mem  = mem_temp
-      
-      if operator == "<":
-        total = operand1 < operand2
-        temp.value = total
-        print "AQUI ANDO", pila_Oz
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        #pila_Operador.append(temp.mem)
-        pila_Oz.append(temp)
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == ">":
-        total = operand1 > operand2
-        temp.value = total
-
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == "<=":
-        total = operand1 <= operand2
-        temp.value = total
-
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == ">=":
-        total = operand1 >= operand2
-        cte_memoryAssign(total)
-
-        temp.value = total
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == "==":
-        total = operand1 == operand2
-        cte_memoryAssign(total)
-
-        temp.value = total
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-
-      if operator == "!=":
-        total = operand1 != operand2
-        cte_memoryAssign(total)
-
-        temp.value = total
-        #Cuadruple set
-        cuadruplo_temp.set_operand1(op1_mem)
-        cuadruplo_temp.set_operand2(op2_mem)
-        cuadruplo_temp.set_result(temp.name)
-        cuadruplo_temp.set_cont(cont)
-        cuadruplos_list.append(cuadruplo_temp)
-        pila_Oz.append(temp)
-
-        temp_cont += 1
-        mem_temp  += 1
-        cont      += 1
-        p[0] = p[1]
-    else:
-      print "Semantic Error EXP"
-
-  p[0] = p[1] 
-
-def p_exp(p):
-  '''exp : termino 
-          | termino PLUS op_val exp 
-          | termino MINUS op_val exp
-          '''
-  global pila_Operador
-  global pila_temp
-  global temp_cont
-  global mem_cte
-  global mem_temp
-  global cte_list
-  global list_temp
-
-  pos_ops = ['+', '-']
 
   if pila_Operador and pila_Operador[-1] in pos_ops: 
     operator = pila_Operador.pop()
@@ -565,11 +475,11 @@ def p_exp(p):
     if verify(operand1) == "string":
       varx = variableFetch(operand1)
       operand1 = varx.value
-      op1_name = varx.name
+      op1_name = varx.mem
     if verify(operand2) == "string":
       vary = variableFetch(operand2)
       operand2 = vary.value
-      op2_name = vary.name
+      op2_name = vary.mem
 
     #IF TEMPORAL
     if isinstance(operand1, Node):
@@ -578,6 +488,149 @@ def p_exp(p):
     if isinstance(operand2, Node):
       op2_name = operand2.name
       operand2 = operand2.value
+
+    term2 = verify(operand2) #int, float, str, bool
+    term1 = verify(operand1)
+
+    if semantic_cube[term1][term2][operator] != 'error':
+      temp      = Node()
+      tname     = "t" + str(temp_cont)
+      temp.name = tname
+      temp.mem  = mem_temp
+      
+      if operator == "<":
+        total = operand1 < operand2
+        cte_memoryAssign(total)
+        temp.value = total
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+
+      if operator == ">":
+        total = operand1 > operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+
+      if operator == "<=":
+        total = operand1 <= operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+
+      if operator == ">=":
+        total = operand1 >= operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+
+      if operator == "==":
+        total = operand1 == operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+
+      if operator == "!=":
+        total = operand1 != operand2
+        cte_memoryAssign(total)
+        temp.value = total
+
+        #SET CUADRUPLE -op, tmp, tmp, tmp
+        createCuad(operator, op1_name, op2_name, tname)
+        pila_Oz.append(temp)
+        list_temp.append(temp)
+
+        temp_cont += 1
+        mem_temp  += 1
+        p[0] = p[1]
+    else:
+      print "Semantic Error EXP"
+
+  p[0] = p[1] 
+
+def p_exp(p):
+  '''exp : termino
+          | termino PLUS op_val exp
+          | termino MINUS op_val exp
+          '''
+  global pila_Operador
+  global pila_temp
+  global temp_cont
+  global mem_cte
+  global mem_temp
+  global cte_list
+  global list_temp
+  
+  pos_ops = ['+', '-']
+  if pila_Operador and pila_Operador[-1] in pos_ops: 
+    operator = pila_Operador.pop()
+    operand2 = pila_Oz.pop() #4
+    operand1 = pila_Oz.pop() #3
+
+    op1_name = ""
+    op2_name = ""
+    #****** VALUES *****
+    #IF CTE - MEMORY DIRECTIONS
+    if isinstance(operand2, Node) == False and verify(operand2) != "string":
+      op2_name = cte_list[operand2]  #80808
+    if isinstance(operand1, Node) == False and verify(operand1) != "string":
+      op1_name = cte_list[operand1]
+
+      #IF TEMPORAL
+    if isinstance(operand1, Node):
+      op1_name = operand1.name
+      operand1 = operand1.value
+    if isinstance(operand2, Node):
+      op2_name = operand2.name
+      operand2 = operand2.value
+
+    #IF ID
+    if verify(operand1) == "string":
+      varx = variableFetch(operand1)
+      print varx, "VARX"
+      operand1 = varx.value
+      op1_name = varx.mem
+    if verify(operand2) == "string":
+      vary = variableFetch(operand2)
+      operand2 = vary.value
+      op2_name = vary.mem
 
     term2 = verify(operand2) #int, float, str, bool
     term1 = verify(operand1)
@@ -602,6 +655,7 @@ def p_exp(p):
         mem_temp  += 1
         p[0] = p[1]
 
+        print pila_Oz, pila_Operador, "DESDE SUMA"
       if operator == "-":
         total = operand1 - operand2
         cte_memoryAssign(total)
@@ -654,11 +708,11 @@ def p_termino(p):
     if verify(operand1) == "string":
       varx = variableFetch(operand1)
       operand1 = varx.value
-      op1_name = varx.name
+      op1_name = varx.mem
     if verify(operand2) == "string":
       vary = variableFetch(operand2)
       operand2 = vary.value
-      op2_name = vary.name
+      op2_name = vary.mem
 
     #IF TEMPORAL
     if isinstance(operand1, Node):
@@ -712,7 +766,6 @@ def p_termino(p):
 def p_termino_val(p):
   '''termino_val : '''
   global pila_Oz
-  print "TERMINO_VAL", p[-1]
   pila_Oz.append(p[-1])
 
 def p_op_val(p):
@@ -733,7 +786,6 @@ def p_varcte(p):
             | NUMFLOAT
             | BOOLEANTYPE
             '''
-
   cte_memoryAssign(p[1])
 
   p[0] = p[1]
@@ -750,16 +802,58 @@ def cte_memoryAssign(x):
       cte_list[x] = mem_cte
       mem_cte += 1
 
+
 # ******************* PRINT *******************************
 def p_print(p):
-    ''' print : PRINT LPAR printx RPAR'''
+  ''' print : PRINT LPAR par_call printx RPAR 
+            '''
+  global pila_Oz
+  global cont
+  global cuadruplos_list
+
+  print pila_Oz, pila_Operador, "PRINT_OZ"
+  op1 = ''
+  #Check for ")"
+  item = pila_Oz.pop()
+  if item == ")":
+    #Take elements out of stack until no params
+    while item != "(":
+      item = pila_Oz.pop()
+      if item != "(":
+        #IF ID
+        if isinstance(item, str):
+          var = variableFetch(item)
+          if isinstance(var, Node):
+            op1 = var.mem
+        #IF CALL (input: )
+        if isinstance(item, Node):
+          var = functionFetch(item.name)
+          op1 = var.ret.name
+        else:
+          op1 = item
+
+          #NUM op2_name = cte_list[operand2]
+    createCuad("WRITE", op1, None, None)
+
+  print pila_Oz, "SALE PRINT"      
+  #pila_Oz.append(p[-1])
+  p[0] = p[-1]
+
 
 def p_printx(p):
-    ''' printx : expression
-                | STRING
-                | expression COMA printx
-                | STRING COMA printx 
+    ''' printx : expression 
+                | ID id_val 
+                | call 
+                | expression PLUS op_val printx
+                | ID id_val PLUS op_val printx
+                | call PLUS op_val printx
                 '''
+    print pila_Oz, pila_Operador, "holaS"
+
+def p_expCheck(p):
+  ''' expCheck : expression
+                | empty '''
+
 
 # ***************** WHILE *******************************+
 def p_cycle(p):
@@ -1045,23 +1139,30 @@ def p_remove(p):
 
 # ******************* CALL FUNCTION **********************************
 def p_call(p):
-  '''call : ID id_call LPAR RPAR 
-            | ID id_call LPAR par_call params RPAR
+  '''call : ID id_call LPAR par_call RPAR par_call2
+            | ID id_call LPAR par_call params RPAR par_call2
            '''
   global pila_Oz
   global cont
   global param_cont
+  global temp_cont
+  global mem_temp
+  global list_temp
 
-  print pila_Oz
-  if "(" in pila_Oz:
-    item = "x"
+  print pila_Oz, "ENTRA CALL"
+  #Check for ")"
+  item = pila_Oz.pop()
+  if item == ")":
     #Take elements out of stack until no params
+    item = pila_Oz.pop()
     while item != "(":
-      item = pila_Oz.pop()
+      
       if item != "(":
         param = "param" + str(param_cont)
-        if isinstance(item, Node):
-          op1 = item.name
+        if isinstance(item, str):
+          var = variableFetch(item)
+          if isinstance(var, Node):
+            op1 = var.mem
         else:
           op1 = item
         #PARAMS
@@ -1074,17 +1175,27 @@ def p_call(p):
         cont += 1
         param_cont += 1
 
-  subname = pila_Oz.pop()
-  #GO SUB
-  cuadruplo_sub = Cuadruplo()
-  cuadruplo_sub.set_cont(cont)
-  cuadruplo_sub.set_operator("goSub")
-  cuadruplo_sub.set_operand1(subname)
-  cuadruplos_list.append(cuadruplo_sub)
-  cont += 1
+    #POPS name
+    subname = pila_Oz.pop()
+     #GO SUB
+    createCuad("goSub", subname, None, None)
+    #TEMPORAL output
+    func = functionFetch(subname)
+    if func.ret:
+      temp = Node()
+      tname = subname
+      temp.name = tname
+      temp.mem  = mem_temp
+      temp.value = func.ret.value
+      list_temp.append(temp)
+      pila_Oz.append(temp)
 
-  param_cont = 0
+    print pila_Oz, pila_Operador, "DESDE CALL"
+   
   
+    temp_cont += 1
+    mem_temp += 1
+    param_cont = 0
 
 def p_id_call(p):
   'id_call : '
@@ -1112,6 +1223,11 @@ def p_par_call(p):
   'par_call  : '
   global pila_Oz
   pila_Oz.append("(")
+
+def p_par_call2(p):
+  'par_call2  : '
+  global pila_Oz
+  pila_Oz.append(")")
 
 def p_params(p):
   '''params : expression COMA params

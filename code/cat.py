@@ -50,6 +50,7 @@ for x in functions_directory:
 
 print "FUNCIONES"
 print functions_table
+print functions_cont
 
 print "CUADRUPLOS"
 for x in cuadruplos_list:

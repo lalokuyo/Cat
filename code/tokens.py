@@ -42,12 +42,13 @@ tokens = [
 
 #Palabras Reservadas - NO TERMINALES
 reserved = {
-   'bool': 'BOOLEAN',
+   'bool'   : 'BOOLEAN',
    'true'   : 'TRUE',
    'false'  : 'FALSE',  
    'int'    : 'INT',
    'float'  : 'FLOAT',
    'func'   : 'FUNC',
+   'return' : 'RETURN',
    'if'     : 'IF',
    'else'   : 'ELSE',
    'while'  : 'WHILE',

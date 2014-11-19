@@ -1,20 +1,21 @@
 # -----------------------------------------------------------------------------
-# linkedLists.py
+# funcs.py
 #
 # Compiladores - ITESM
 # Eduardo Banuelos - Carlos Elizondo
 #  
-# Estructura del listas 
+# Estructura de Funciones
 # ----------------------------------------------------------------------------
 
-class LinkedList: 
+class Func: 
     
     #Constructor
     def __init__(self):
         self.name     = ""
+        self.cont     = 0
         self.mem      = ''
-        self.len      = ""
-        self.lista    = []
+        self.params   = []
+        self.ret      = ''
 
 
     #SETS & GETS
@@ -44,7 +45,7 @@ class LinkedList:
 
 
     def __str__(self):
-        s = "{name:" + str(self.name) + " mem:" + str(self.mem) + " len:" + str(self.len) + " lista:" + str(self.lista) + "}"
+        s = "{name:" + str(self.name) + " cont:" + str(self.cont) + " mem:" + str(self.mem) + " params:" + str(self.params) + " ret:" + str(self.ret) + "}"
         #s += "".join( ["i: " + str(i) + "\n" for i in self.args])
         return s
 

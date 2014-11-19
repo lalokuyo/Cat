@@ -1,19 +1,19 @@
 
 bool A
 int B
-int C
-int D
-int E
-E = 2
+int i
+int j
+j = 4
+func dos(){
+	i = 4+5
+	return(i)
+}
 
-A = (5 < E)
-B = (5 * 5) / 3
-
-func boy (){
+func boy (float D, int G){
 	int X
-}
+	X = 8 + j
 
-func girl (){
-	int Z
+	B = dos()
+	print (dos() + X)
+	
 }
-
