@@ -830,7 +830,7 @@ def p_print(p):
         #IF CALL (input: )
         if isinstance(item, Node):
           var = functionFetch(item.name)
-          op1 = var.ret.name
+          op1 = var.ret.mem
         print op1
           #NUM op2_name = cte_list[operand2]
     createCuad("WRITE", op1, None, None)
@@ -1154,9 +1154,8 @@ def p_call(p):
   item = pila_Oz.pop()
   if item == ")":
     #Take elements out of stack until no params
-    item = pila_Oz.pop()
     while item != "(":
-      
+      item = pila_Oz.pop()
       if item != "(":
         param = "param" + str(param_cont)
         if isinstance(item, str):

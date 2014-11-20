@@ -5,12 +5,12 @@ int i
 int j
 j = 4
 func dos(int D){
-	i = 4+5
+	i = 4+5 + j
 	return(i)
 }
 
-func boy (float D, int G){
+func boy (float H, int G){
 	int X
 	X = 8 + j
-	print (dos(X))	
+	print(dos(X))
 }
