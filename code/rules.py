@@ -805,7 +805,7 @@ def cte_memoryAssign(x):
 
 # ******************* PRINT *******************************
 def p_print(p):
-  ''' print : PRINT LPAR par_call printx RPAR 
+  ''' print : PRINT LPAR par_call printx RPAR par_call2
             '''
   global pila_Oz
   global cont
@@ -825,13 +825,13 @@ def p_print(p):
           var = variableFetch(item)
           if isinstance(var, Node):
             op1 = var.mem
+          else:
+            op1 = item
         #IF CALL (input: )
         if isinstance(item, Node):
           var = functionFetch(item.name)
           op1 = var.ret.name
-        else:
-          op1 = item
-
+        print op1
           #NUM op2_name = cte_list[operand2]
     createCuad("WRITE", op1, None, None)
 

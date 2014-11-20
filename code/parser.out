@@ -76,7 +76,7 @@ Rule 59    varcte -> ID
 Rule 60    varcte -> NUMINT
 Rule 61    varcte -> NUMFLOAT
 Rule 62    varcte -> BOOLEANTYPE
-Rule 63    print -> PRINT LPAR par_call printx expCheck RPAR
+Rule 63    print -> PRINT LPAR par_call printx RPAR par_call2
 Rule 64    printx -> expression
 Rule 65    printx -> ID id_val
 Rule 66    printx -> call
@@ -198,7 +198,7 @@ else                 : 76
 empty                : 4 6 8 14 71 78
 equal_val            : 42 43
 exp                  : 46 47 49 50 72 76
-expCheck             : 63
+expCheck             : 
 expression           : 36 42 47 56 64 67 70 103 105
 factor               : 51 52 53
 func                 : 2 7
@@ -219,7 +219,7 @@ listx_add            : 95
 move                 : 27
 op_val               : 47 49 50 52 53 67 68 69
 par_call             : 36 63 98 99
-par_call2            : 36 98 99
+par_call2            : 36 63 98 99
 paramCheck           : 12 13
 params               : 99 103 104
 play                 : 30
@@ -737,7 +737,7 @@ state 37
     (43) asign -> . ID id_val EQUAL equal_val call
     (76) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
     (72) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
-    (63) print -> . PRINT LPAR par_call printx expCheck RPAR
+    (63) print -> . PRINT LPAR par_call printx RPAR par_call2
     (82) list -> . LIST idCheck_List EQUAL LBRACKET listx RBRACKET
     (98) call -> . ID id_call LPAR par_call RPAR par_call2
     (99) call -> . ID id_call LPAR par_call params RPAR par_call2
@@ -840,7 +840,6 @@ state 40
     (50) exp -> termino . MINUS op_val exp
 
   ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
     COMPARISON      reduce using rule 48 (exp -> termino .)
     ID              reduce using rule 48 (exp -> termino .)
     FUNC            reduce using rule 48 (exp -> termino .)
@@ -861,16 +860,11 @@ state 40
     RETURN          reduce using rule 48 (exp -> termino .)
     RCBRACKET       reduce using rule 48 (exp -> termino .)
     RPAR            reduce using rule 48 (exp -> termino .)
-    LPAR            reduce using rule 48 (exp -> termino .)
-    NUMINT          reduce using rule 48 (exp -> termino .)
-    NUMFLOAT        reduce using rule 48 (exp -> termino .)
-    BOOLEANTYPE     reduce using rule 48 (exp -> termino .)
     COMA            reduce using rule 48 (exp -> termino .)
     PLUS            shift and go to state 85
     MINUS           shift and go to state 86
 
   ! PLUS            [ reduce using rule 48 (exp -> termino .) ]
-  ! MINUS           [ reduce using rule 48 (exp -> termino .) ]
 
 
 state 41
@@ -901,10 +895,6 @@ state 41
     TURNRIGHT       reduce using rule 61 (varcte -> NUMFLOAT .)
     RETURN          reduce using rule 61 (varcte -> NUMFLOAT .)
     RCBRACKET       reduce using rule 61 (varcte -> NUMFLOAT .)
-    LPAR            reduce using rule 61 (varcte -> NUMFLOAT .)
-    NUMINT          reduce using rule 61 (varcte -> NUMFLOAT .)
-    NUMFLOAT        reduce using rule 61 (varcte -> NUMFLOAT .)
-    BOOLEANTYPE     reduce using rule 61 (varcte -> NUMFLOAT .)
     COMA            reduce using rule 61 (varcte -> NUMFLOAT .)
 
 
@@ -952,10 +942,6 @@ state 43
     RETURN          reduce using rule 54 (termino_val -> .)
     RCBRACKET       reduce using rule 54 (termino_val -> .)
     RPAR            reduce using rule 54 (termino_val -> .)
-    LPAR            reduce using rule 54 (termino_val -> .)
-    NUMINT          reduce using rule 54 (termino_val -> .)
-    NUMFLOAT        reduce using rule 54 (termino_val -> .)
-    BOOLEANTYPE     reduce using rule 54 (termino_val -> .)
     COMA            reduce using rule 54 (termino_val -> .)
 
     termino_val                    shift and go to state 88
@@ -994,11 +980,8 @@ state 45
     MINUS           reduce using rule 51 (termino -> factor .)
     RPAR            reduce using rule 51 (termino -> factor .)
     COMPARISON      reduce using rule 51 (termino -> factor .)
-    LPAR            reduce using rule 51 (termino -> factor .)
+    COMA            reduce using rule 51 (termino -> factor .)
     ID              reduce using rule 51 (termino -> factor .)
-    NUMINT          reduce using rule 51 (termino -> factor .)
-    NUMFLOAT        reduce using rule 51 (termino -> factor .)
-    BOOLEANTYPE     reduce using rule 51 (termino -> factor .)
     FUNC            reduce using rule 51 (termino -> factor .)
     $end            reduce using rule 51 (termino -> factor .)
     INT             reduce using rule 51 (termino -> factor .)
@@ -1016,7 +999,6 @@ state 45
     TURNRIGHT       reduce using rule 51 (termino -> factor .)
     RETURN          reduce using rule 51 (termino -> factor .)
     RCBRACKET       reduce using rule 51 (termino -> factor .)
-    COMA            reduce using rule 51 (termino -> factor .)
     MULTIPLY        shift and go to state 89
     DIVIDE          shift and go to state 90
 
@@ -1083,10 +1065,6 @@ state 47
     TURNRIGHT       reduce using rule 60 (varcte -> NUMINT .)
     RETURN          reduce using rule 60 (varcte -> NUMINT .)
     RCBRACKET       reduce using rule 60 (varcte -> NUMINT .)
-    LPAR            reduce using rule 60 (varcte -> NUMINT .)
-    NUMINT          reduce using rule 60 (varcte -> NUMINT .)
-    NUMFLOAT        reduce using rule 60 (varcte -> NUMINT .)
-    BOOLEANTYPE     reduce using rule 60 (varcte -> NUMINT .)
     COMA            reduce using rule 60 (varcte -> NUMINT .)
 
 
@@ -1095,15 +1073,9 @@ state 48
     (46) expression -> exp .
     (47) expression -> exp . COMPARISON op_val expression
 
-    COMA            reduce using rule 46 (expression -> exp .)
-    RPAR            reduce using rule 46 (expression -> exp .)
     PLUS            reduce using rule 46 (expression -> exp .)
-    LPAR            reduce using rule 46 (expression -> exp .)
-    MINUS           reduce using rule 46 (expression -> exp .)
+    RPAR            reduce using rule 46 (expression -> exp .)
     ID              reduce using rule 46 (expression -> exp .)
-    NUMINT          reduce using rule 46 (expression -> exp .)
-    NUMFLOAT        reduce using rule 46 (expression -> exp .)
-    BOOLEANTYPE     reduce using rule 46 (expression -> exp .)
     FUNC            reduce using rule 46 (expression -> exp .)
     $end            reduce using rule 46 (expression -> exp .)
     INT             reduce using rule 46 (expression -> exp .)
@@ -1121,6 +1093,7 @@ state 48
     TURNRIGHT       reduce using rule 46 (expression -> exp .)
     RETURN          reduce using rule 46 (expression -> exp .)
     RCBRACKET       reduce using rule 46 (expression -> exp .)
+    COMA            reduce using rule 46 (expression -> exp .)
     COMPARISON      shift and go to state 92
 
 
@@ -1152,10 +1125,6 @@ state 49
     TURNRIGHT       reduce using rule 62 (varcte -> BOOLEANTYPE .)
     RETURN          reduce using rule 62 (varcte -> BOOLEANTYPE .)
     RCBRACKET       reduce using rule 62 (varcte -> BOOLEANTYPE .)
-    LPAR            reduce using rule 62 (varcte -> BOOLEANTYPE .)
-    NUMINT          reduce using rule 62 (varcte -> BOOLEANTYPE .)
-    NUMFLOAT        reduce using rule 62 (varcte -> BOOLEANTYPE .)
-    BOOLEANTYPE     reduce using rule 62 (varcte -> BOOLEANTYPE .)
     COMA            reduce using rule 62 (varcte -> BOOLEANTYPE .)
 
 
@@ -1228,7 +1197,7 @@ state 53
     (43) asign -> . ID id_val EQUAL equal_val call
     (76) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
     (72) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
-    (63) print -> . PRINT LPAR par_call printx expCheck RPAR
+    (63) print -> . PRINT LPAR par_call printx RPAR par_call2
     (82) list -> . LIST idCheck_List EQUAL LBRACKET listx RBRACKET
     (98) call -> . ID id_call LPAR par_call RPAR par_call2
     (99) call -> . ID id_call LPAR par_call params RPAR par_call2
@@ -1312,7 +1281,7 @@ state 55
 
 state 56
 
-    (63) print -> PRINT . LPAR par_call printx expCheck RPAR
+    (63) print -> PRINT . LPAR par_call printx RPAR par_call2
 
     LPAR            shift and go to state 96
 
@@ -1443,7 +1412,7 @@ state 62
     (43) asign -> . ID id_val EQUAL equal_val call
     (76) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
     (72) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
-    (63) print -> . PRINT LPAR par_call printx expCheck RPAR
+    (63) print -> . PRINT LPAR par_call printx RPAR par_call2
     (82) list -> . LIST idCheck_List EQUAL LBRACKET listx RBRACKET
     (98) call -> . ID id_call LPAR par_call RPAR par_call2
     (99) call -> . ID id_call LPAR par_call params RPAR par_call2
@@ -1832,10 +1801,6 @@ state 83
     TURNRIGHT       reduce using rule 59 (varcte -> ID .)
     RETURN          reduce using rule 59 (varcte -> ID .)
     RCBRACKET       reduce using rule 59 (varcte -> ID .)
-    LPAR            reduce using rule 59 (varcte -> ID .)
-    NUMINT          reduce using rule 59 (varcte -> ID .)
-    NUMFLOAT        reduce using rule 59 (varcte -> ID .)
-    BOOLEANTYPE     reduce using rule 59 (varcte -> ID .)
     COMA            reduce using rule 59 (varcte -> ID .)
 
 
@@ -1902,10 +1867,6 @@ state 87
     TURNRIGHT       reduce using rule 57 (factor -> MINUS varcte .)
     RETURN          reduce using rule 57 (factor -> MINUS varcte .)
     RCBRACKET       reduce using rule 57 (factor -> MINUS varcte .)
-    LPAR            reduce using rule 57 (factor -> MINUS varcte .)
-    NUMINT          reduce using rule 57 (factor -> MINUS varcte .)
-    NUMFLOAT        reduce using rule 57 (factor -> MINUS varcte .)
-    BOOLEANTYPE     reduce using rule 57 (factor -> MINUS varcte .)
     COMA            reduce using rule 57 (factor -> MINUS varcte .)
 
 
@@ -1937,10 +1898,6 @@ state 88
     TURNRIGHT       reduce using rule 58 (factor -> varcte termino_val .)
     RETURN          reduce using rule 58 (factor -> varcte termino_val .)
     RCBRACKET       reduce using rule 58 (factor -> varcte termino_val .)
-    LPAR            reduce using rule 58 (factor -> varcte termino_val .)
-    NUMINT          reduce using rule 58 (factor -> varcte termino_val .)
-    NUMFLOAT        reduce using rule 58 (factor -> varcte termino_val .)
-    BOOLEANTYPE     reduce using rule 58 (factor -> varcte termino_val .)
     COMA            reduce using rule 58 (factor -> varcte termino_val .)
 
 
@@ -2024,7 +1981,7 @@ state 95
 
 state 96
 
-    (63) print -> PRINT LPAR . par_call printx expCheck RPAR
+    (63) print -> PRINT LPAR . par_call printx RPAR par_call2
     (101) par_call -> .
 
     ID              reduce using rule 101 (par_call -> .)
@@ -2119,11 +2076,13 @@ state 105
 
     (16) block -> LCBRACKET blockx RCBRACKET .
 
-    ELSE            reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
+    FUNC            reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     INT             reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     FLOAT           reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     BOOLEAN         reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     ID              reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
+    $end            reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
+    ELSE            reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     IF              reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     WHILE           reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     PRINT           reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
@@ -2136,8 +2095,6 @@ state 105
     TURNRIGHT       reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     RETURN          reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
     RCBRACKET       reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
-    FUNC            reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
-    $end            reduce using rule 16 (block -> LCBRACKET blockx RCBRACKET .)
 
 
 state 106
@@ -2189,10 +2146,6 @@ state 109
     TURNRIGHT       reduce using rule 56 (factor -> LPAR expression RPAR .)
     RETURN          reduce using rule 56 (factor -> LPAR expression RPAR .)
     RCBRACKET       reduce using rule 56 (factor -> LPAR expression RPAR .)
-    LPAR            reduce using rule 56 (factor -> LPAR expression RPAR .)
-    NUMINT          reduce using rule 56 (factor -> LPAR expression RPAR .)
-    NUMFLOAT        reduce using rule 56 (factor -> LPAR expression RPAR .)
-    BOOLEANTYPE     reduce using rule 56 (factor -> LPAR expression RPAR .)
     COMA            reduce using rule 56 (factor -> LPAR expression RPAR .)
 
 
@@ -2415,7 +2368,7 @@ state 117
 
 state 118
 
-    (63) print -> PRINT LPAR par_call . printx expCheck RPAR
+    (63) print -> PRINT LPAR par_call . printx RPAR par_call2
     (64) printx -> . expression
     (65) printx -> . ID id_val
     (66) printx -> . call
@@ -2575,11 +2528,6 @@ state 128
     RCBRACKET       reduce using rule 49 (exp -> termino PLUS op_val exp .)
     RPAR            reduce using rule 49 (exp -> termino PLUS op_val exp .)
     PLUS            reduce using rule 49 (exp -> termino PLUS op_val exp .)
-    LPAR            reduce using rule 49 (exp -> termino PLUS op_val exp .)
-    MINUS           reduce using rule 49 (exp -> termino PLUS op_val exp .)
-    NUMINT          reduce using rule 49 (exp -> termino PLUS op_val exp .)
-    NUMFLOAT        reduce using rule 49 (exp -> termino PLUS op_val exp .)
-    BOOLEANTYPE     reduce using rule 49 (exp -> termino PLUS op_val exp .)
     COMA            reduce using rule 49 (exp -> termino PLUS op_val exp .)
 
 
@@ -2608,11 +2556,6 @@ state 129
     RCBRACKET       reduce using rule 50 (exp -> termino MINUS op_val exp .)
     RPAR            reduce using rule 50 (exp -> termino MINUS op_val exp .)
     PLUS            reduce using rule 50 (exp -> termino MINUS op_val exp .)
-    LPAR            reduce using rule 50 (exp -> termino MINUS op_val exp .)
-    MINUS           reduce using rule 50 (exp -> termino MINUS op_val exp .)
-    NUMINT          reduce using rule 50 (exp -> termino MINUS op_val exp .)
-    NUMFLOAT        reduce using rule 50 (exp -> termino MINUS op_val exp .)
-    BOOLEANTYPE     reduce using rule 50 (exp -> termino MINUS op_val exp .)
     COMA            reduce using rule 50 (exp -> termino MINUS op_val exp .)
 
 
@@ -2624,11 +2567,8 @@ state 130
     MINUS           reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     RPAR            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     COMPARISON      reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
-    LPAR            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
+    COMA            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     ID              reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
-    NUMINT          reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
-    NUMFLOAT        reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
-    BOOLEANTYPE     reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     FUNC            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     $end            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     INT             reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
@@ -2646,7 +2586,6 @@ state 130
     TURNRIGHT       reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     RETURN          reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     RCBRACKET       reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
-    COMA            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
 
 
 state 131
@@ -2657,11 +2596,8 @@ state 131
     MINUS           reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     RPAR            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     COMPARISON      reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
-    LPAR            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
+    COMA            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     ID              reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
-    NUMINT          reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
-    NUMFLOAT        reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
-    BOOLEANTYPE     reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     FUNC            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     $end            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     INT             reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
@@ -2679,7 +2615,6 @@ state 131
     TURNRIGHT       reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     RETURN          reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     RCBRACKET       reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
-    COMA            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
 
 
 state 132
@@ -2725,15 +2660,9 @@ state 133
 
     (47) expression -> exp COMPARISON op_val expression .
 
-    COMA            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
-    RPAR            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
     PLUS            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
-    LPAR            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
-    MINUS           reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
+    RPAR            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
     ID              reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
-    NUMINT          reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
-    NUMFLOAT        reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
-    BOOLEANTYPE     reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
     FUNC            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
     $end            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
     INT             reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
@@ -2751,6 +2680,7 @@ state 133
     TURNRIGHT       reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
     RETURN          reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
     RCBRACKET       reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
+    COMA            reduce using rule 47 (expression -> exp COMPARISON op_val expression .)
 
 
 state 134
@@ -2769,55 +2699,18 @@ state 135
 
 state 136
 
-    (63) print -> PRINT LPAR par_call printx . expCheck RPAR
-    (70) expCheck -> . expression
-    (71) expCheck -> . empty
-    (46) expression -> . exp
-    (47) expression -> . exp COMPARISON op_val expression
-    (113) empty -> .
-    (48) exp -> . termino
-    (49) exp -> . termino PLUS op_val exp
-    (50) exp -> . termino MINUS op_val exp
-    (51) termino -> . factor
-    (52) termino -> . factor MULTIPLY op_val termino
-    (53) termino -> . factor DIVIDE op_val termino
-    (56) factor -> . LPAR expression RPAR
-    (57) factor -> . MINUS varcte
-    (58) factor -> . varcte termino_val
-    (59) varcte -> . ID
-    (60) varcte -> . NUMINT
-    (61) varcte -> . NUMFLOAT
-    (62) varcte -> . BOOLEANTYPE
+    (63) print -> PRINT LPAR par_call printx . RPAR par_call2
 
-    RPAR            reduce using rule 113 (empty -> .)
-    LPAR            shift and go to state 39
-    MINUS           shift and go to state 42
-    ID              shift and go to state 83
-    NUMINT          shift and go to state 47
-    NUMFLOAT        shift and go to state 41
-    BOOLEANTYPE     shift and go to state 49
+    RPAR            shift and go to state 154
 
-    varcte                         shift and go to state 43
-    expCheck                       shift and go to state 155
-    termino                        shift and go to state 40
-    exp                            shift and go to state 48
-    factor                         shift and go to state 45
-    expression                     shift and go to state 156
-    empty                          shift and go to state 154
 
 state 137
 
     (66) printx -> call .
     (69) printx -> call . PLUS op_val printx
 
-    LPAR            reduce using rule 66 (printx -> call .)
-    MINUS           reduce using rule 66 (printx -> call .)
-    ID              reduce using rule 66 (printx -> call .)
-    NUMINT          reduce using rule 66 (printx -> call .)
-    NUMFLOAT        reduce using rule 66 (printx -> call .)
-    BOOLEANTYPE     reduce using rule 66 (printx -> call .)
     RPAR            reduce using rule 66 (printx -> call .)
-    PLUS            shift and go to state 157
+    PLUS            shift and go to state 155
 
 
 state 138
@@ -2831,37 +2724,19 @@ state 138
     (100) id_call -> .
 
   ! reduce/reduce conflict for PLUS resolved using rule 44 (id_val -> .)
-  ! reduce/reduce conflict for LPAR resolved using rule 44 (id_val -> .)
-  ! reduce/reduce conflict for MINUS resolved using rule 44 (id_val -> .)
-  ! reduce/reduce conflict for ID resolved using rule 44 (id_val -> .)
-  ! reduce/reduce conflict for NUMINT resolved using rule 44 (id_val -> .)
-  ! reduce/reduce conflict for NUMFLOAT resolved using rule 44 (id_val -> .)
-  ! reduce/reduce conflict for BOOLEANTYPE resolved using rule 44 (id_val -> .)
   ! reduce/reduce conflict for RPAR resolved using rule 44 (id_val -> .)
-  ! reduce/reduce conflict for LPAR resolved using rule 44 (id_val -> .)
     MULTIPLY        reduce using rule 59 (varcte -> ID .)
     DIVIDE          reduce using rule 59 (varcte -> ID .)
+    MINUS           reduce using rule 59 (varcte -> ID .)
     COMPARISON      reduce using rule 59 (varcte -> ID .)
     PLUS            reduce using rule 44 (id_val -> .)
-    LPAR            reduce using rule 44 (id_val -> .)
-    MINUS           reduce using rule 44 (id_val -> .)
-    ID              reduce using rule 44 (id_val -> .)
-    NUMINT          reduce using rule 44 (id_val -> .)
-    NUMFLOAT        reduce using rule 44 (id_val -> .)
-    BOOLEANTYPE     reduce using rule 44 (id_val -> .)
     RPAR            reduce using rule 44 (id_val -> .)
+    LPAR            reduce using rule 100 (id_call -> .)
 
   ! PLUS            [ reduce using rule 59 (varcte -> ID .) ]
-  ! MINUS           [ reduce using rule 59 (varcte -> ID .) ]
-  ! LPAR            [ reduce using rule 59 (varcte -> ID .) ]
-  ! ID              [ reduce using rule 59 (varcte -> ID .) ]
-  ! NUMINT          [ reduce using rule 59 (varcte -> ID .) ]
-  ! NUMFLOAT        [ reduce using rule 59 (varcte -> ID .) ]
-  ! BOOLEANTYPE     [ reduce using rule 59 (varcte -> ID .) ]
   ! RPAR            [ reduce using rule 59 (varcte -> ID .) ]
-  ! LPAR            [ reduce using rule 100 (id_call -> .) ]
 
-    id_val                         shift and go to state 158
+    id_val                         shift and go to state 156
     id_call                        shift and go to state 91
 
 state 139
@@ -2869,14 +2744,8 @@ state 139
     (64) printx -> expression .
     (67) printx -> expression . PLUS op_val printx
 
-    LPAR            reduce using rule 64 (printx -> expression .)
-    MINUS           reduce using rule 64 (printx -> expression .)
-    ID              reduce using rule 64 (printx -> expression .)
-    NUMINT          reduce using rule 64 (printx -> expression .)
-    NUMFLOAT        reduce using rule 64 (printx -> expression .)
-    BOOLEANTYPE     reduce using rule 64 (printx -> expression .)
     RPAR            reduce using rule 64 (printx -> expression .)
-    PLUS            shift and go to state 159
+    PLUS            shift and go to state 157
 
 
 state 140
@@ -2889,24 +2758,24 @@ state 140
     (87) listx -> . NUMFLOAT id_param
     (88) listx -> . NUMFLOAT id_param COMA listx
 
-    ID              shift and go to state 163
-    NUMINT          shift and go to state 161
-    NUMFLOAT        shift and go to state 162
+    ID              shift and go to state 161
+    NUMINT          shift and go to state 159
+    NUMFLOAT        shift and go to state 160
 
-    listx                          shift and go to state 160
+    listx                          shift and go to state 158
 
 state 141
 
     (97) remove -> ID idCheck_Add POINT REMOVE . LPAR RPAR
 
-    LPAR            shift and go to state 164
+    LPAR            shift and go to state 162
 
 
 state 142
 
     (95) add -> ID idCheck_Add POINT ADD . LPAR listx_add RPAR
 
-    LPAR            shift and go to state 165
+    LPAR            shift and go to state 163
 
 
 state 143
@@ -2916,7 +2785,7 @@ state 143
 
     LCBRACKET       reduce using rule 79 (cond_1 -> .)
 
-    cond_1                         shift and go to state 166
+    cond_1                         shift and go to state 164
 
 state 144
 
@@ -3030,20 +2899,15 @@ state 148
     RETURN          reduce using rule 102 (par_call2 -> .)
     RCBRACKET       reduce using rule 102 (par_call2 -> .)
     PLUS            reduce using rule 102 (par_call2 -> .)
-    LPAR            reduce using rule 102 (par_call2 -> .)
-    MINUS           reduce using rule 102 (par_call2 -> .)
-    NUMINT          reduce using rule 102 (par_call2 -> .)
-    NUMFLOAT        reduce using rule 102 (par_call2 -> .)
-    BOOLEANTYPE     reduce using rule 102 (par_call2 -> .)
     RPAR            reduce using rule 102 (par_call2 -> .)
 
-    par_call2                      shift and go to state 167
+    par_call2                      shift and go to state 165
 
 state 149
 
     (99) call -> ID id_call LPAR par_call params . RPAR par_call2
 
-    RPAR            shift and go to state 168
+    RPAR            shift and go to state 166
 
 
 state 150
@@ -3054,7 +2918,7 @@ state 150
 
   ! shift/reduce conflict for COMA resolved as shift
   ! reduce/reduce conflict for RPAR resolved using rule 59 (varcte -> ID .)
-    COMA            shift and go to state 169
+    COMA            shift and go to state 167
     MULTIPLY        reduce using rule 59 (varcte -> ID .)
     DIVIDE          reduce using rule 59 (varcte -> ID .)
     PLUS            reduce using rule 59 (varcte -> ID .)
@@ -3071,7 +2935,7 @@ state 151
     (103) params -> expression . COMA params
     (105) params -> expression .
 
-    COMA            shift and go to state 170
+    COMA            shift and go to state 168
     RPAR            reduce using rule 105 (params -> expression .)
 
 
@@ -3097,7 +2961,7 @@ state 152
     RETURN          reduce using rule 102 (par_call2 -> .)
     RCBRACKET       reduce using rule 102 (par_call2 -> .)
 
-    par_call2                      shift and go to state 171
+    par_call2                      shift and go to state 169
 
 state 153
 
@@ -3106,32 +2970,58 @@ state 153
 
     LCBRACKET       reduce using rule 74 (cycle_2 -> .)
 
-    cycle_2                        shift and go to state 172
+    cycle_2                        shift and go to state 170
 
 state 154
 
-    (71) expCheck -> empty .
+    (63) print -> PRINT LPAR par_call printx RPAR . par_call2
+    (102) par_call2 -> .
 
-    RPAR            reduce using rule 71 (expCheck -> empty .)
+    INT             reduce using rule 102 (par_call2 -> .)
+    FLOAT           reduce using rule 102 (par_call2 -> .)
+    BOOLEAN         reduce using rule 102 (par_call2 -> .)
+    ID              reduce using rule 102 (par_call2 -> .)
+    IF              reduce using rule 102 (par_call2 -> .)
+    WHILE           reduce using rule 102 (par_call2 -> .)
+    PRINT           reduce using rule 102 (par_call2 -> .)
+    LIST            reduce using rule 102 (par_call2 -> .)
+    MOVE            reduce using rule 102 (par_call2 -> .)
+    EAT             reduce using rule 102 (par_call2 -> .)
+    CLEAN           reduce using rule 102 (par_call2 -> .)
+    PLAY            reduce using rule 102 (par_call2 -> .)
+    TURNLEFT        reduce using rule 102 (par_call2 -> .)
+    TURNRIGHT       reduce using rule 102 (par_call2 -> .)
+    RETURN          reduce using rule 102 (par_call2 -> .)
+    RCBRACKET       reduce using rule 102 (par_call2 -> .)
 
+    par_call2                      shift and go to state 171
 
 state 155
 
-    (63) print -> PRINT LPAR par_call printx expCheck . RPAR
+    (69) printx -> call PLUS . op_val printx
+    (55) op_val -> .
 
-    RPAR            shift and go to state 173
+    ID              reduce using rule 55 (op_val -> .)
+    LPAR            reduce using rule 55 (op_val -> .)
+    MINUS           reduce using rule 55 (op_val -> .)
+    NUMINT          reduce using rule 55 (op_val -> .)
+    NUMFLOAT        reduce using rule 55 (op_val -> .)
+    BOOLEANTYPE     reduce using rule 55 (op_val -> .)
 
+    op_val                         shift and go to state 172
 
 state 156
 
-    (70) expCheck -> expression .
+    (65) printx -> ID id_val .
+    (68) printx -> ID id_val . PLUS op_val printx
 
-    RPAR            reduce using rule 70 (expCheck -> expression .)
+    RPAR            reduce using rule 65 (printx -> ID id_val .)
+    PLUS            shift and go to state 173
 
 
 state 157
 
-    (69) printx -> call PLUS . op_val printx
+    (67) printx -> expression PLUS . op_val printx
     (55) op_val -> .
 
     ID              reduce using rule 55 (op_val -> .)
@@ -3145,44 +3035,37 @@ state 157
 
 state 158
 
-    (65) printx -> ID id_val .
-    (68) printx -> ID id_val . PLUS op_val printx
+    (82) list -> LIST idCheck_List EQUAL LBRACKET listx . RBRACKET
 
-    LPAR            reduce using rule 65 (printx -> ID id_val .)
-    MINUS           reduce using rule 65 (printx -> ID id_val .)
-    ID              reduce using rule 65 (printx -> ID id_val .)
-    NUMINT          reduce using rule 65 (printx -> ID id_val .)
-    NUMFLOAT        reduce using rule 65 (printx -> ID id_val .)
-    BOOLEANTYPE     reduce using rule 65 (printx -> ID id_val .)
-    RPAR            reduce using rule 65 (printx -> ID id_val .)
-    PLUS            shift and go to state 175
+    RBRACKET        shift and go to state 175
 
 
 state 159
 
-    (67) printx -> expression PLUS . op_val printx
-    (55) op_val -> .
+    (85) listx -> NUMINT . id_param
+    (86) listx -> NUMINT . id_param COMA listx
+    (90) id_param -> .
 
-    ID              reduce using rule 55 (op_val -> .)
-    LPAR            reduce using rule 55 (op_val -> .)
-    MINUS           reduce using rule 55 (op_val -> .)
-    NUMINT          reduce using rule 55 (op_val -> .)
-    NUMFLOAT        reduce using rule 55 (op_val -> .)
-    BOOLEANTYPE     reduce using rule 55 (op_val -> .)
+    COMA            reduce using rule 90 (id_param -> .)
+    RBRACKET        reduce using rule 90 (id_param -> .)
 
-    op_val                         shift and go to state 176
+    id_param                       shift and go to state 176
 
 state 160
 
-    (82) list -> LIST idCheck_List EQUAL LBRACKET listx . RBRACKET
+    (87) listx -> NUMFLOAT . id_param
+    (88) listx -> NUMFLOAT . id_param COMA listx
+    (90) id_param -> .
 
-    RBRACKET        shift and go to state 177
+    COMA            reduce using rule 90 (id_param -> .)
+    RBRACKET        reduce using rule 90 (id_param -> .)
 
+    id_param                       shift and go to state 177
 
 state 161
 
-    (85) listx -> NUMINT . id_param
-    (86) listx -> NUMINT . id_param COMA listx
+    (83) listx -> ID . id_param
+    (84) listx -> ID . id_param COMA listx
     (90) id_param -> .
 
     COMA            reduce using rule 90 (id_param -> .)
@@ -3192,70 +3075,43 @@ state 161
 
 state 162
 
-    (87) listx -> NUMFLOAT . id_param
-    (88) listx -> NUMFLOAT . id_param COMA listx
-    (90) id_param -> .
-
-    COMA            reduce using rule 90 (id_param -> .)
-    RBRACKET        reduce using rule 90 (id_param -> .)
-
-    id_param                       shift and go to state 179
-
-state 163
-
-    (83) listx -> ID . id_param
-    (84) listx -> ID . id_param COMA listx
-    (90) id_param -> .
-
-    COMA            reduce using rule 90 (id_param -> .)
-    RBRACKET        reduce using rule 90 (id_param -> .)
-
-    id_param                       shift and go to state 180
-
-state 164
-
     (97) remove -> ID idCheck_Add POINT REMOVE LPAR . RPAR
 
-    RPAR            shift and go to state 181
+    RPAR            shift and go to state 179
 
 
-state 165
+state 163
 
     (95) add -> ID idCheck_Add POINT ADD LPAR . listx_add RPAR
     (92) listx_add -> . ID id_param2
     (93) listx_add -> . NUMINT id_param2
     (94) listx_add -> . NUMFLOAT id_param2
 
-    ID              shift and go to state 183
-    NUMINT          shift and go to state 182
-    NUMFLOAT        shift and go to state 184
+    ID              shift and go to state 181
+    NUMINT          shift and go to state 180
+    NUMFLOAT        shift and go to state 182
 
-    listx_add                      shift and go to state 185
+    listx_add                      shift and go to state 183
 
-state 166
+state 164
 
     (76) condition -> IF LPAR exp RPAR cond_1 . block else cond_2
     (16) block -> . LCBRACKET blockx RCBRACKET
 
     LCBRACKET       shift and go to state 37
 
-    block                          shift and go to state 186
+    block                          shift and go to state 184
 
-state 167
+state 165
 
     (98) call -> ID id_call LPAR par_call RPAR par_call2 .
 
     PLUS            reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
-    LPAR            reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
-    MINUS           reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
-    ID              reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
-    NUMINT          reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
-    NUMFLOAT        reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
-    BOOLEANTYPE     reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
     RPAR            reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
     INT             reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
     FLOAT           reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
     BOOLEAN         reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
+    ID              reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
     IF              reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
     WHILE           reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
     PRINT           reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
@@ -3272,7 +3128,7 @@ state 167
     $end            reduce using rule 98 (call -> ID id_call LPAR par_call RPAR par_call2 .)
 
 
-state 168
+state 166
 
     (99) call -> ID id_call LPAR par_call params RPAR . par_call2
     (102) par_call2 -> .
@@ -3296,16 +3152,11 @@ state 168
     RETURN          reduce using rule 102 (par_call2 -> .)
     RCBRACKET       reduce using rule 102 (par_call2 -> .)
     PLUS            reduce using rule 102 (par_call2 -> .)
-    LPAR            reduce using rule 102 (par_call2 -> .)
-    MINUS           reduce using rule 102 (par_call2 -> .)
-    NUMINT          reduce using rule 102 (par_call2 -> .)
-    NUMFLOAT        reduce using rule 102 (par_call2 -> .)
-    BOOLEANTYPE     reduce using rule 102 (par_call2 -> .)
     RPAR            reduce using rule 102 (par_call2 -> .)
 
-    par_call2                      shift and go to state 187
+    par_call2                      shift and go to state 185
 
-state 169
+state 167
 
     (104) params -> ID COMA . params
     (103) params -> . expression COMA params
@@ -3336,13 +3187,13 @@ state 169
     BOOLEANTYPE     shift and go to state 49
 
     varcte                         shift and go to state 43
-    params                         shift and go to state 188
+    params                         shift and go to state 186
     termino                        shift and go to state 40
     exp                            shift and go to state 48
     factor                         shift and go to state 45
     expression                     shift and go to state 151
 
-state 170
+state 168
 
     (103) params -> expression COMA . params
     (103) params -> . expression COMA params
@@ -3373,13 +3224,13 @@ state 170
     BOOLEANTYPE     shift and go to state 49
 
     varcte                         shift and go to state 43
-    params                         shift and go to state 189
+    params                         shift and go to state 187
     termino                        shift and go to state 40
     exp                            shift and go to state 48
     factor                         shift and go to state 45
     expression                     shift and go to state 151
 
-state 171
+state 169
 
     (36) return -> RETURN LPAR par_call expression RPAR par_call2 .
 
@@ -3401,40 +3252,96 @@ state 171
     RCBRACKET       reduce using rule 36 (return -> RETURN LPAR par_call expression RPAR par_call2 .)
 
 
-state 172
+state 170
 
     (72) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 . block cycle_3
     (16) block -> . LCBRACKET blockx RCBRACKET
 
     LCBRACKET       shift and go to state 37
 
-    block                          shift and go to state 190
+    block                          shift and go to state 188
+
+state 171
+
+    (63) print -> PRINT LPAR par_call printx RPAR par_call2 .
+
+    INT             reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    FLOAT           reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    BOOLEAN         reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    ID              reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    IF              reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    WHILE           reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    PRINT           reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    LIST            reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    MOVE            reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    EAT             reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    CLEAN           reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    PLAY            reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    TURNLEFT        reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    TURNRIGHT       reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    RETURN          reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+    RCBRACKET       reduce using rule 63 (print -> PRINT LPAR par_call printx RPAR par_call2 .)
+
+
+state 172
+
+    (69) printx -> call PLUS op_val . printx
+    (64) printx -> . expression
+    (65) printx -> . ID id_val
+    (66) printx -> . call
+    (67) printx -> . expression PLUS op_val printx
+    (68) printx -> . ID id_val PLUS op_val printx
+    (69) printx -> . call PLUS op_val printx
+    (46) expression -> . exp
+    (47) expression -> . exp COMPARISON op_val expression
+    (98) call -> . ID id_call LPAR par_call RPAR par_call2
+    (99) call -> . ID id_call LPAR par_call params RPAR par_call2
+    (48) exp -> . termino
+    (49) exp -> . termino PLUS op_val exp
+    (50) exp -> . termino MINUS op_val exp
+    (51) termino -> . factor
+    (52) termino -> . factor MULTIPLY op_val termino
+    (53) termino -> . factor DIVIDE op_val termino
+    (56) factor -> . LPAR expression RPAR
+    (57) factor -> . MINUS varcte
+    (58) factor -> . varcte termino_val
+    (59) varcte -> . ID
+    (60) varcte -> . NUMINT
+    (61) varcte -> . NUMFLOAT
+    (62) varcte -> . BOOLEANTYPE
+
+    ID              shift and go to state 138
+    LPAR            shift and go to state 39
+    MINUS           shift and go to state 42
+    NUMINT          shift and go to state 47
+    NUMFLOAT        shift and go to state 41
+    BOOLEANTYPE     shift and go to state 49
+
+    factor                         shift and go to state 45
+    varcte                         shift and go to state 43
+    printx                         shift and go to state 189
+    call                           shift and go to state 137
+    termino                        shift and go to state 40
+    exp                            shift and go to state 48
+    expression                     shift and go to state 139
 
 state 173
 
-    (63) print -> PRINT LPAR par_call printx expCheck RPAR .
+    (68) printx -> ID id_val PLUS . op_val printx
+    (55) op_val -> .
 
-    INT             reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    FLOAT           reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    BOOLEAN         reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    ID              reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    IF              reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    WHILE           reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    PRINT           reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    LIST            reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    MOVE            reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    EAT             reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    CLEAN           reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    PLAY            reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    TURNLEFT        reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    TURNRIGHT       reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    RETURN          reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
-    RCBRACKET       reduce using rule 63 (print -> PRINT LPAR par_call printx expCheck RPAR .)
+    ID              reduce using rule 55 (op_val -> .)
+    LPAR            reduce using rule 55 (op_val -> .)
+    MINUS           reduce using rule 55 (op_val -> .)
+    NUMINT          reduce using rule 55 (op_val -> .)
+    NUMFLOAT        reduce using rule 55 (op_val -> .)
+    BOOLEANTYPE     reduce using rule 55 (op_val -> .)
 
+    op_val                         shift and go to state 190
 
 state 174
 
-    (69) printx -> call PLUS op_val . printx
+    (67) printx -> expression PLUS op_val . printx
     (64) printx -> . expression
     (65) printx -> . ID id_val
     (66) printx -> . call
@@ -3476,62 +3383,6 @@ state 174
 
 state 175
 
-    (68) printx -> ID id_val PLUS . op_val printx
-    (55) op_val -> .
-
-    ID              reduce using rule 55 (op_val -> .)
-    LPAR            reduce using rule 55 (op_val -> .)
-    MINUS           reduce using rule 55 (op_val -> .)
-    NUMINT          reduce using rule 55 (op_val -> .)
-    NUMFLOAT        reduce using rule 55 (op_val -> .)
-    BOOLEANTYPE     reduce using rule 55 (op_val -> .)
-
-    op_val                         shift and go to state 192
-
-state 176
-
-    (67) printx -> expression PLUS op_val . printx
-    (64) printx -> . expression
-    (65) printx -> . ID id_val
-    (66) printx -> . call
-    (67) printx -> . expression PLUS op_val printx
-    (68) printx -> . ID id_val PLUS op_val printx
-    (69) printx -> . call PLUS op_val printx
-    (46) expression -> . exp
-    (47) expression -> . exp COMPARISON op_val expression
-    (98) call -> . ID id_call LPAR par_call RPAR par_call2
-    (99) call -> . ID id_call LPAR par_call params RPAR par_call2
-    (48) exp -> . termino
-    (49) exp -> . termino PLUS op_val exp
-    (50) exp -> . termino MINUS op_val exp
-    (51) termino -> . factor
-    (52) termino -> . factor MULTIPLY op_val termino
-    (53) termino -> . factor DIVIDE op_val termino
-    (56) factor -> . LPAR expression RPAR
-    (57) factor -> . MINUS varcte
-    (58) factor -> . varcte termino_val
-    (59) varcte -> . ID
-    (60) varcte -> . NUMINT
-    (61) varcte -> . NUMFLOAT
-    (62) varcte -> . BOOLEANTYPE
-
-    ID              shift and go to state 138
-    LPAR            shift and go to state 39
-    MINUS           shift and go to state 42
-    NUMINT          shift and go to state 47
-    NUMFLOAT        shift and go to state 41
-    BOOLEANTYPE     shift and go to state 49
-
-    factor                         shift and go to state 45
-    varcte                         shift and go to state 43
-    printx                         shift and go to state 193
-    call                           shift and go to state 137
-    termino                        shift and go to state 40
-    exp                            shift and go to state 48
-    expression                     shift and go to state 139
-
-state 177
-
     (82) list -> LIST idCheck_List EQUAL LBRACKET listx RBRACKET .
 
     INT             reduce using rule 82 (list -> LIST idCheck_List EQUAL LBRACKET listx RBRACKET .)
@@ -3552,34 +3403,34 @@ state 177
     RCBRACKET       reduce using rule 82 (list -> LIST idCheck_List EQUAL LBRACKET listx RBRACKET .)
 
 
-state 178
+state 176
 
     (85) listx -> NUMINT id_param .
     (86) listx -> NUMINT id_param . COMA listx
 
     RBRACKET        reduce using rule 85 (listx -> NUMINT id_param .)
-    COMA            shift and go to state 194
+    COMA            shift and go to state 192
 
 
-state 179
+state 177
 
     (87) listx -> NUMFLOAT id_param .
     (88) listx -> NUMFLOAT id_param . COMA listx
 
     RBRACKET        reduce using rule 87 (listx -> NUMFLOAT id_param .)
-    COMA            shift and go to state 195
+    COMA            shift and go to state 193
 
 
-state 180
+state 178
 
     (83) listx -> ID id_param .
     (84) listx -> ID id_param . COMA listx
 
     RBRACKET        reduce using rule 83 (listx -> ID id_param .)
-    COMA            shift and go to state 196
+    COMA            shift and go to state 194
 
 
-state 181
+state 179
 
     (97) remove -> ID idCheck_Add POINT REMOVE LPAR RPAR .
 
@@ -3601,9 +3452,27 @@ state 181
     RCBRACKET       reduce using rule 97 (remove -> ID idCheck_Add POINT REMOVE LPAR RPAR .)
 
 
-state 182
+state 180
 
     (93) listx_add -> NUMINT . id_param2
+    (91) id_param2 -> .
+
+    RPAR            reduce using rule 91 (id_param2 -> .)
+
+    id_param2                      shift and go to state 195
+
+state 181
+
+    (92) listx_add -> ID . id_param2
+    (91) id_param2 -> .
+
+    RPAR            reduce using rule 91 (id_param2 -> .)
+
+    id_param2                      shift and go to state 196
+
+state 182
+
+    (94) listx_add -> NUMFLOAT . id_param2
     (91) id_param2 -> .
 
     RPAR            reduce using rule 91 (id_param2 -> .)
@@ -3612,37 +3481,19 @@ state 182
 
 state 183
 
-    (92) listx_add -> ID . id_param2
-    (91) id_param2 -> .
-
-    RPAR            reduce using rule 91 (id_param2 -> .)
-
-    id_param2                      shift and go to state 198
-
-state 184
-
-    (94) listx_add -> NUMFLOAT . id_param2
-    (91) id_param2 -> .
-
-    RPAR            reduce using rule 91 (id_param2 -> .)
-
-    id_param2                      shift and go to state 199
-
-state 185
-
     (95) add -> ID idCheck_Add POINT ADD LPAR listx_add . RPAR
 
-    RPAR            shift and go to state 200
+    RPAR            shift and go to state 198
 
 
-state 186
+state 184
 
     (76) condition -> IF LPAR exp RPAR cond_1 block . else cond_2
     (77) else -> . ELSE cond_else block
     (78) else -> . empty
     (113) empty -> .
 
-    ELSE            shift and go to state 201
+    ELSE            shift and go to state 199
     INT             reduce using rule 113 (empty -> .)
     FLOAT           reduce using rule 113 (empty -> .)
     BOOLEAN         reduce using rule 113 (empty -> .)
@@ -3660,24 +3511,19 @@ state 186
     RETURN          reduce using rule 113 (empty -> .)
     RCBRACKET       reduce using rule 113 (empty -> .)
 
-    else                           shift and go to state 203
-    empty                          shift and go to state 202
+    else                           shift and go to state 201
+    empty                          shift and go to state 200
 
-state 187
+state 185
 
     (99) call -> ID id_call LPAR par_call params RPAR par_call2 .
 
     PLUS            reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
-    LPAR            reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
-    MINUS           reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
-    ID              reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
-    NUMINT          reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
-    NUMFLOAT        reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
-    BOOLEANTYPE     reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
     RPAR            reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
     INT             reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
     FLOAT           reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
     BOOLEAN         reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
+    ID              reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
     IF              reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
     WHILE           reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
     PRINT           reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
@@ -3694,21 +3540,21 @@ state 187
     $end            reduce using rule 99 (call -> ID id_call LPAR par_call params RPAR par_call2 .)
 
 
-state 188
+state 186
 
     (104) params -> ID COMA params .
 
     RPAR            reduce using rule 104 (params -> ID COMA params .)
 
 
-state 189
+state 187
 
     (103) params -> expression COMA params .
 
     RPAR            reduce using rule 103 (params -> expression COMA params .)
 
 
-state 190
+state 188
 
     (72) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block . cycle_3
     (75) cycle_3 -> .
@@ -3730,22 +3576,16 @@ state 190
     RETURN          reduce using rule 75 (cycle_3 -> .)
     RCBRACKET       reduce using rule 75 (cycle_3 -> .)
 
-    cycle_3                        shift and go to state 204
+    cycle_3                        shift and go to state 202
 
-state 191
+state 189
 
     (69) printx -> call PLUS op_val printx .
 
-    LPAR            reduce using rule 69 (printx -> call PLUS op_val printx .)
-    MINUS           reduce using rule 69 (printx -> call PLUS op_val printx .)
-    ID              reduce using rule 69 (printx -> call PLUS op_val printx .)
-    NUMINT          reduce using rule 69 (printx -> call PLUS op_val printx .)
-    NUMFLOAT        reduce using rule 69 (printx -> call PLUS op_val printx .)
-    BOOLEANTYPE     reduce using rule 69 (printx -> call PLUS op_val printx .)
     RPAR            reduce using rule 69 (printx -> call PLUS op_val printx .)
 
 
-state 192
+state 190
 
     (68) printx -> ID id_val PLUS op_val . printx
     (64) printx -> . expression
@@ -3781,26 +3621,20 @@ state 192
 
     factor                         shift and go to state 45
     varcte                         shift and go to state 43
-    printx                         shift and go to state 205
+    printx                         shift and go to state 203
     call                           shift and go to state 137
     termino                        shift and go to state 40
     exp                            shift and go to state 48
     expression                     shift and go to state 139
 
-state 193
+state 191
 
     (67) printx -> expression PLUS op_val printx .
 
-    LPAR            reduce using rule 67 (printx -> expression PLUS op_val printx .)
-    MINUS           reduce using rule 67 (printx -> expression PLUS op_val printx .)
-    ID              reduce using rule 67 (printx -> expression PLUS op_val printx .)
-    NUMINT          reduce using rule 67 (printx -> expression PLUS op_val printx .)
-    NUMFLOAT        reduce using rule 67 (printx -> expression PLUS op_val printx .)
-    BOOLEANTYPE     reduce using rule 67 (printx -> expression PLUS op_val printx .)
     RPAR            reduce using rule 67 (printx -> expression PLUS op_val printx .)
 
 
-state 194
+state 192
 
     (86) listx -> NUMINT id_param COMA . listx
     (83) listx -> . ID id_param
@@ -3810,13 +3644,13 @@ state 194
     (87) listx -> . NUMFLOAT id_param
     (88) listx -> . NUMFLOAT id_param COMA listx
 
-    ID              shift and go to state 163
-    NUMINT          shift and go to state 161
-    NUMFLOAT        shift and go to state 162
+    ID              shift and go to state 161
+    NUMINT          shift and go to state 159
+    NUMFLOAT        shift and go to state 160
 
-    listx                          shift and go to state 206
+    listx                          shift and go to state 204
 
-state 195
+state 193
 
     (88) listx -> NUMFLOAT id_param COMA . listx
     (83) listx -> . ID id_param
@@ -3826,13 +3660,13 @@ state 195
     (87) listx -> . NUMFLOAT id_param
     (88) listx -> . NUMFLOAT id_param COMA listx
 
-    ID              shift and go to state 163
-    NUMINT          shift and go to state 161
-    NUMFLOAT        shift and go to state 162
+    ID              shift and go to state 161
+    NUMINT          shift and go to state 159
+    NUMFLOAT        shift and go to state 160
 
-    listx                          shift and go to state 207
+    listx                          shift and go to state 205
 
-state 196
+state 194
 
     (84) listx -> ID id_param COMA . listx
     (83) listx -> . ID id_param
@@ -3842,34 +3676,34 @@ state 196
     (87) listx -> . NUMFLOAT id_param
     (88) listx -> . NUMFLOAT id_param COMA listx
 
-    ID              shift and go to state 163
-    NUMINT          shift and go to state 161
-    NUMFLOAT        shift and go to state 162
+    ID              shift and go to state 161
+    NUMINT          shift and go to state 159
+    NUMFLOAT        shift and go to state 160
 
-    listx                          shift and go to state 208
+    listx                          shift and go to state 206
 
-state 197
+state 195
 
     (93) listx_add -> NUMINT id_param2 .
 
     RPAR            reduce using rule 93 (listx_add -> NUMINT id_param2 .)
 
 
-state 198
+state 196
 
     (92) listx_add -> ID id_param2 .
 
     RPAR            reduce using rule 92 (listx_add -> ID id_param2 .)
 
 
-state 199
+state 197
 
     (94) listx_add -> NUMFLOAT id_param2 .
 
     RPAR            reduce using rule 94 (listx_add -> NUMFLOAT id_param2 .)
 
 
-state 200
+state 198
 
     (95) add -> ID idCheck_Add POINT ADD LPAR listx_add RPAR .
 
@@ -3891,16 +3725,16 @@ state 200
     RCBRACKET       reduce using rule 95 (add -> ID idCheck_Add POINT ADD LPAR listx_add RPAR .)
 
 
-state 201
+state 199
 
     (77) else -> ELSE . cond_else block
     (81) cond_else -> .
 
     LCBRACKET       reduce using rule 81 (cond_else -> .)
 
-    cond_else                      shift and go to state 209
+    cond_else                      shift and go to state 207
 
-state 202
+state 200
 
     (78) else -> empty .
 
@@ -3922,7 +3756,7 @@ state 202
     RCBRACKET       reduce using rule 78 (else -> empty .)
 
 
-state 203
+state 201
 
     (76) condition -> IF LPAR exp RPAR cond_1 block else . cond_2
     (80) cond_2 -> .
@@ -3944,9 +3778,9 @@ state 203
     RETURN          reduce using rule 80 (cond_2 -> .)
     RCBRACKET       reduce using rule 80 (cond_2 -> .)
 
-    cond_2                         shift and go to state 210
+    cond_2                         shift and go to state 208
 
-state 204
+state 202
 
     (72) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .
 
@@ -3968,50 +3802,44 @@ state 204
     RCBRACKET       reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
 
 
-state 205
+state 203
 
     (68) printx -> ID id_val PLUS op_val printx .
 
-    LPAR            reduce using rule 68 (printx -> ID id_val PLUS op_val printx .)
-    MINUS           reduce using rule 68 (printx -> ID id_val PLUS op_val printx .)
-    ID              reduce using rule 68 (printx -> ID id_val PLUS op_val printx .)
-    NUMINT          reduce using rule 68 (printx -> ID id_val PLUS op_val printx .)
-    NUMFLOAT        reduce using rule 68 (printx -> ID id_val PLUS op_val printx .)
-    BOOLEANTYPE     reduce using rule 68 (printx -> ID id_val PLUS op_val printx .)
     RPAR            reduce using rule 68 (printx -> ID id_val PLUS op_val printx .)
 
 
-state 206
+state 204
 
     (86) listx -> NUMINT id_param COMA listx .
 
     RBRACKET        reduce using rule 86 (listx -> NUMINT id_param COMA listx .)
 
 
-state 207
+state 205
 
     (88) listx -> NUMFLOAT id_param COMA listx .
 
     RBRACKET        reduce using rule 88 (listx -> NUMFLOAT id_param COMA listx .)
 
 
-state 208
+state 206
 
     (84) listx -> ID id_param COMA listx .
 
     RBRACKET        reduce using rule 84 (listx -> ID id_param COMA listx .)
 
 
-state 209
+state 207
 
     (77) else -> ELSE cond_else . block
     (16) block -> . LCBRACKET blockx RCBRACKET
 
     LCBRACKET       shift and go to state 37
 
-    block                          shift and go to state 211
+    block                          shift and go to state 209
 
-state 210
+state 208
 
     (76) condition -> IF LPAR exp RPAR cond_1 block else cond_2 .
 
@@ -4033,7 +3861,7 @@ state 210
     RCBRACKET       reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
 
 
-state 211
+state 209
 
     (77) else -> ELSE cond_else block .
 
@@ -4060,12 +3888,9 @@ WARNING:
 WARNING: shift/reduce conflict for FUNC in state 0 resolved as shift
 WARNING: shift/reduce conflict for FUNC in state 6 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 40 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 40 resolved as shift
 WARNING: shift/reduce conflict for COMA in state 150 resolved as shift
 WARNING: reduce/reduce conflict in state 138 resolved using rule (id_val -> <empty>)
 WARNING: rejected rule (varcte -> ID) in state 138
-WARNING: reduce/reduce conflict in state 138 resolved using rule (id_val -> <empty>)
-WARNING: rejected rule (id_call -> <empty>) in state 138
 WARNING: reduce/reduce conflict in state 150 resolved using rule (varcte -> ID)
 WARNING: rejected rule (params -> ID) in state 150
 WARNING: Rule (params -> ID) is never reduced

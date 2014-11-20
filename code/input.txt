@@ -4,7 +4,7 @@ int B
 int i
 int j
 j = 4
-func dos(){
+func dos(int D){
 	i = 4+5
 	return(i)
 }
@@ -12,8 +12,5 @@ func dos(){
 func boy (float D, int G){
 	int X
 	X = 8 + j
-
-	B = dos()
-	print (dos() + X)
-	
+	print (dos(X))	
 }
