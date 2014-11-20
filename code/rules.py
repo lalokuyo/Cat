@@ -196,10 +196,12 @@ def p_return(p):
   '''return : RETURN LPAR par_call expression RPAR par_call2 '''
   global pila_Oz
   global funcName
+  global temp_cont
+  global mem_temp
+  global list_temp
 
   func_temp = functionFetch(funcName)
-  print func_temp.name
-  print pila_Oz, "RETURn"
+
   #Check for ")"
   item = pila_Oz.pop()
   if item == ")":
@@ -207,15 +209,36 @@ def p_return(p):
     while item != "(":
       item = pila_Oz.pop()
       if item != "(":
-
+        #IF ID
         if isinstance(item, str):
           var = variableFetch(item)
-        if isinstance(var, Node):
-          op1 = var.mem
-          func_temp.ret = var
+          if isinstance(var, Node):
+            op1 = var.mem
+            func_temp.ret = var
+
+        #IF TMP
+        if isinstance(item, Node):
+          op1 = item.mem
+          #TEMP CUAD
+          temp      = Node()
+          tname     = "t" + str(temp_cont)
+          temp.name = tname
+          temp.mem  = mem_temp
+          list_temp.append(temp)
+          #Add as return
+          func_temp.ret = temp
+        #IF CTE
         else:
           op1 = item
-          func_temp.ret = item
+          #TEMP CUAD
+          temp      = Node()
+          tname     = "t" + str(temp_cont)
+          temp.name = tname
+          temp.mem  = mem_temp
+          list_temp.append(temp)
+          #Add as return
+          func_temp.ret = temp
+
         #RETURN CUAD
         createCuad("RETURN", op1, None, None)
         #TEMP CUAD
@@ -228,6 +251,8 @@ def p_return(p):
   print pila_Oz, "SALE RETURN "
     #pila_Oz.append(temp)
     #list_temp.append(temp)
+  mem_temp += 1
+  temp_cont += 1
 
 def functionFetch(key):
   global func_list
@@ -359,6 +384,8 @@ def p_asign(p):
   global pila_Oz
   global pila_Operador
 
+  for x in pila_Oz:
+    print x
   cteMemory = 0
   auxtemp   = False
   if pila_Operador and pila_Operador[-1] == "=":
@@ -624,7 +651,6 @@ def p_exp(p):
     #IF ID
     if verify(operand1) == "string":
       varx = variableFetch(operand1)
-      print varx, "VARX"
       operand1 = varx.value
       op1_name = varx.mem
     if verify(operand2) == "string":
@@ -857,7 +883,7 @@ def p_expCheck(p):
 
 # ***************** WHILE *******************************+
 def p_cycle(p):
-  '''cycle : WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3'''
+  '''cycle : WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3'''
 
 def p_cycle_1(p):
   'cycle_1 : '
@@ -907,7 +933,7 @@ def p_cycle_3(p):
 
 # ******************* IF **********************************
 def p_condition(p):
-  '''condition :  IF LPAR exp RPAR cond_1 block else cond_2
+  '''condition :  IF LPAR expression RPAR cond_1 block else cond_2
               '''
 
 def p_else(p):
@@ -1149,7 +1175,7 @@ def p_call(p):
   global mem_temp
   global list_temp
 
-  print pila_Oz, "ENTRA CALL"
+  print pila_Oz[3], "ENTRA CALL"
   #Check for ")"
   item = pila_Oz.pop()
   if item == ")":
@@ -1158,10 +1184,15 @@ def p_call(p):
       item = pila_Oz.pop()
       if item != "(":
         param = "param" + str(param_cont)
+        #IF ID
         if isinstance(item, str):
           var = variableFetch(item)
           if isinstance(var, Node):
             op1 = var.mem
+        #IF TMP
+        if isinstance(item, Node):
+          op1 = item.name
+        #IF CTE
         else:
           op1 = item
         #PARAMS

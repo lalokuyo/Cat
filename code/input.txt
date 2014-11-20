@@ -1,16 +1,15 @@
-
-bool A
+int A
 int B
-int i
-int j
-j = 4
-func dos(int D){
-	i = 4+5 + j
-	return(i)
-}
-
-func boy (float H, int G){
-	int X
-	X = 8 + j
-	print(dos(X))
+B = 8
+func fibo(int n){
+	if (n == 0){
+		return (0)
+	}if (n == 1){
+		return (1)
+	}else{
+		A = fibo(n-1)
+		B = fibo(n-2)
+		return (A + B)
+	}
+	
 }

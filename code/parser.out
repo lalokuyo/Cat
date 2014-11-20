@@ -85,11 +85,11 @@ Rule 68    printx -> ID id_val PLUS op_val printx
 Rule 69    printx -> call PLUS op_val printx
 Rule 70    expCheck -> expression
 Rule 71    expCheck -> empty
-Rule 72    cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
+Rule 72    cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
 Rule 73    cycle_1 -> <empty>
 Rule 74    cycle_2 -> <empty>
 Rule 75    cycle_3 -> <empty>
-Rule 76    condition -> IF LPAR exp RPAR cond_1 block else cond_2
+Rule 76    condition -> IF LPAR expression RPAR cond_1 block else cond_2
 Rule 77    else -> ELSE cond_else block
 Rule 78    else -> empty
 Rule 79    cond_1 -> <empty>
@@ -197,9 +197,9 @@ eat                  : 28
 else                 : 76
 empty                : 4 6 8 14 71 78
 equal_val            : 42 43
-exp                  : 46 47 49 50 72 76
+exp                  : 46 47 49 50
 expCheck             : 
-expression           : 36 42 47 56 64 67 70 103 105
+expression           : 36 42 47 56 64 67 70 72 76 103 105
 factor               : 51 52 53
 func                 : 2 7
 func_end             : 9
@@ -735,8 +735,8 @@ state 37
     (41) type -> . BOOLEAN
     (42) asign -> . ID id_val EQUAL equal_val expression
     (43) asign -> . ID id_val EQUAL equal_val call
-    (76) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
-    (72) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
+    (76) condition -> . IF LPAR expression RPAR cond_1 block else cond_2
+    (72) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
     (63) print -> . PRINT LPAR par_call printx RPAR par_call2
     (82) list -> . LIST idCheck_List EQUAL LBRACKET listx RBRACKET
     (98) call -> . ID id_call LPAR par_call RPAR par_call2
@@ -978,8 +978,8 @@ state 45
 
     PLUS            reduce using rule 51 (termino -> factor .)
     MINUS           reduce using rule 51 (termino -> factor .)
-    RPAR            reduce using rule 51 (termino -> factor .)
     COMPARISON      reduce using rule 51 (termino -> factor .)
+    RPAR            reduce using rule 51 (termino -> factor .)
     COMA            reduce using rule 51 (termino -> factor .)
     ID              reduce using rule 51 (termino -> factor .)
     FUNC            reduce using rule 51 (termino -> factor .)
@@ -1195,8 +1195,8 @@ state 53
     (41) type -> . BOOLEAN
     (42) asign -> . ID id_val EQUAL equal_val expression
     (43) asign -> . ID id_val EQUAL equal_val call
-    (76) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
-    (72) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
+    (76) condition -> . IF LPAR expression RPAR cond_1 block else cond_2
+    (72) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
     (63) print -> . PRINT LPAR par_call printx RPAR par_call2
     (82) list -> . LIST idCheck_List EQUAL LBRACKET listx RBRACKET
     (98) call -> . ID id_call LPAR par_call RPAR par_call2
@@ -1272,7 +1272,7 @@ state 54
 
 state 55
 
-    (72) cycle -> WHILE . cycle_1 LPAR exp RPAR cycle_2 block cycle_3
+    (72) cycle -> WHILE . cycle_1 LPAR expression RPAR cycle_2 block cycle_3
     (73) cycle_1 -> .
 
     LPAR            reduce using rule 73 (cycle_1 -> .)
@@ -1410,8 +1410,8 @@ state 62
     (41) type -> . BOOLEAN
     (42) asign -> . ID id_val EQUAL equal_val expression
     (43) asign -> . ID id_val EQUAL equal_val call
-    (76) condition -> . IF LPAR exp RPAR cond_1 block else cond_2
-    (72) cycle -> . WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3
+    (76) condition -> . IF LPAR expression RPAR cond_1 block else cond_2
+    (72) cycle -> . WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
     (63) print -> . PRINT LPAR par_call printx RPAR par_call2
     (82) list -> . LIST idCheck_List EQUAL LBRACKET listx RBRACKET
     (98) call -> . ID id_call LPAR par_call RPAR par_call2
@@ -1487,7 +1487,7 @@ state 63
 
 state 64
 
-    (76) condition -> IF . LPAR exp RPAR cond_1 block else cond_2
+    (76) condition -> IF . LPAR expression RPAR cond_1 block else cond_2
 
     LPAR            shift and go to state 101
 
@@ -1847,8 +1847,8 @@ state 87
     DIVIDE          reduce using rule 57 (factor -> MINUS varcte .)
     PLUS            reduce using rule 57 (factor -> MINUS varcte .)
     MINUS           reduce using rule 57 (factor -> MINUS varcte .)
-    RPAR            reduce using rule 57 (factor -> MINUS varcte .)
     COMPARISON      reduce using rule 57 (factor -> MINUS varcte .)
+    RPAR            reduce using rule 57 (factor -> MINUS varcte .)
     ID              reduce using rule 57 (factor -> MINUS varcte .)
     FUNC            reduce using rule 57 (factor -> MINUS varcte .)
     $end            reduce using rule 57 (factor -> MINUS varcte .)
@@ -1878,8 +1878,8 @@ state 88
     DIVIDE          reduce using rule 58 (factor -> varcte termino_val .)
     PLUS            reduce using rule 58 (factor -> varcte termino_val .)
     MINUS           reduce using rule 58 (factor -> varcte termino_val .)
-    RPAR            reduce using rule 58 (factor -> varcte termino_val .)
     COMPARISON      reduce using rule 58 (factor -> varcte termino_val .)
+    RPAR            reduce using rule 58 (factor -> varcte termino_val .)
     ID              reduce using rule 58 (factor -> varcte termino_val .)
     FUNC            reduce using rule 58 (factor -> varcte termino_val .)
     $end            reduce using rule 58 (factor -> varcte termino_val .)
@@ -1974,7 +1974,7 @@ state 94
 
 state 95
 
-    (72) cycle -> WHILE cycle_1 . LPAR exp RPAR cycle_2 block cycle_3
+    (72) cycle -> WHILE cycle_1 . LPAR expression RPAR cycle_2 block cycle_3
 
     LPAR            shift and go to state 117
 
@@ -2024,7 +2024,9 @@ state 100
 
 state 101
 
-    (76) condition -> IF LPAR . exp RPAR cond_1 block else cond_2
+    (76) condition -> IF LPAR . expression RPAR cond_1 block else cond_2
+    (46) expression -> . exp
+    (47) expression -> . exp COMPARISON op_val expression
     (48) exp -> . termino
     (49) exp -> . termino PLUS op_val exp
     (50) exp -> . termino MINUS op_val exp
@@ -2048,8 +2050,9 @@ state 101
 
     varcte                         shift and go to state 43
     termino                        shift and go to state 40
-    exp                            shift and go to state 121
+    exp                            shift and go to state 48
     factor                         shift and go to state 45
+    expression                     shift and go to state 121
 
 state 102
 
@@ -2126,8 +2129,8 @@ state 109
     DIVIDE          reduce using rule 56 (factor -> LPAR expression RPAR .)
     PLUS            reduce using rule 56 (factor -> LPAR expression RPAR .)
     MINUS           reduce using rule 56 (factor -> LPAR expression RPAR .)
-    RPAR            reduce using rule 56 (factor -> LPAR expression RPAR .)
     COMPARISON      reduce using rule 56 (factor -> LPAR expression RPAR .)
+    RPAR            reduce using rule 56 (factor -> LPAR expression RPAR .)
     ID              reduce using rule 56 (factor -> LPAR expression RPAR .)
     FUNC            reduce using rule 56 (factor -> LPAR expression RPAR .)
     $end            reduce using rule 56 (factor -> LPAR expression RPAR .)
@@ -2339,7 +2342,9 @@ state 116
 
 state 117
 
-    (72) cycle -> WHILE cycle_1 LPAR . exp RPAR cycle_2 block cycle_3
+    (72) cycle -> WHILE cycle_1 LPAR . expression RPAR cycle_2 block cycle_3
+    (46) expression -> . exp
+    (47) expression -> . exp COMPARISON op_val expression
     (48) exp -> . termino
     (49) exp -> . termino PLUS op_val exp
     (50) exp -> . termino MINUS op_val exp
@@ -2362,8 +2367,9 @@ state 117
     BOOLEANTYPE     shift and go to state 49
 
     termino                        shift and go to state 40
-    exp                            shift and go to state 135
+    exp                            shift and go to state 48
     factor                         shift and go to state 45
+    expression                     shift and go to state 135
     varcte                         shift and go to state 43
 
 state 118
@@ -2426,7 +2432,7 @@ state 120
 
 state 121
 
-    (76) condition -> IF LPAR exp . RPAR cond_1 block else cond_2
+    (76) condition -> IF LPAR expression . RPAR cond_1 block else cond_2
 
     RPAR            shift and go to state 143
 
@@ -2565,8 +2571,8 @@ state 130
 
     PLUS            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     MINUS           reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
-    RPAR            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     COMPARISON      reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
+    RPAR            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     COMA            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     ID              reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
     FUNC            reduce using rule 52 (termino -> factor MULTIPLY op_val termino .)
@@ -2594,8 +2600,8 @@ state 131
 
     PLUS            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     MINUS           reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
-    RPAR            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     COMPARISON      reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
+    RPAR            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     COMA            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     ID              reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
     FUNC            reduce using rule 53 (termino -> factor DIVIDE op_val termino .)
@@ -2692,7 +2698,7 @@ state 134
 
 state 135
 
-    (72) cycle -> WHILE cycle_1 LPAR exp . RPAR cycle_2 block cycle_3
+    (72) cycle -> WHILE cycle_1 LPAR expression . RPAR cycle_2 block cycle_3
 
     RPAR            shift and go to state 153
 
@@ -2780,7 +2786,7 @@ state 142
 
 state 143
 
-    (76) condition -> IF LPAR exp RPAR . cond_1 block else cond_2
+    (76) condition -> IF LPAR expression RPAR . cond_1 block else cond_2
     (79) cond_1 -> .
 
     LCBRACKET       reduce using rule 79 (cond_1 -> .)
@@ -2965,7 +2971,7 @@ state 152
 
 state 153
 
-    (72) cycle -> WHILE cycle_1 LPAR exp RPAR . cycle_2 block cycle_3
+    (72) cycle -> WHILE cycle_1 LPAR expression RPAR . cycle_2 block cycle_3
     (74) cycle_2 -> .
 
     LCBRACKET       reduce using rule 74 (cycle_2 -> .)
@@ -3095,7 +3101,7 @@ state 163
 
 state 164
 
-    (76) condition -> IF LPAR exp RPAR cond_1 . block else cond_2
+    (76) condition -> IF LPAR expression RPAR cond_1 . block else cond_2
     (16) block -> . LCBRACKET blockx RCBRACKET
 
     LCBRACKET       shift and go to state 37
@@ -3254,7 +3260,7 @@ state 169
 
 state 170
 
-    (72) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 . block cycle_3
+    (72) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 . block cycle_3
     (16) block -> . LCBRACKET blockx RCBRACKET
 
     LCBRACKET       shift and go to state 37
@@ -3488,7 +3494,7 @@ state 183
 
 state 184
 
-    (76) condition -> IF LPAR exp RPAR cond_1 block . else cond_2
+    (76) condition -> IF LPAR expression RPAR cond_1 block . else cond_2
     (77) else -> . ELSE cond_else block
     (78) else -> . empty
     (113) empty -> .
@@ -3556,7 +3562,7 @@ state 187
 
 state 188
 
-    (72) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block . cycle_3
+    (72) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block . cycle_3
     (75) cycle_3 -> .
 
     INT             reduce using rule 75 (cycle_3 -> .)
@@ -3758,7 +3764,7 @@ state 200
 
 state 201
 
-    (76) condition -> IF LPAR exp RPAR cond_1 block else . cond_2
+    (76) condition -> IF LPAR expression RPAR cond_1 block else . cond_2
     (80) cond_2 -> .
 
     INT             reduce using rule 80 (cond_2 -> .)
@@ -3782,24 +3788,24 @@ state 201
 
 state 202
 
-    (72) cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .
+    (72) cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .
 
-    INT             reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    FLOAT           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    BOOLEAN         reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    ID              reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    IF              reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    WHILE           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    PRINT           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    LIST            reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    MOVE            reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    EAT             reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    CLEAN           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    PLAY            reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    TURNLEFT        reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    TURNRIGHT       reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    RETURN          reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
-    RCBRACKET       reduce using rule 72 (cycle -> WHILE cycle_1 LPAR exp RPAR cycle_2 block cycle_3 .)
+    INT             reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    FLOAT           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    BOOLEAN         reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    ID              reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    IF              reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    WHILE           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    PRINT           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    LIST            reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    MOVE            reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    EAT             reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    CLEAN           reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    PLAY            reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    TURNLEFT        reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    TURNRIGHT       reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    RETURN          reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
+    RCBRACKET       reduce using rule 72 (cycle -> WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3 .)
 
 
 state 203
@@ -3841,24 +3847,24 @@ state 207
 
 state 208
 
-    (76) condition -> IF LPAR exp RPAR cond_1 block else cond_2 .
+    (76) condition -> IF LPAR expression RPAR cond_1 block else cond_2 .
 
-    INT             reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    FLOAT           reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    BOOLEAN         reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    ID              reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    IF              reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    WHILE           reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    PRINT           reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    LIST            reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    MOVE            reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    EAT             reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    CLEAN           reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    PLAY            reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    TURNLEFT        reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    TURNRIGHT       reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    RETURN          reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
-    RCBRACKET       reduce using rule 76 (condition -> IF LPAR exp RPAR cond_1 block else cond_2 .)
+    INT             reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    FLOAT           reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    BOOLEAN         reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    ID              reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    IF              reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    WHILE           reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    PRINT           reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    LIST            reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    MOVE            reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    EAT             reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    CLEAN           reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    PLAY            reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    TURNLEFT        reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    TURNRIGHT       reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    RETURN          reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
+    RCBRACKET       reduce using rule 76 (condition -> IF LPAR expression RPAR cond_1 block else cond_2 .)
 
 
 state 209
