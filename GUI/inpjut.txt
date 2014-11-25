@@ -1,0 +1,5 @@
+int C
+int A
+int B 
+
+func fact(int n){njnjn

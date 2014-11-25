@@ -10,13 +10,19 @@
 from Tkinter import *
 #import sys
 #sys.path.insert(0,"../")
-from cat import *
-from vm import *
+from code import cat
+from code import vm
+
 
 def compile_Start():
     print "compiling..."
     texto = codex.get("1.0", 'end-1c')
-    cat.startCompilation(texto)
+
+    intext = open('input.txt', 'w+')
+    intext.write(texto)
+    intext.close()
+    
+    cat.startCompilation()
     cat.output()
     cat.variables_globales[1].print_var()
     print cat.variables_globales[1]
@@ -60,7 +66,7 @@ b2.place(x=775, y=40, width=120, height=25)
 
 #codex SECTION
 codex = Text(win, width=65, height=25) #65, 37
-codex.insert(INSERT, "#Your code goes here... :D")
+codex.insert(INSERT, "#Your codex goes here... :D")
 codex.place(bordermode=OUTSIDE, x=80, y=90, width=450, height=500)
         #Scroll Bar
 sb = Scrollbar(win, orient=VERTICAL)
