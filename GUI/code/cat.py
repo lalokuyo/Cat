@@ -24,10 +24,11 @@ import ply.lex as lex
 import ply.yacc as yacc
 import vm as vm
 
-intext = open('input.txt', 'r+')
-input_file = intext.read()
 
-def startCompilation(input_file):
+def startCompilation():
+	intext = open('input.txt', 'r+')
+	input_file = intext.read()
+	
 	#Build the lexer
 	lex.lex()
 	#Build the parser
@@ -35,54 +36,8 @@ def startCompilation(input_file):
 
 	#File to open 
 	yacc.parse(input_file)
-	
+	intext.close()
 
-def cleanTables():
-	# ********* PILAS ********
-	pila_Operador   = []  # + - / * 
-	pila_Oz         = []  # 0-9 operandos
-	pila_temp       = []  #Temporales
-	pila_tipo       = []  #verificacion semantica
-	pila_saltos     = []
-
-	cont            = 0
-	cuadruplos_list = []
-	temp_cont       = 0
-
-	# ****** TABLES **********
-	funcName            = ""
-	functions_directory = {}
-	functions_table     = {}
-	functions_cont      = {}
-	func_list           = []
-	param_cont          = 0
-	paramtemp_list      = []
-
-	#Variables table
-	vartemp_list        = []       #Locales a funcion
-	variables_globales  = []
-
-	#LISTAS
-	list_directory      = []       #directorio de listas
-	list_temp           = []
-
-	cte_list            = {}
-
-	# *** MEMORY ALLOCATIONS ***
-	#types
-	mem_global  = 1000
-	mem_func    = 2000
-	#mem_local  = 3000
-	mem_list    = 4000
-
-	mem_int     = 5000
-	mem_float   = 6000
-	mem_boolean = 7000
-	mem_cte     = 8000
-	mem_temp    = 90000
-
-	mem_true    = 12000
-	mem_false   = 13000
 
 def output():
 	#Print de vars globales
@@ -134,9 +89,9 @@ def F(n):
 
 
 #print F(15), "FIBONA"
-startCompilation(input_file)
-output()
-vm.start()
+#startCompilation(input_file)
+#output()
+#vm.start()
 
 
 

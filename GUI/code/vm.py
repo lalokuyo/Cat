@@ -9,17 +9,19 @@
 
 from rules import*
 from cuadruplo import*
+import re
 
+paramRegex = re.compile("param\d")
 tempFunc = ''
 saltoFinal = ''
 
 def revisaOperando1(x):
 	op1 = x.operand1
-
 	#MEMORY VALUE: 
 	if isinstance(op1, int):
+
 		#Variable
-		if op1 > 4999 & op1 < 8000:
+		if op1 > 4999 and op1 < 8000:
 			#LOCAL
 			for w in functions_directory:
 				var_list = functions_directory[w]
@@ -30,8 +32,15 @@ def revisaOperando1(x):
 			for y in variables_globales:
 				if y.mem == op1:
 					return y.value
+		#LISTA
+		if op1 > 3999 and op1 < 5000:
+			for w in functions_directory:
+				var_list = functions_directory[w]
+				for y in var_list:
+					if y.mem == op1:
+						return y.lista
 		#CTE
-		if op1 > 7999 & op1 < 9000:
+		if op1 > 7999 and op1 < 9000:
 			for valor, memoria in cte_list.items():
 				if memoria == op1:
 					return valor
@@ -39,8 +48,12 @@ def revisaOperando1(x):
 		#Function
 		for y in func_list:
 			if y.name == op1:
-				temporalRetorno = y.ret
-				return temporalRetorno.value
+				if y.ret != '':
+					temporalRetorno = y.ret
+					return temporalRetorno.value
+				else:
+					return ""
+
 		#Temporal
 		for y in list_temp:
 			if y.name == op1:
@@ -48,11 +61,11 @@ def revisaOperando1(x):
 
 def revisaOperando2(x):
 	op2 = x.operand2
-	if op2 != None:
+	if op2 != '':
 		#MEMORY VALUE: 
 		if isinstance(op2, int):
 			#Variable
-			if op2 > 4999 & op2 < 8000:
+			if op2 > 4999 and op2 < 8000:
 				#LOCAL
 				for w in functions_directory:
 					var_list = functions_directory[w]
@@ -64,7 +77,7 @@ def revisaOperando2(x):
 					if y.mem == op2:
 						return y.value
 			#CTE
-			if op2 > 7999 & op2 < 9000:
+			if op2 > 7999 and op2 < 9000:
 				for valor, memoria in cte_list.items():
 					if memoria == op2:
 						return valor
@@ -76,12 +89,11 @@ def revisaOperando2(x):
 
 def revisarResultado(x):
 	result = x.result
-	if result != None:
+	if result != '':
 		#MEMORY VALUE: 
 		if isinstance(result, int):
-
 			#Variable
-			if result > 4999 & result < 8000:
+			if result > 4999 and result < 8000:
 				#LOCAL
 				for w in functions_directory:
 					var_list = functions_directory[w]
@@ -92,21 +104,31 @@ def revisarResultado(x):
 				for y in variables_globales:
 					if y.mem == result:
 						return y
+			#LISTA
+			if result > 3999 and result < 5000:
+				for w in functions_directory:
+					var_list = functions_directory[w]
+					for y in var_list:
+						if y.mem == result:
+							return y.lista
+
 			#CTE
-			if result > 7999 & result < 9000:
+			if result > 7999 and result < 9000:
 				for valor, memoria in cte_list.items():
 					if memoria == result:
 						return valor
 			#CONT not stated
 			else:
 				return result
+		elif paramRegex.match(result):
+			return buscarParam(result)
 		else:
 			#Temporal
 			for y in list_temp:
 				if y.name == result:
 					return y
 
-			return buscarParam(result)
+			
 
 def revisarFuncion(x):
 	for y in func_list:
@@ -184,10 +206,8 @@ def leerCuadruplos():
 		# ************* FUNCTIONS ******************************
 		if oper == "ERA":
 			tempFunc = revisarFuncion(cuadruplos_list[x].operand1)
-			#print "TEMPFUNC", tempFunc
 		if oper == "param":
 			paramtemp = buscarParam(cuadruplos_list[x].result)
-			#print paramtemp, "PARAM"
 			paramtemp.value = ope1
 		if oper == "goSub":
 			tempFunc = revisarFuncion(cuadruplos_list[x].operand1)
@@ -207,6 +227,32 @@ def leerCuadruplos():
 			salta = True
 
 		# ************* LISTS **********************************
+		if oper == "add":
+			result.append(ope1)
+			print "added", ope1
+		if oper == "rm":
+			print "remove", result
+			result.pop()
+			print "removed"
+		if cuadruplos_list[x - 1].operator == "find":
+			if oper == 'found':
+				print "Pos:", ope1
+			if oper == 'notFound':
+				print "Not in list"
+		if oper == "WLIST":
+			isinstance(cuadruplos_list[x].operand1, LinkedList)
+			print "List:", ope1
+
+		# ************* PRINT **********************************
+		if oper == "WRITE":
+			#INT VALUE
+			if isinstance(cuadruplos_list[x].operand1, int):
+				print "PRINT " + str(a)
+			#STRING
+			else:
+				print cuadruplos_list[x].operand1, "CTE"
+		# ************* PRINT **********************************
+		# ************* PRINT **********************************
 		print "-->", oper,  ope1,  ope2,  result
 		#UPDATE
 		if not salta:

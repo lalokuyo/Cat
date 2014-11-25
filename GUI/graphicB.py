@@ -8,28 +8,22 @@
 # -----------------------------------------------------------------------------
 
 from Tkinter import *
-import sys
-sys.path.insert(0,"../")
-from code import cat
-
-texto = ""
+#import sys
+#sys.path.insert(0,"../")
+from cat import *
+from vm import *
 
 def compile_Start():
     print "compiling..."
-    global texto
-
-    #fo = open("input.txt", "w+")
-    texto = codex.get("1.0", END)
-    #fo.write(texto)
-
-    #cat.cleanTables()
+    texto = codex.get("1.0", 'end-1c')
     cat.startCompilation(texto)
     cat.output()
-    #fo.close()
-    print "FINISH!"
+    cat.variables_globales[1].print_var()
+    print cat.variables_globales[1]
 
 def execute_Start():
     print "executing..."
+    vm.start()
     #Llama VM
 
 def showCat():
@@ -66,7 +60,7 @@ b2.place(x=775, y=40, width=120, height=25)
 
 #codex SECTION
 codex = Text(win, width=65, height=25) #65, 37
-codex.insert(INSERT, "#Your codex goes here... :D")
+codex.insert(INSERT, "#Your code goes here... :D")
 codex.place(bordermode=OUTSIDE, x=80, y=90, width=450, height=500)
         #Scroll Bar
 sb = Scrollbar(win, orient=VERTICAL)
@@ -84,7 +78,7 @@ canvas = Canvas(win, width=450, height=475)
 
 canvas.create_rectangle(0, 0, 450, 475, fill="blue")
 canvas.place(bordermode=OUTSIDE, x=630, y=90, width=450, height=500)
-showCat()
+#showCat()
 
 win.mainloop()
 

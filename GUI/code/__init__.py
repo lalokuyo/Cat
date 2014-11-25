@@ -8,4 +8,4 @@
 # -----------------------------------------------------------------------------
 
 
-__all__ = ['cat', 'func', 'cuadruplo', 'linkedList', 'node', 'rules', 'semantic_cube', 'test', 'tokens', 'virtualmachine', 'input']
+__all__ = ['cat', 'func', 'cuadruplo', 'linkedList', 'node', 'rules', 'semantic_cube', 'test', 'tokens', 'vm', 'input']

@@ -1,17 +1,17 @@
-int A
-int B
 int C
-B = 8
+int A
+int T 
 
+func fact(){
+	list toy = [94, 43, 99, 39, 24]
+	toy.add(9)
+	toy.sort()
+	toy.find(3)
+	toy.remove()
+	toy.printList()
 
-func fibo(int n, int k){
-	n = n + 3
-	return(8)
 }
 
 main {
-	int j
-	j = fibo(8, 7)
+	fact()
 }
-
-

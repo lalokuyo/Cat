@@ -56,6 +56,7 @@ reserved = {
    'else'   : 'ELSE',
    'while'  : 'WHILE',
    'print'  : 'PRINT',
+   'printList': 'PRINTLIST',
    'eat'    : 'EAT',
    'candy'  : 'CANDY',
    'clean'  : 'CLEAN',
