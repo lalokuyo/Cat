@@ -24,7 +24,6 @@ class LinkedList:
     def set_mem(self, mem): 
         self.mem = mem
 
-
     def get_name(self): 
         return self.name
 

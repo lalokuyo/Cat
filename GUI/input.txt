@@ -1,0 +1,17 @@
+int A
+int B
+int C
+B = 8
+
+
+func fibo(int n, int k){
+	n = n + 3
+	return(8)
+}
+
+main {
+	int j
+	j = fibo(8, 7)
+}
+
+

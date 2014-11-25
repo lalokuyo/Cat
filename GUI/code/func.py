@@ -17,7 +17,6 @@ class Func:
         self.params   = []
         self.ret      = ''
 
-
     #SETS & GETS
     def set_name(self, name): 
         self.name = name

@@ -42,6 +42,9 @@ tokens = [
 
 #Palabras Reservadas - NO TERMINALES
 reserved = {
+   'find'   : 'FIND',
+   'sort'   : 'SORT',
+   'main'   : 'MAIN',
    'bool'   : 'BOOLEAN',
    'true'   : 'TRUE',
    'false'  : 'FALSE',  

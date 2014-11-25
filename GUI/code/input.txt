@@ -1,0 +1,17 @@
+int C
+int A
+int B 
+
+func fact(int n){
+	int num
+	num = 2/2
+	while(n >= 1){
+    	num = num * n
+    	n = n - 1
+    }
+    return (num)
+}
+
+main {
+	C = fact(5)
+}

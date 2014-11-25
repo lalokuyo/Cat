@@ -23,6 +23,7 @@ pila_tipo       = []  #verificacion semantica
 pila_saltos     = []
 
 cont            = 0
+cuadruplos_glob = []
 cuadruplos_list = []
 temp_cont       = 0
 
@@ -66,10 +67,19 @@ mem_false   = 13000
 # ///////////////////////// GRAMATICA /////////////////////////////////
 def p_class(p):
   #''' class : vars_global init_vars_1 func EXECUTE exec_2 block block_3
-  '''class : vars_global init_vars func_list
-            | func class
+  '''class : main_add vars_global init_vars func_list MAIN main_retorno block
             '''
-  #print "Tabla func", functions_directory
+def p_main_add(p):
+  '''main_add : '''
+  global pila_saltos
+  createCuad("goto", '', None, None)
+
+def p_main_retorno(p):
+  '''main_retorno : '''
+  global cont
+  global cuadruplos_list
+
+  cuadruplos_list[0].result = cont
 
 def p_vars_global(p):
   '''vars_global : varsGlobal vars_global
@@ -80,7 +90,6 @@ def p_init_vars_1(p):
   '''init_vars : asign init_vars
                  | empty
                  '''
-  #variables_globales.append(p[1])
 
 def p_func_list(p):
   '''func_list : func func_list
@@ -147,7 +156,8 @@ def p_funcx(p):
   '''funcx : vars paramCheck
             | vars paramCheck COMA funcx
             | empty'''
-
+  global param_cont
+  param_cont = 0
   p[0] = p[1]
 
 def p_paramCheck(p):
@@ -186,6 +196,8 @@ def p_statement(p):
                 | play
                 | add
                 | remove
+                | find
+                | sort
                 | turnleft
                 | turnright
                 | return
@@ -193,15 +205,20 @@ def p_statement(p):
   p[0] = p[1]
 
 def p_return(p):
-  '''return : RETURN LPAR par_call expression RPAR par_call2 '''
+  '''return : RETURN LPAR par_call expression RPAR par_call2 
+            | RETURN LPAR par_call call RPAR par_call2
+            '''
   global pila_Oz
   global funcName
   global temp_cont
   global mem_temp
   global list_temp
 
+  print pila_Oz, "RETURN"
+
   func_temp = functionFetch(funcName)
 
+  print pila_Oz, ""
   #Check for ")"
   item = pila_Oz.pop()
   if item == ")":
@@ -217,7 +234,7 @@ def p_return(p):
             func_temp.ret = var
 
         #IF TMP
-        if isinstance(item, Node):
+        elif isinstance(item, Node):
           op1 = item.mem
           #TEMP CUAD
           temp      = Node()
@@ -229,7 +246,10 @@ def p_return(p):
           func_temp.ret = temp
         #IF CTE
         else:
+          cte_memoryAssign(item)
+          item = cte_list[item]
           op1 = item
+
           #TEMP CUAD
           temp      = Node()
           tname     = "t" + str(temp_cont)
@@ -248,7 +268,7 @@ def p_return(p):
         temp.mem  = mem_temp
         #CHECAR*************** * * ** * *!!!!1
 
-  print pila_Oz, "SALE RETURN "
+
     #pila_Oz.append(temp)
     #list_temp.append(temp)
   mem_temp += 1
@@ -334,10 +354,10 @@ def p_vars(p):
       var.mem = mem_boolean
       #pila_Oz = mem_boolean
       mem_boolean += 1
-
+    #print var
     vartemp_list.append(var)
     paramtemp_list.append(var)
-
+    
     p[0] = var
   
 def p_type(p):
@@ -384,27 +404,31 @@ def p_asign(p):
   global pila_Oz
   global pila_Operador
 
-  for x in pila_Oz:
-    print x
+  #print pila_Oz, "asign"
   cteMemory = 0
   auxtemp   = False
   if pila_Operador and pila_Operador[-1] == "=":
     cuadruplo_temp = Cuadruplo()
     operatorX = pila_Operador.pop()
     cuadruplo_temp.set_operator(operatorX)
-    operand1 = pila_Oz.pop()  #3
-    result   = pila_Oz.pop()  #A
+    #print pila_Oz,"POP"
+    operand1 = pila_Oz.pop()  #C
+    result   = pila_Oz.pop()  #A var
 
     #IF variable exists
     if variableExist(result):           
       result = variableFetch(result)
       
-      #1. Type
-      operand1_type = verify(operand1)  #int
+      #IF ID
+      if isinstance(operand1, str):
+        operand1 = variableFetch(operand1)
+      #IF CTE
+      else:
+        operand1_type = verify(operand1)  #int
+
         #Type - IF TEMPORAL
       if isinstance(operand1, Node):
         operand1_type = verify(operand1.value)
-
       #2. Verify cube
       if semantic_cube[operand1_type][result.type]['='] != 'error':
         if operand1 == True: #true left for visualization
@@ -425,13 +449,17 @@ def p_asign(p):
         
         #3. Forming cuadruple
         cuadruplo_temp.set_cont(cont)
-        if auxtemp:
+        if auxtemp and operand1 not in vartemp_list:
           cuadruplo_temp.set_operand1(operand1.name)
         else:
           cuadruplo_temp.set_operand1(cteMemory)
-        cuadruplo_temp.set_result(result.mem)
-        cuadruplos_list.append(cuadruplo_temp)
+        cuadruplo_temp.set_result(result.mem) 
         cont += 1
+        cuadruplos_list.append(cuadruplo_temp)
+        '''#GLOBAL CUAD
+        if result.scope == "global":
+          cuadruplos_glob.append(cuadruplo_temp)'''
+
       #elif isinstance(operand1, Node):
       else:
         print "Semantic Error at asign"
@@ -439,7 +467,6 @@ def p_asign(p):
     else:
       cuadrupleError()
       print "Undeclared variable:", p[1]
-  print pila_Oz, "ASIGN"
 
 def p_id_val(p): 
   '''id_val : '''
@@ -608,7 +635,7 @@ def p_expression(p):
         mem_temp  += 1
         p[0] = p[1]
     else:
-      print "Semantic Error EXP"
+      print "Semantic Error Expression"
 
   p[0] = p[1] 
 
@@ -624,6 +651,7 @@ def p_exp(p):
   global mem_temp
   global cte_list
   global list_temp
+  
   
   pos_ops = ['+', '-']
   if pila_Operador and pila_Operador[-1] in pos_ops: 
@@ -680,8 +708,7 @@ def p_exp(p):
         temp_cont += 1
         mem_temp  += 1
         p[0] = p[1]
-
-        print pila_Oz, pila_Operador, "DESDE SUMA"
+        
       if operator == "-":
         total = operand1 - operand2
         cte_memoryAssign(total)
@@ -696,7 +723,7 @@ def p_exp(p):
         mem_temp  += 1
         p[0] = p[1]
     else:
-      print "Semantic Error EXP"
+      print "Semantic Error EXP", pila_Oz
 
   p[0] = p[1]
 
@@ -716,6 +743,8 @@ def p_termino(p):
   pos_ops = ['*', '/']
 
   if pila_Operador and pila_Operador[-1] in pos_ops: 
+
+   # print pila_Oz, "checa", pila_Operador
     #print pila_Oz, "poz"
     operator = pila_Operador.pop()
     operand2 = pila_Oz.pop() #4
@@ -751,6 +780,7 @@ def p_termino(p):
     term2 = verify(operand2) #int, float, str, bool
     term1 = verify(operand1)
 
+    #print term1, term2, "CURE"
     if semantic_cube[term1][term2][operator] != 'error':
       temp      = Node()
       tname     = "t" + str(temp_cont)
@@ -837,7 +867,6 @@ def p_print(p):
   global cont
   global cuadruplos_list
 
-  print pila_Oz, pila_Operador, "PRINT_OZ"
   op1 = ''
   #Check for ")"
   item = pila_Oz.pop()
@@ -857,11 +886,10 @@ def p_print(p):
         if isinstance(item, Node):
           var = functionFetch(item.name)
           op1 = var.ret.mem
-        print op1
+
           #NUM op2_name = cte_list[operand2]
     createCuad("WRITE", op1, None, None)
-
-  print pila_Oz, "SALE PRINT"      
+     
   #pila_Oz.append(p[-1])
   p[0] = p[-1]
 
@@ -874,11 +902,6 @@ def p_printx(p):
                 | ID id_val PLUS op_val printx
                 | call PLUS op_val printx
                 '''
-    print pila_Oz, pila_Operador, "holaS"
-
-def p_expCheck(p):
-  ''' expCheck : expression
-                | empty '''
 
 
 # ***************** WHILE *******************************+
@@ -947,10 +970,6 @@ def p_cond_1(p):
   global pila_Operador
   global cont
 
-  #PILA SALTOS
-  #print pila_Oz, "PILA OZ"
-  #print pila_Operador, "OPr"
-
   aux = pila_Oz.pop()
   exp_value = verify(aux.value)
   if exp_value == "bool":
@@ -975,7 +994,6 @@ def p_cond_2(p):
   global cont
 
   fin = pila_saltos.pop()  # num
-  #print cuadruplos_list[fin].print_cuadruplo()
   cuadruplos_list[fin].set_result(cont)
 
 def p_cond_else(p):
@@ -984,7 +1002,6 @@ def p_cond_else(p):
   global pila_saltos
   global cuadruplos_list
   
-  #print pila_saltos, "Saltos"
   cuadruplo_temp = Cuadruplo()
   cuadruplo_temp.set_operator("goto")
   cuadruplo_temp.set_cont(cont)
@@ -998,7 +1015,6 @@ def p_cond_else(p):
 def p_list(p):
     '''list : LIST idCheck_List EQUAL LBRACKET listx RBRACKET'''
     global list_temp
-    #print list_temp
     list_temp = []
 
 def p_listx(p):
@@ -1090,7 +1106,6 @@ def p_add(p):
   elif isinstance(value, Node):
     cteMemory = value.mem
 
-  #print value
   memory = list_temp.get_mem()
   #Cuadruple creation 
   cuadruplo_temp = Cuadruplo()
@@ -1111,9 +1126,7 @@ def p_idCheck_Add(p):  #Checks function id
 
   #Check if lists exists in list of index
   if any(x.name == p[-1] for x in list_directory) or any(x.name == p[-1] for x in list_directory):
-    #print "Exists"
     list_temp = variableFetch(p[-1])
-    #print list_temp
   else:
     print "No exists"
 
@@ -1162,6 +1175,35 @@ def p_remove(p):
     print "Empty list"
   p[0] = p[1]
 
+# ******************* GET FROM LIST **********************************
+
+def p_find(p):
+  '''find : ID idCheck_Add POINT FIND LPAR NUMINT RPAR'''
+  global list_temp
+
+  index = p[6]
+  try:
+    found = list_temp.lista.index(index)
+    createCuad("find", index, None, list_temp.mem)
+    createCuad("found", found, None, list_temp.mem)
+  except ValueError:
+    createCuad("find", index, None, list_temp.mem)
+    createCuad("notFound", "", None, list_temp.mem)
+
+  list_temp = []
+
+
+ # ******************* SORT LIST **********************************
+
+def p_sort(p):
+  '''sort : ID idCheck_Add POINT SORT LPAR RPAR'''
+  global list_temp
+
+  list_temp.lista.sort()
+  createCuad("sort", "", None, list_temp.mem)
+  
+  list_temp = [] 
+
 
 # ******************* CALL FUNCTION **********************************
 def p_call(p):
@@ -1175,7 +1217,6 @@ def p_call(p):
   global mem_temp
   global list_temp
 
-  print pila_Oz[3], "ENTRA CALL"
   #Check for ")"
   item = pila_Oz.pop()
   if item == ")":
@@ -1190,10 +1231,12 @@ def p_call(p):
           if isinstance(var, Node):
             op1 = var.mem
         #IF TMP
-        if isinstance(item, Node):
+        elif isinstance(item, Node):
           op1 = item.name
         #IF CTE
         else:
+          cte_memoryAssign(item)
+          item = cte_list[item]
           op1 = item
         #PARAMS
         cuadruplo_temp = Cuadruplo()
@@ -1219,9 +1262,6 @@ def p_call(p):
       temp.value = func.ret.value
       list_temp.append(temp)
       pila_Oz.append(temp)
-
-    print pila_Oz, pila_Operador, "DESDE CALL"
-   
   
     temp_cont += 1
     mem_temp += 1
@@ -1235,7 +1275,6 @@ def p_id_call(p):
   global cuadruplos_list
 
   if p[-1] in functions_table:
-    #print "Existing variable"
     cuadruplo_temp = Cuadruplo()
     cuadruplo_temp.set_cont(cont)
     cuadruplo_temp.set_operator("ERA")
