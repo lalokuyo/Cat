@@ -5,6 +5,12 @@
 # Eduardo Banuelos - Carlos Elizondo
 #  
 # Virtual Machine for Cat P. Language
+
+'''
+	Maquina virtual para el lenguaje Cat. En este archivo se revisan 
+	los cuadruplos y en base a ellos se realiza la ejecucion del codigo.
+	La ejecucion se basa en los operadores de cada cuadruplo.
+'''
 # ----------------------------------------------------------------------------
 
 from rules import*
@@ -157,7 +163,7 @@ def leerCuadruplos():
 	x = 0
 	while x < len(cuadruplos_list):
 		# ******* GETS OPR, OP1, OP2, RESULT ********
-		cuadruplos_list[x].print_cuadruplo()
+		#cuadruplos_list[x].print_cuadruplo()
 
 		cont = cuadruplos_list[x].cont
 		oper = cuadruplos_list[x].operator
@@ -172,7 +178,7 @@ def leerCuadruplos():
 		if oper == "+" :
 			result.value = ope1 + ope2
 		if oper == "*":
-			print cuadruplos_list[x].operand2, "OPE2", ope2
+			#print cuadruplos_list[x].operand2, "OPE2", ope2
 			result.value = ope1 * ope2
 		if oper == "-":
 			result.value = ope1 - ope2
@@ -202,7 +208,7 @@ def leerCuadruplos():
 
 		# ************* JUMPS ******************************
 		if oper == "goto":
-			print "Jump!"
+			#print "Jump!"
 			x = result
 			salta = True
 		if oper == "gotoF":
@@ -224,11 +230,9 @@ def leerCuadruplos():
 			salta = True
 		if oper == "RETURN":
 			tempFunc.ret.value = ope1
-			print tempSalto, "***** RETURN *****"
 			x = tempSalto
 			salta = True
 		if oper == "Ret":
-			print tempSalto, "***** RET *****"
 			x = tempSalto
 			salta = True
 
@@ -253,7 +257,7 @@ def leerCuadruplos():
 		if oper == "WRITE":
 			#INT VALUE
 			if isinstance(cuadruplos_list[x].operand1, int):
-				print "PRINT ", str(a)
+				print "PRINT ", str(ope1)
 				#output.write("print", str(a))
 			#STRING
 			elif cuadruplos_list[x].operand1 == 'newCat':
@@ -263,20 +267,20 @@ def leerCuadruplos():
 				print cuadruplos_list[x].operand1, "CTE"
 		# ************* CAT ACTIONS *****************************
 		if oper == "move":
-			print "move", ope1, ope2
+			#print "move", ope1, ope2
 			output.write("move" + "," + str(ope1) + "," + str(ope2) + "\n")
 		if oper == "toy":
-			print "toy"
+			#print "toy"
 			output.write("toy" + "\n")
 		if oper == "clean":
-			print "clean"
+			#print "clean"
 			output.write("clean" + "\n")
 		if oper == "play":
-			print "play"
+			#print "play"
 			output.write("play" + "\n")
 
 		# ************* PRINT **********************************
-		print "-->", oper,  ope1,  ope2,  result
+		#print "-->", oper,  ope1,  ope2,  result
 		#UPDATE
 		if not salta:
 			x = x + 1	

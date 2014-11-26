@@ -5,7 +5,13 @@
 # Eduardo Banuelos - Carlos Elizondo
 #  
 # Syntax / Grammar rules
+#
+'''
+  Rules contiene todas las reglas gramaticales del compilador.
+  Reglas semanticas. Para visualizar mas claro, ver diagramas de sintaxis.
+'''
 # ----------------------------------------------------------------------------
+
 from tokens import reserved
 from node import Node
 from semantic_cube import *
@@ -51,9 +57,9 @@ cte_list            = {}
 #types
 mem_global  = 1000
 mem_func    = 2000
-#mem_local  = 3000
 mem_list    = 4000
 
+#Local
 mem_int     = 5000
 mem_float   = 6000
 mem_boolean = 7000
@@ -92,6 +98,7 @@ def p_init_vars_1(p):
                  | empty
                  '''
 
+# ***************** FUNCTIONS *******************************+*******
 def p_func_list(p):
   '''func_list : func func_list
                  | empty
@@ -124,7 +131,6 @@ def p_func_end(p):
 
   cont += 1
 
-
 def p_idCheck(p):  #Checks function id
   'idCheck : ID'
   global functions_table
@@ -152,7 +158,6 @@ def p_idCheck(p):  #Checks function id
 
     p[0] = p[1]
 
-
 def p_funcx(p):
   '''funcx : vars paramCheck
             | vars paramCheck COMA funcx
@@ -170,6 +175,7 @@ def p_paramCheck(p):
   param_temp.param = "param" + str(param_cont)
   param_cont += 1
 
+# ***************** BLOCK *****************************************
 def p_block(p):
   '''block : LCBRACKET blockx  RCBRACKET'''
   #print "entra block"
@@ -183,6 +189,7 @@ def p_blockx(p):
             '''
   p[0] = p[1]
 
+# ***************** STATEMENT **************************************
 
 def p_statement(p):
   '''statement :  asign
@@ -280,6 +287,7 @@ def functionFetch(key):
     if key == func.name:
       return func
 
+#***********++++* VARIABLE DECLARATION *****************************
 
 def p_varsGlobal(p):
   '''varsGlobal : type ID'''
@@ -392,6 +400,8 @@ def cuadrupleError():
   cuadruplo_temp.set_operator("ERROR")
   cuadruplos_list.append(cuadruplo_temp)
 
+#****************** ASIGNATION ********************************
+
 def p_asign(p): 
   '''asign : ID id_val EQUAL equal_val expression
             | ID id_val EQUAL equal_val call
@@ -478,7 +488,7 @@ def p_equal_val(p):
   global pila_Operador
   pila_Operador.append(p[-1])
 
-#********* MATH OPERATIONS **************
+#******************** MATH OPERATIONS **************************
 
 def createCuad(operator, op1_name, op2_name, result):
   global cont
@@ -856,8 +866,7 @@ def cte_memoryAssign(x):
       cte_list[x] = mem_cte
       mem_cte += 1
 
-
-# ******************* PRINT *******************************
+# ******************* PRINT **************************************
 def p_print(p):
   ''' print : PRINT LPAR par_call printx RPAR par_call2
             '''
@@ -891,7 +900,6 @@ def p_print(p):
   #pila_Oz.append(p[-1])
   p[0] = p[-1]
 
-
 def p_printx(p):
     ''' printx : expression 
                 | ID id_val 
@@ -901,8 +909,7 @@ def p_printx(p):
                 | call PLUS op_val printx
                 '''
 
-
-# ***************** WHILE *******************************+
+# ***************** WHILE *******************************+*******
 def p_cycle(p):
   '''cycle : WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3'''
 
@@ -952,7 +959,7 @@ def p_cycle_3(p):
   cont += 1
   cuadruplos_list[falso].set_result(cont)
 
-# ******************* IF **********************************
+# ******************* IF *****************************************
 def p_condition(p):
   '''condition :  IF LPAR expression RPAR cond_1 block else cond_2
               '''
@@ -1009,7 +1016,7 @@ def p_cond_else(p):
   cuadruplos_list[falso].set_result(cont)
   pila_saltos.append(cont-1)   
 
-# ******************** LISTS *******************************
+# ******************** LISTS ************************************
 def p_list(p):
     '''list : LIST idCheck_List EQUAL LBRACKET listx RBRACKET'''
     global linked
@@ -1116,7 +1123,7 @@ def p_add(p):
   linked = []
   cont = cont + 1
 
-def p_idCheck_Add(p):  #Checks function id
+def p_idCheck_Add(p):  
   'idCheck_Add : '
   global list_directory
   global linked
@@ -1127,8 +1134,8 @@ def p_idCheck_Add(p):  #Checks function id
   else:
     print "No exists"
 
-
 # ****************** REMOVE TO LIST **********************************
+
 def p_remove(p):
   '''remove : ID idCheck_Add POINT REMOVE LPAR RPAR '''
   global linked
@@ -1216,8 +1223,6 @@ def p_printList(p):
 
   createCuad("WLIST", linked.mem, None, None)
   
-
-
 # ******************* CALL FUNCTION **********************************
 def p_call(p):
   '''call : ID id_call LPAR par_call RPAR par_call2
@@ -1317,7 +1322,8 @@ def p_params(p):
               | expression
               | ID
               '''
-# ************************************
+
+# ******************* CAT INSTRUCCTIONS ******************************
 
 def p_move(p):
     '''move : CAT POINT MOVE LPAR NUMINT COMA NUMINT RPAR'''
@@ -1339,6 +1345,8 @@ def p_clean(p):
 def p_play(p):
     '''play : CAT POINT PLAY LPAR RPAR'''
     createCuad("play", '', None, None)
+
+# ******************* EMPTY & ERROR MNG. ******************************
 
 def p_empty(p):
     'empty :'

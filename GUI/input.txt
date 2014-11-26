@@ -3,14 +3,13 @@ int A
 func gato(){
 	print(newCat)
 	cat.move(4,5)
-	add.toy()
-	cat.clean()
-	cat.play()
-	
+	A = 0*0
+	while(A < 5){
+		add.toy()
+		A = A + 1
+	}
 }
 
 main {
 	gato()
 }
-
-

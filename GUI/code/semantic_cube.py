@@ -1,3 +1,17 @@
+# -----------------------------------------------------------------------------
+# semantic_cube.py
+#
+# Compiladores - ITESM
+# Eduardo Banuelos - Carlos Elizondo
+# Cubo semantico para lenguaje CAT 2014
+#
+#
+''' 
+    Cubo semantico que permite verificar si las operaciones matematicas y
+    asignaciones son posibles.
+'''
+# -----------------------------------------------------------------------------
+
 
 #Verifies the element to know the type of it.
 def verify(x):
@@ -10,7 +24,7 @@ def verify(x):
     if isinstance(x, bool):
         return 'bool'
 
-
+#Semantic cube declaration.
 semantic_cube = { 
     'int':{
         'int':{

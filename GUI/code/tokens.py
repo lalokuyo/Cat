@@ -5,6 +5,11 @@
 # Eduardo Banuelos - Carlos Elizondo
 # Tokens Scanner 
 #
+''' Se muestran los estatutos que definen el lexico del lenguaje Cat
+    por medio de tokens, palabras reservadas y expresiones regulares. 
+    Se definen los tipos de dato posibles en el lenguaje. 
+'''
+#
 # -----------------------------------------------------------------------------
 
 #Lista de tokens posibles

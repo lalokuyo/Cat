@@ -1,10 +1,16 @@
 # -----------------------------------------------------------------------------
-# Graphich.py
+# Graphic.py
 #
 # Compiladores - ITESM
 # Eduardo Banuelos - Carlos Elizondo
 # Interfaz grafica para lenguaje CAT 2014
 #
+#
+''' 
+    Graphic.py contiene la interfaz grafica para la implementacion del compilador.
+    Se utilzan botones para el control de esta y se muestran dos
+    espacios principales uno de input y otro de output.
+'''
 # -----------------------------------------------------------------------------
 
 from Tkinter import *
@@ -15,6 +21,7 @@ from code import vm
 from random import randint
 
 photo = ""
+theCat = ''
 toy_list = []
 play = False
 
@@ -38,7 +45,7 @@ def compile_Start():
     
 def execute_Start():
     print "executing..."
-    #vm.start()
+    vm.start()
     #Llama VM
 
     #Animation from the execution output.
@@ -46,14 +53,21 @@ def execute_Start():
 
 # *************** ANIMATION ACTIONS ********************
 
-
+#Cat animation 
 def animCat(xPos, yPos):
-    #BACKGROUND
+    global theCat
+
+    #CAT position if new or existing
     photo = PhotoImage(file="cat.gif")
     cat = Label(win, image=photo)
     cat.photo = photo
-    cat.place(x=850 + xPos, y=280 + yPos, width=45, height=50)
+    if theCat != '':
+        theCat.place(x=810 + xPos, y=260 + yPos, width=120, height=132)
+    else:
+        cat.place(x=810 + xPos, y=260 + yPos, width=120, height=132)
+        theCat = cat
 
+#Ball animation 
 def animToy():
     global photo
     global toy
@@ -70,6 +84,7 @@ def animToy():
     toy.place(x=850 + xR, y=380 + yR, width=45, height=50)
     toy_list.append(toy)
 
+#Movement of "toy" on screen
 def animPlay():
     global play
 
@@ -85,19 +100,19 @@ def animPlay():
                 canvas.update()
             i += 1
 
-
+#Start of the animation sequence
 def startAnimation():
     global photo 
 
     #Open instrucction file
     with open('output.txt', 'r+') as animation:
-        print "Start Animation:", animation
+        print "Start Animation:"
         #Iterate through file
         for command in animation:
             command = command.replace("\n", "")
             command = str(command)
             line = command.split(",")
-
+            print line
             #Animation cases
             if line[0] == "newCat":
                 print "newCat"
@@ -115,6 +130,8 @@ def startAnimation():
                 print "LETS PLAY!"
                 animPlay()
 
+    animation.close()
+
 # *************** SET GRAPHIC ENVIRONMENT ***************
 
 #Window
@@ -128,12 +145,6 @@ pic = Label(win, image=photo)
 pic.photo = photo
 pic.place(x=0, y=0, relwidth=1, relheight=1)
 
-#Subtitle
-f_title = Frame(win)
-f_title.pack()
-l = Label(win, text="Welcome to CAT!")
-l.place(x=510, y=10)
-
 #BUTTONS SECTION
 b1 = Button(win, text="Compile", command = compile_Start)
 b2 = Button(win, text="Execute", command = execute_Start)
@@ -144,7 +155,7 @@ b3.place(x=935, y=40, width=120, height=25)
 
 #codex SECTION
 codex = Text(win, width=65, height=25) #65, 37
-codex.insert(INSERT, "#Your codex goes here... :D")
+codex.insert(INSERT, "#Your code goes here... :D")
 codex.place(bordermode=OUTSIDE, x=80, y=90, width=450, height=500)
         #Scroll Bar
 sb = Scrollbar(win, orient=VERTICAL)

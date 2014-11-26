@@ -1,14 +1,11 @@
-Para ejecutar el programa de python, ubicarse en la carpeta y luego:
-python cat.py
+TC3040 Compiladores - ITESM Campus Monterrey. 
+Ago-Dic 2014
 
-En “input >” dar cualquiera de las siguientes entradas.
+Authors:
+Eduardo Bañuelos
+Carlos G. Elizondo 
 
-Entrada correcta:
-func program (int carro){}
-func program (int perro){}
-func program (int counter){}
-func program (int carro){}
+To run program:
+python graphic.py
 
-
-Entrada incorrecta: 
-func program (int cat){}
+Test cases included.

@@ -5,6 +5,10 @@
 # Eduardo Banuelos - Carlos Elizondo
 # Scanner y Parser para lenguaje CAT 2014
 #
+''' Clase que integra todos los archivos necesarios para la compilacion 
+	del codigo. Aqui se llama a PLY y se ejecuta el Lex y Yacc. 
+
+'''
 # -----------------------------------------------------------------------------
 
 #Path del import
@@ -37,7 +41,6 @@ def startCompilation():
 	#File to open 
 	yacc.parse(input_file)
 	intext.close()
-
 
 def output():
 	#Print de vars globales
@@ -75,20 +78,7 @@ def output():
 		print x
 
 
-def F(n):
-    if n == 0: 
-    	return 0
-    elif n == 1: 
-    	return 1
-    else: 
-    	print n
-    	A = F(n-1)
-    	B = F(n-2)
-    	return A + B
-    	#return F(n-1) + F(n-2)
 
-
-#print F(15), "FIBONA"
 #startCompilation(input_file)
 #output()
 #vm.start()

@@ -1,6 +1,7 @@
 newCat
+move,4,5
 toy
 toy
 toy
 toy
-
+toy
