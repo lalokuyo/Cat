@@ -10,6 +10,8 @@
 from rules import*
 from cuadruplo import*
 import re
+import sys
+sys.path.insert(0,"../")
 
 paramRegex = re.compile("param\d")
 tempFunc = ''
@@ -128,8 +130,6 @@ def revisarResultado(x):
 				if y.name == result:
 					return y
 
-			
-
 def revisarFuncion(x):
 	for y in func_list:
 		if y.name == x:
@@ -146,6 +146,12 @@ def buscarParam(x):
 def leerCuadruplos():
 	global tempFunc
 	global saltoFinal
+
+	#Clean file
+	open('output.txt', 'w').close()
+	#OPEN output file
+	output = open('output.txt', 'w+')
+
 
 	lock = False
 	x = 0
@@ -247,22 +253,39 @@ def leerCuadruplos():
 		if oper == "WRITE":
 			#INT VALUE
 			if isinstance(cuadruplos_list[x].operand1, int):
-				print "PRINT " + str(a)
+				print "PRINT ", str(a)
+				#output.write("print", str(a))
 			#STRING
+			elif cuadruplos_list[x].operand1 == 'newCat':
+				print "EL GATO"
+				output.write("newCat" + "\n")
 			else:
 				print cuadruplos_list[x].operand1, "CTE"
-		# ************* PRINT **********************************
+		# ************* CAT ACTIONS *****************************
+		if oper == "move":
+			print "move", ope1, ope2
+			output.write("move" + "," + str(ope1) + "," + str(ope2) + "\n")
+		if oper == "toy":
+			print "toy"
+			output.write("toy" + "\n")
+		if oper == "clean":
+			print "clean"
+			output.write("clean" + "\n")
+		if oper == "play":
+			print "play"
+			output.write("play" + "\n")
+
 		# ************* PRINT **********************************
 		print "-->", oper,  ope1,  ope2,  result
 		#UPDATE
 		if not salta:
 			x = x + 1	
 
+	output.close()
+
 def start():
 	global saltoFinal
 	leerCuadruplos()
-	tempFunc = revisarFuncion("fact")
-	print tempFunc, "HOLA"
 
 
 

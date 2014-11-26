@@ -197,11 +197,9 @@ def p_statement(p):
                 | sort
                 | printList
                 | move
-                | eat
+                | toy
                 | clean
                 | play
-                | turnleft
-                | turnright
                 | return
                 '''    
   p[0] = p[1]
@@ -1118,7 +1116,6 @@ def p_add(p):
   linked = []
   cont = cont + 1
 
-
 def p_idCheck_Add(p):  #Checks function id
   'idCheck_Add : '
   global list_directory
@@ -1323,22 +1320,25 @@ def p_params(p):
 # ************************************
 
 def p_move(p):
-    '''move : MOVE LPAR ID RPAR'''
+    '''move : CAT POINT MOVE LPAR NUMINT COMA NUMINT RPAR'''
+    cte_memoryAssign(p[5])
+    cte_memoryAssign(p[7])
+    Xpos = cte_list[p[5]]
+    Ypos = cte_list[p[7]]
+
+    createCuad("move", Xpos, Ypos, None)
 
 def p_eat(p):
-    '''eat : EAT LPAR ID RPAR'''
+    '''toy : ADD POINT TOY LPAR RPAR'''
+    createCuad("toy", '', None, None)
 
 def p_clean(p):
-    '''clean : CLEAN LPAR ID RPAR'''
+    '''clean : CAT POINT CLEAN LPAR RPAR'''
+    createCuad("clean", '' , None, None)
 
 def p_play(p):
-    '''play : PLAY LPAR ID RPAR'''
-
-def p_turnleft(p):
-    '''turnleft : TURNLEFT LPAR RPAR'''
-
-def p_turnrigth(p):
-    '''turnright : TURNRIGHT LPAR RPAR'''
+    '''play : CAT POINT PLAY LPAR RPAR'''
+    createCuad("play", '', None, None)
 
 def p_empty(p):
     'empty :'

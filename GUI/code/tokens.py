@@ -57,18 +57,15 @@ reserved = {
    'while'  : 'WHILE',
    'print'  : 'PRINT',
    'printList': 'PRINTLIST',
-   'eat'    : 'EAT',
+   'toy'    : 'TOY',
    'candy'  : 'CANDY',
    'clean'  : 'CLEAN',
-   'poop'   : 'POOP',
    'play'   : 'PLAY',
-   'ball'   : 'BALL',
    'list'   : 'LIST',
    'remove' : 'REMOVE',
    'add'    : 'ADD',
    'move'   : 'MOVE',
-   'turnleft'   : 'TURNLEFT',
-   'turnright'  : 'TURNRIGHT',
+   'cat'    : 'CAT'
    }
 
 

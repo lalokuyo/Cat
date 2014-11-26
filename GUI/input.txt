@@ -1,0 +1,16 @@
+int A
+
+func gato(){
+	print(newCat)
+	cat.move(4,5)
+	add.toy()
+	cat.clean()
+	cat.play()
+	
+}
+
+main {
+	gato()
+}
+
+
