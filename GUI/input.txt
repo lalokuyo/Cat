@@ -1,13 +1,13 @@
 func ordenarlistas(){
-  int W
-  int X
-  int Y
-  int Z
-  int U
-  int A
-  int B
-  int C
-  int D
+  int water
+  int xavier
+  int yellow
+  int zebra
+  int unitec
+  int arbol
+  int bote
+  int carro
+  int dedo
   int auxiliar
   int size
   list auxList = [20,15,31,10,40,5]
@@ -15,52 +15,52 @@ func ordenarlistas(){
   list listax = []
   size = 0*0
   auxiliar = 0*0
-  X = 0*0
+  xavier = 0*0
 
   while(auxList.vacia()){
     size = size + 1
     auxiliar = auxList.remove()
     listax.add(auxiliar)
   }
-  X = size
+  xavier = size
 
-  Y = X-1
-  W = 0*0
-  Z = 0*0
-  U = 0*0
-  while(U < Y){
-    A = listax.remove()
-    B = listax.remove()
-    W = 0*0
-    Z = 0*0
-    while (W < Y){
-      if (A < B){
-        newList.add(A)
+  yellow = xavier-1
+  water = 0*0
+  zebra = 0*0
+  unitec = 0*0
+  while(unitec < yellow){
+    arbol = listax.remove()
+    bote = listax.remove()
+    water = 0*0
+    zebra = 0*0
+    while (water < yellow){
+      if (arbol < bote){
+        newList.add(arbol)
         if(listax.vacia()){
-          A = listax.remove()
+          arbol = listax.remove()
         }
-        C = B
-        }
+        carro = bote
+      }
       else{
-        newList.add(B)
-        if (listax.vacia){
-          B = listax.remove()
+        newList.add(bote)
+        if (listax.vacia()){
+          bote = listax.remove()
           }
-        C = A
-        }
-      W = W + 1
+        carro = arbol
+      }
+      water = water + 1
     }
-    newList.add(C)
-    W = 1/1
-    while(Z < X){
-      D = newList.remove()
-      print (D)
-      listax.add(D)
-      Z = Z + 1
+    newList.add(carro)
+    water = 1/1
+    while(zebra < xavier){
+      dedo = newList.remove()
+      print (dedo)
+      listax.add(dedo)
+      zebra = zebra + 1
     }
-    U = U + 1
+    unitec = unitec + 1
   }
-  
+
 }
 
 main{

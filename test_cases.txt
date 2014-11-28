@@ -1,0 +1,352 @@
+Pruebas Finales
+
+RESPALDO  **** VM
+
+******** Factorial ITERATIVO *******  check
+int C
+int A
+int B 
+
+func fact(int n){
+	int num
+	num = 1/1
+	while(n >= 1){
+    	num = num * n
+    	n = n - 1
+    }
+    return (num)
+}
+
+main {
+	C = fact(5)
+}
+
+
+******** FACTORIAL RECURSIVO *******
+func fact(int n){
+	if (n == 0){
+		return (1)
+	}else{
+		return (n * fact(n-1))
+		
+	}
+}
+
+
+******** FIBO ITERATIVO *************
+int C
+int B 
+
+func fib (int n) {
+    int a
+    int b
+    int res
+    a = 0 * 0
+	b = 1 / 1
+	res = 1 / 1
+	int i 
+	i = 1/1
+	while (i < n){
+		res = a + b
+		a = b
+		b = res
+		i = i + 1
+	}
+    return (res)
+}
+
+main {
+	C = fib(16)
+}
+
+
+
+
+
+
+************ FIBO RECURSIVO **********
+func fibo(int n){
+	if (n == 0){
+		return (0)
+	}if (n == 1){
+		return (1)
+	}else{
+		A = fibo(n-1)
+		B = fibo(n-2)
+		return (A + B)
+	}
+}
+
+
+
+************ LISTAS **********
+
+
+
+func fact(){
+	int A
+	int B
+	int C
+	
+	list new = [1,2]
+	aux.add(9)
+	aux.add(34)
+	new.add(3)
+	A = aux.remove()
+	B = new.remove()
+	C = new.remove()
+	new.printList()
+	if (new.vacia()){
+		int X
+		X = 2+2
+	}
+	aux.printList()
+}
+
+main {
+	list aux = [9, 8, 4, 2, 7, 6]
+	fact()
+}
+
+
+
+func fact(){
+	int A
+	int B
+	int C
+	list aux = [9, 8, 4, 2, 7, 6]
+	list new = [1,2]
+	aux.add(9)
+	aux.add(34)
+	new.add(3)
+	A = aux.remove()
+	if (aux.vacia()){
+		int X
+		X = 2+2
+	}
+}
+
+main {
+	fact()
+}
+
+*****
+
+
+func ordenarlistas(){
+	int W
+	int X
+	int Y
+	int Z
+	int U
+	int auxiliar
+	int tamano
+	list auxList = [20,15,31,10,40,5]
+	list newList = []
+	list listax = []
+	tamano = 0*0
+	auxiliar = 0*0
+
+	while(auxList.vacia()){
+		tamano = tamano + 1
+		auxiliar = auxList.remove()
+		listax.add(auxiliar)
+		X = tamano
+	}
+
+	Y = X-1
+	W = 0*0
+	Z = 0*0
+	U = 0*0
+	while(U < Y){
+		A = listax.remove()
+		B = listax.remove()
+		W = 0*0
+		Z = 0*0
+		while (W < Y){
+			if (A < B){
+				newList.add(A)
+				if(listax.vacia()){
+					A = listax.remove()
+				}
+				C = B
+				}
+			else{
+				newList.add(B)
+				if (listax.vacia){
+					B = listax.remove()
+					}
+				C = A
+				}
+			W = W + 1
+		}
+		newList.add(C)
+		W = 1/1
+		while(Z < X){
+			D = newList.remove()
+			print (D)
+			listax.add(D)
+			Z = Z + 1
+		}
+		U = U + 1
+	}
+}
+
+main{
+	ordenarlistas()
+}
+
+
+
+
+
+************ Acciones CAT **********
+int A
+
+func gato(){
+	print(newCat)
+	cat.move(4,5)
+	A = 0*0
+	while(A < 5){
+		add.toy()
+		A = A + 1
+	}
+}
+
+main {
+	gato()
+}
+
+
+**** Sumas animadas 
+
+func gato(){
+	print(newCat)
+	cat.move(20,30)
+	int A
+	A = (4*2)/2
+	print (A)
+	
+}
+
+main {
+	gato()
+}
+
+
+
+
+
+temporales independientes
+temporal depsues de go sub
+
+
+*** FIBO main
+	
+main {
+	int n
+	n = 16
+    int a
+    int b
+    int res
+    a = 0 * 0
+	b = 1 / 1
+	res = 1 / 1
+	int i 
+	i = 1/1
+	while (i < n){
+		res = a + b
+		a = b
+		b = res
+		i = i + 1
+	}
+    print (res)
+}
+
+
+*** Factorial main
+
+main {
+	int n
+	n = 5
+
+	int num
+	num = 1/1
+	while(n >= 1){
+    	num = num * n
+    	n = n - 1
+    }
+    print (num)
+}
+
+
+******* Sorting *********
+func ordenarlistas(){
+  int W
+  int X
+  int Y
+  int Z
+  int U
+  int A
+  int B
+  int C
+  int D
+  int auxiliar
+  int size
+  list auxList = [20,15,31,10,40,5]
+  list newList = []
+  list listax = []
+  size = 0*0
+  auxiliar = 0*0
+  X = 0*0
+
+  while(auxList.vacia()){
+    size = size + 1
+    auxiliar = auxList.remove()
+    listax.add(auxiliar)
+  }
+  X = size
+
+  Y = X-1
+  W = 0*0
+  Z = 0*0
+  U = 0*0
+  while(U < Y){
+    A = listax.remove()
+    B = listax.remove()
+    W = 0*0
+    Z = 0*0
+    while (W < Y){
+      if (A < B){
+        newList.add(A)
+        if(listax.vacia()){
+          A = listax.remove()
+        }
+        C = B
+      }
+      else{
+        newList.add(B)
+        if (listax.vacia()){
+          B = listax.remove()
+          }
+        C = A
+      }
+      W = W + 1
+    }
+    newList.add(C)
+    W = 1/1
+    while(Z < X){
+      D = newList.remove()
+      print (D)
+      listax.add(D)
+      Z = Z + 1
+    }
+    U = U + 1
+  }
+
+}
+
+main{
+  ordenarlistas()
+}
+

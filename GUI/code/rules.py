@@ -536,7 +536,6 @@ def p_expression(p):
     #IF ID
     if verify(operand1) == "string":
       varx = variableFetch(operand1)
-      print varx, "LA  VARIABLE"
       operand1 = varx.value
       op1_name = varx.mem
     if verify(operand2) == "string":
@@ -554,7 +553,7 @@ def p_expression(p):
 
     term2 = verify(operand2) #int, float, str, bool
     term1 = verify(operand1)
-    print operand1, operand2, "EXP"
+    #print operand1, operand2, "EXP"
     if semantic_cube[term1][term2][operator] != 'error':
       temp      = Node()
       tname     = "t" + str(temp_cont)
@@ -1159,7 +1158,7 @@ def p_add(p):
   ctememory = 0
   value  = pila_Oz.pop()
   theList = pila_Oz.pop()
-  print theList.lista
+ # print theList.lista
 
   #IF ID
   if isinstance(value, str):

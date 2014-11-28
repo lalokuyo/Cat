@@ -122,7 +122,7 @@ def startAnimation():
                 print line[0]
             if line[0] == "toy":
                 animToy()
-                print "newToy"
+                #print "newToy"
             if line[0] == "clean":
                 print "clean"
                 canvas.delete("all")
