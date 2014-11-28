@@ -258,7 +258,12 @@ def leerCuadruplos():
 			#INT VALUE
 			if isinstance(cuadruplos_list[x].operand1, int):
 				print "PRINT ", str(ope1)
-				#output.write("print", str(a))
+				#output.write("print", str(ope1))
+				j = 0
+				print ope1, "AQUI"
+				while j < ope1:
+					output.write("toy" + "\n")
+					j += 1
 			#STRING
 			elif cuadruplos_list[x].operand1 == 'newCat':
 				print "EL GATO"

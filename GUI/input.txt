@@ -1,15 +1,37 @@
-int A
+func fact(){
+	int A
+	int B
+	int C
+	int D
+	list auxList = [9, 8, 4, 2, 7, 6]
+	list newList = []
+	int X
+	int Y
+	X = 0*0
+	Y = 0*0
+	while(X < 6){
+		A = auxList.remove()
+		B = auxList.remove()
+		while (Y < 6){
+			if (A < B){
+				newList.add(A)
+				A=auxlist.remove()
+				C=B
+			}else{
+				newList.add(B)
+				B= auxList.remove()
+				C=A
+			}
+			Y = Y + 1
+		}
+		newList.add(C)
+		Y = 0*0
 
-func gato(){
-	print(newCat)
-	cat.move(4,5)
-	A = 0*0
-	while(A < 5){
-		add.toy()
-		A = A + 1
+		while(Y < 6){
+			D=newlist.remove()
+			auxlist.add(D)
+			Y = Y + 1
+		}
+		X = X + 1
 	}
-}
-
-main {
-	gato()
 }

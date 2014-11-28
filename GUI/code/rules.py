@@ -405,6 +405,7 @@ def cuadrupleError():
 def p_asign(p): 
   '''asign : ID id_val EQUAL equal_val expression
             | ID id_val EQUAL equal_val call
+            | ID id_val EQUAL equal_val remove
           '''
   global cuadruplos_list
   global cont
@@ -1029,6 +1030,7 @@ def p_listx(p):
               | NUMINT id_param COMA listx
               | NUMFLOAT id_param
               | NUMFLOAT id_param COMA listx
+              | empty
               '''
 
 def p_idCheck_List(p):  #Checks function id
@@ -1146,8 +1148,10 @@ def p_remove(p):
   global pila_Oz
   global temp
 
+  print pila_Oz
   memory  = linked.get_mem()
-  length  = len(linked.lista)
+  #memory = ""
+  length = len(linked.lista)
   cuadruplo_temp = Cuadruplo()
 
   if length >= 0:
@@ -1160,7 +1164,7 @@ def p_remove(p):
     temp.name   = tname
     temp.mem    = mem_temp
     temp.value  = catch
-    #pila_Oz.append(temp)
+    pila_Oz.append(temp)
 
     memory = linked.get_mem()
     #Cuadruple creation
