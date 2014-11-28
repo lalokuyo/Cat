@@ -27,7 +27,6 @@ def revisaOperando1(x):
 	op1 = x.operand1
 	#MEMORY VALUE: 
 	if isinstance(op1, int):
-
 		#Variable
 		if op1 > 4999 and op1 < 8000:
 			#LOCAL
@@ -65,7 +64,10 @@ def revisaOperando1(x):
 		#Temporal
 		for y in list_temp:
 			if y.name == op1:
-				return y.value
+				if x.operator == "rm":
+					return y
+				else:
+					return y.value
 
 def revisaOperando2(x):
 	op2 = x.operand2
@@ -118,7 +120,7 @@ def revisarResultado(x):
 					var_list = functions_directory[w]
 					for y in var_list:
 						if y.mem == result:
-							return y.lista
+							return y
 
 			#CTE
 			if result > 7999 and result < 9000:
@@ -172,7 +174,7 @@ def leerCuadruplos():
 		result  = revisarResultado(cuadruplos_list[x])
 		salta = False
 		
-		#print "-->", oper,  ope1,  ope2,  result
+		print "-->", cont, oper,  ope1,  ope2,  result
 		
 		# *********** MATH OPERATIONS *******************
 		if oper == "+" :
@@ -238,12 +240,13 @@ def leerCuadruplos():
 
 		# ************* LISTS **********************************
 		if oper == "add":
-			result.append(ope1)
+			result.lista.append(ope1)
 			print "added", ope1
 		if oper == "rm":
 			print "remove", result
-			result.pop()
-			print "removed"
+			val = result.lista.pop()
+			print "removed", val
+			ope1.value = val
 		if cuadruplos_list[x - 1].operator == "find":
 			if oper == 'found':
 				print "Pos:", ope1
@@ -252,6 +255,10 @@ def leerCuadruplos():
 		if oper == "WLIST":
 			isinstance(cuadruplos_list[x].operand1, LinkedList)
 			print "List:", ope1
+
+		if oper == "LEN":
+			result.value = len(ope1)
+			print result.value, "len"
 
 		# ************* PRINT **********************************
 		if oper == "WRITE":

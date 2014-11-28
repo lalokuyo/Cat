@@ -155,7 +155,7 @@ b3.place(x=935, y=40, width=120, height=25)
 
 #codex SECTION
 codex = Text(win, width=65, height=25) #65, 37
-codex.insert(INSERT, "#Your code goes here... :D")
+#codex.insert(INSERT, "#Your code goes here... :D")
 codex.place(bordermode=OUTSIDE, x=80, y=90, width=450, height=500)
         #Scroll Bar
 sb = Scrollbar(win, orient=VERTICAL)

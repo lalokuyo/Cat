@@ -70,7 +70,8 @@ reserved = {
    'remove' : 'REMOVE',
    'add'    : 'ADD',
    'move'   : 'MOVE',
-   'cat'    : 'CAT'
+   'cat'    : 'CAT',
+   'vacia'  : 'VACIA'
    }
 
 

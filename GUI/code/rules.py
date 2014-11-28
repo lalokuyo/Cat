@@ -141,7 +141,7 @@ def p_idCheck(p):  #Checks function id
   global func_list
 
   if p[1] in functions_directory:
-    print "Existing variable"
+    print "Existing variable Func", p[1]
   else:
     #Add name to func Table
     functions_table[p[1]] = mem_func
@@ -199,9 +199,7 @@ def p_statement(p):
                 | list
                 | call
                 | add
-                | remove
                 | find
-                | sort
                 | printList
                 | move
                 | toy
@@ -301,7 +299,7 @@ def p_varsGlobal(p):
 
   if any(x.name == p[2] for x in variables_globales):
     p[0] = {}
-    print "Existing variable"
+    print "Existing variable VGlob", p[2]
   else:
     #print "Var declarada"
     var = Node()
@@ -335,7 +333,6 @@ def p_vars(p):
   global variables_globales
   global funcName
   #global pila_Oz
-
   global mem_int
   global mem_float
   global mem_boolean
@@ -343,7 +340,7 @@ def p_vars(p):
 
   if any(x.name == p[2] for x in vartemp_list) or any(x.name == p[2] for x in variables_globales):
     p[0] = {}
-    print "Existing variable"
+    print "Existing variable Var", p[2]
   else:
     #print "Var declarada"
     var = Node()
@@ -414,7 +411,7 @@ def p_asign(p):
   global mem_false
   global pila_Oz
   global pila_Operador
-
+ 
   #print pila_Oz, "asign"
   cteMemory = 0
   auxtemp   = False
@@ -539,6 +536,7 @@ def p_expression(p):
     #IF ID
     if verify(operand1) == "string":
       varx = variableFetch(operand1)
+      print varx, "LA  VARIABLE"
       operand1 = varx.value
       op1_name = varx.mem
     if verify(operand2) == "string":
@@ -556,7 +554,7 @@ def p_expression(p):
 
     term2 = verify(operand2) #int, float, str, bool
     term1 = verify(operand1)
-
+    print operand1, operand2, "EXP"
     if semantic_cube[term1][term2][operator] != 'error':
       temp      = Node()
       tname     = "t" + str(temp_cont)
@@ -912,7 +910,9 @@ def p_printx(p):
 
 # ***************** WHILE *******************************+*******
 def p_cycle(p):
-  '''cycle : WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3'''
+  '''cycle : WHILE cycle_1 LPAR expression RPAR cycle_2 block cycle_3
+          | WHILE cycle_1 LPAR vaciaList RPAR cycle_2 block cycle_3
+            '''
 
 def p_cycle_1(p):
   'cycle_1 : '
@@ -963,6 +963,7 @@ def p_cycle_3(p):
 # ******************* IF *****************************************
 def p_condition(p):
   '''condition :  IF LPAR expression RPAR cond_1 block else cond_2
+                | IF LPAR vaciaList RPAR cond_1 block else cond_2
               '''
 
 def p_else(p):
@@ -1016,6 +1017,55 @@ def p_cond_else(p):
   falso = pila_saltos.pop()
   cuadruplos_list[falso].set_result(cont)
   pila_saltos.append(cont-1)   
+
+def p_vaciaList(p):
+  'vaciaList : ID idCheck_Add POINT VACIA LPAR RPAR'
+  global pila_Oz
+  global temp_cont
+  global mem_temp
+  global list_temp
+
+  #TEMP de lenght
+  largo       = Node()
+  nombreL       = "t" + str(temp_cont)
+  largo.name  = nombreL
+  largo.mem   = mem_temp
+  
+  aux = pila_Oz.pop()
+  largo.value = len(aux.lista)
+
+  #pila_Oz.append(largo)
+  list_temp.append(largo)
+
+  temp_cont += 1
+  mem_temp  += 1
+ 
+  #Si la lista esta vacia -> PASA
+  if not aux.lista:
+    temp       = Node()
+    tname      = "t" + str(temp_cont)
+    temp.name  = tname
+    temp.mem   = mem_temp
+    temp.value = False
+  else:
+    temp       = Node()
+    tname      = "t" + str(temp_cont)
+    temp.name  = tname
+    temp.mem   = mem_temp
+    temp.value = True
+
+  cte_memoryAssign(0)
+  ctememory = cte_list[0]
+
+  createCuad('LEN', aux.mem, None, nombreL)
+  createCuad('>', nombreL, ctememory, tname)
+  pila_Oz.append(temp)
+  list_temp.append(temp)
+
+
+
+  temp_cont += 1
+  mem_temp  += 1
 
 # ******************** LISTS ************************************
 def p_list(p):
@@ -1100,81 +1150,90 @@ def p_listx_add(p):
 
 def p_add(p):
   '''add : ID idCheck_Add POINT ADD LPAR listx_add RPAR '''
-  global linked
+  #global linked
   global cont
   global cuadruplos_list
   global pila_Oz
-  cteMemory = 0
-
+  global cte_list
+ 
+  ctememory = 0
   value  = pila_Oz.pop()
-  cte_memoryAssign(value)
-  if value in cte_list:
-    cteMemory = cte_list[value]
-  elif isinstance(value, Node):
-    cteMemory = value.mem
+  theList = pila_Oz.pop()
+  print theList.lista
 
-  memory = linked.get_mem()
+  #IF ID
+  if isinstance(value, str):
+    var = variableFetch(value)
+    if isinstance(var, Node):
+      ctememory = var.mem
+  elif isinstance(value, Node):
+    ctememory = value.mem
+  #IF CTE
+  else:
+    cte_memoryAssign(value)
+    ctememory = cte_list[value]
+
+
+
+  memory = theList.get_mem()
   #Cuadruple creation 
   cuadruplo_temp = Cuadruplo()
   cuadruplo_temp.set_cont(cont)
   cuadruplo_temp.set_operator("add")
-  cuadruplo_temp.set_operand1(cteMemory)
+  cuadruplo_temp.set_operand1(ctememory)
   cuadruplo_temp.set_result(memory)
   cuadruplos_list.append(cuadruplo_temp)
 
-  linked = []
   cont = cont + 1
 
 def p_idCheck_Add(p):  
   'idCheck_Add : '
   global list_directory
-  global linked
 
   #Check if lists exists in list of index
-  if any(x.name == p[-1] for x in list_directory) or any(x.name == p[-1] for x in list_directory):
-    linked = variableFetch(p[-1])
-  else:
-    print "No exists"
-
+  for x in list_directory:
+    if x.name == p[-1]:
+      #print x, "Agrego X"
+      pila_Oz.append(x)
 # ****************** REMOVE TO LIST **********************************
 
 def p_remove(p):
-  '''remove : ID idCheck_Add POINT REMOVE LPAR RPAR '''
-  global linked
+  '''remove : ID idCheck_Remove POINT REMOVE LPAR RPAR '''
   global cont
   global cuadruplos_list
   global temp_cont
   global mem_temp
   global pila_Oz
+  global list_temp
   global temp
 
-  print pila_Oz
-  memory  = linked.get_mem()
-  #memory = ""
-  length = len(linked.lista)
+  
+  theList = pila_Oz.pop()
+  #print theList, "LA LISTA"
+  largo = len(theList.lista)
   cuadruplo_temp = Cuadruplo()
 
-  if length >= 0:
-    catch = Node()
-    catch = linked.lista.pop()
-    linked.lista.append(catch)
+  if largo >= 0:
+    #catch = theList.lista.pop()
+    
     #Temporal
     temp        = Node()
     tname       = "t" + str(temp_cont)
     temp.name   = tname
     temp.mem    = mem_temp
-    temp.value  = catch
+    #temp.value  = catch
     pila_Oz.append(temp)
+    list_temp.append(temp)
+    #theList.lista.append(catch)
 
-    memory = linked.get_mem()
+    memory = theList.get_mem()
     #Cuadruple creation
     cuadruplo_temp.set_cont(cont)
     cuadruplo_temp.set_operator("rm")
+    cuadruplo_temp.set_operand1(temp.name)
     cuadruplo_temp.set_result(memory)
     cuadruplos_list.append(cuadruplo_temp)
     
-
-    linked = []
     cont      += 1
     mem_temp  += 1
     temp_cont += 1
@@ -1185,6 +1244,15 @@ def p_remove(p):
     cuadruplos_list.append(cuadruplo_temp)
     print "Empty list"
   p[0] = p[1]
+
+def p_idCheck_Remove(p):  
+  'idCheck_Remove : '
+  global list_directory
+
+  #Check if lists exists in list of index
+  for x in list_directory:
+    if x.name == p[-1]:
+      pila_Oz.append(x)
 
 # ******************* GET FROM LIST **********************************
 
@@ -1212,20 +1280,12 @@ def p_find(p):
 
  # ******************* SORT LIST **********************************
 
-def p_sort(p):
-  '''sort : ID idCheck_Add POINT SORT LPAR RPAR'''
-  global linked
-
-  linked.lista.sort()
-  createCuad("sort", "", None, linked.mem)
-  
-  linked = []
-
 def p_printList(p):
   '''printList : ID idCheck_Add POINT PRINTLIST LPAR RPAR'''
-  global linked
+  global pila_Oz
+  aux = pila_Oz.pop()
 
-  createCuad("WLIST", linked.mem, None, None)
+  createCuad("WLIST", aux.mem, None, None)
   
 # ******************* CALL FUNCTION **********************************
 def p_call(p):

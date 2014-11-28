@@ -1,37 +1,68 @@
-func fact(){
-	int A
-	int B
-	int C
-	int D
-	list auxList = [9, 8, 4, 2, 7, 6]
-	list newList = []
-	int X
-	int Y
-	X = 0*0
-	Y = 0*0
-	while(X < 6){
-		A = auxList.remove()
-		B = auxList.remove()
-		while (Y < 6){
-			if (A < B){
-				newList.add(A)
-				A=auxlist.remove()
-				C=B
-			}else{
-				newList.add(B)
-				B= auxList.remove()
-				C=A
-			}
-			Y = Y + 1
-		}
-		newList.add(C)
-		Y = 0*0
+func ordenarlistas(){
+  int W
+  int X
+  int Y
+  int Z
+  int U
+  int A
+  int B
+  int C
+  int D
+  int auxiliar
+  int size
+  list auxList = [20,15,31,10,40,5]
+  list newList = []
+  list listax = []
+  size = 0*0
+  auxiliar = 0*0
+  X = 0*0
 
-		while(Y < 6){
-			D=newlist.remove()
-			auxlist.add(D)
-			Y = Y + 1
-		}
-		X = X + 1
-	}
+  while(auxList.vacia()){
+    size = size + 1
+    auxiliar = auxList.remove()
+    listax.add(auxiliar)
+  }
+  X = size
+
+  Y = X-1
+  W = 0*0
+  Z = 0*0
+  U = 0*0
+  while(U < Y){
+    A = listax.remove()
+    B = listax.remove()
+    W = 0*0
+    Z = 0*0
+    while (W < Y){
+      if (A < B){
+        newList.add(A)
+        if(listax.vacia()){
+          A = listax.remove()
+        }
+        C = B
+        }
+      else{
+        newList.add(B)
+        if (listax.vacia){
+          B = listax.remove()
+          }
+        C = A
+        }
+      W = W + 1
+    }
+    newList.add(C)
+    W = 1/1
+    while(Z < X){
+      D = newList.remove()
+      print (D)
+      listax.add(D)
+      Z = Z + 1
+    }
+    U = U + 1
+  }
+  
+}
+
+main{
+  ordenarlistas()
 }

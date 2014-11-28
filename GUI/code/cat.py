@@ -79,7 +79,7 @@ def output():
 
 
 
-#startCompilation(input_file)
+#startCompilation()
 #output()
 #vm.start()
 
